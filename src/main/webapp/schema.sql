@@ -1,4 +1,3 @@
---COMP4920 Projct Meal Planner schema
 
 create domain MediumString as varchar(64);
 create domain LongString as varchar(256);
@@ -27,4 +26,3 @@ create table Plans (
     type 		MealType,
     food	    LongString,	
 )
-
