@@ -1,6 +1,7 @@
 <%@ page import="unsw.comp4920.project.User" %>
 <%@ page import="java.util.Calendar" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="unsw.comp4920.project.JspUtils" %>
 <%--
   Created by IntelliJ IDEA.
   User: luyibest001
@@ -42,15 +43,32 @@
 
 <%
     HttpSession s = request.getSession();
+    Calendar cal = (Calendar) ((Calendar)s.getAttribute("currentDate")).clone();
     User user = (User)s.getAttribute("currentUser");
-    out.println("<h1>"+user.getUsername()+"</h1>");
+    out.println("<h1> Hello "+user.getUsername()+"</h1>");
+
 %>
+
+<ul class="nav justify-content-center">
+    <li class="nav-item " style="font-size: 24px">
+        <a class="nav-link" href="./home?action=prev_week" title="prev_week" target="_self">Prev week</a>
+    </li>
+
+    <li class="nav-item " style="font-size: 24px">
+        <a class="nav-link" href="./home?action=curr_week" title="curr_week" target="_self">Current week</a>
+    </li>
+
+    <li class="nav-item " style="font-size: 24px">
+        <a class="nav-link" href="./home?action=next_week" title="next_week" target="_self">Next week</a>
+    </li>
+</ul>
+
 <table class="table table-bordered" style="height: 800px">
     <thead>
     <tr>
         <th>Meal</th>
         <%
-            Calendar currentCal = (Calendar)s.getAttribute("currentDate");
+            Calendar currentCal = (Calendar) ((Calendar)s.getAttribute("currentDate")).clone();
             for (int i = 0; i < 7; i++) {
                 SimpleDateFormat f = new SimpleDateFormat("EEEE, dd-MM-yyyy");
                 out.println("<th>" + f.format(currentCal.getTime()) + "</th>");
@@ -60,9 +78,9 @@
     </tr>
     </thead>
     <tbody>
-    <%= printRow("Breakfast") %>
-    <%= printRow("Lunch") %>
-    <%= printRow("Dinner") %>
+    <%= JspUtils.printRow("Breakfast"   ,cal) %>
+    <%= JspUtils.printRow("Lunch"       ,cal) %>
+    <%= JspUtils.printRow("Dinner"      ,cal) %>
     </tbody>
 
 

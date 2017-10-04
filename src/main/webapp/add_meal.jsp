@@ -17,9 +17,9 @@
 <%
     User user = (User)request.getSession().getAttribute("currentUser");
     String meal = request.getParameter("meal");
-    String day = request.getParameter("day");
+    String date = request.getParameter("date");
     out.println("User : " + user.getUsername());
-    out.println("Meal is " + meal + " on day " +day);
+    out.println("Meal is " + meal + " on date " +date);
 %>
 
 </body>

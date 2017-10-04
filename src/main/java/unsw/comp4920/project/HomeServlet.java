@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Calendar;
 
 @WebServlet(name = "HomeServlet", urlPatterns = "/home")
 public class HomeServlet extends HttpServlet {
@@ -22,7 +23,16 @@ public class HomeServlet extends HttpServlet {
         currentUser = (User)getServletContext().getAttribute("currentUser");
 
         if(action != null){
-            if(action.equals("edit_profile")){
+            Calendar c = (Calendar) request.getSession().getAttribute("currentDate");
+            if(action.equals("next_week")) {
+                c.add(Calendar.DAY_OF_WEEK,7);
+            }else if(action.equals("prev_week")) {
+                c.add(Calendar.DAY_OF_WEEK,-7);
+            }else if(action.equals("curr_week")) {
+                c = Calendar.getInstance();
+                c.add( Calendar.DAY_OF_WEEK, -(c.get(Calendar.DAY_OF_WEEK)-1));
+                request.getSession().setAttribute("currentDate",c);
+            }else if(action.equals("edit_profile")){
                 request.setAttribute("currentUser", currentUser);
             }else if(action.equals("search")){
 
