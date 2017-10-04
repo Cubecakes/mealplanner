@@ -1,0 +1,48 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class DatabaseOperation {
+	
+	/**
+	 *  @method getConnection() connect to database
+	 *  @return Connection
+	 */
+	public Connection getConnection(){
+		String driver = "org.postgresql.Driver";
+		String url = "jdbc:postgresql://localhost:5432/mealplanner";
+		String username = "postgres";
+		String password = "951119";
+		Connection c = null;
+		try {
+			Class.forName(driver);
+			c = (Connection) DriverManager.getConnection(url, username, password);
+			
+		}catch(Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+		return c;
+	}
+	
+	/**
+	 * @method insert a new user into table "users", used for user registration
+	 * @return integer, the number of record inserted succesfully
+	 */
+	public void insertUser(User user) {
+		Connection connection = getConnection();
+		String sql = "INSERT INTO USERS (username,password,email) VALUES(?,?,?)";
+		PreparedStatement statement;
+		
+		try {
+			statement = (PreparedStatement) connection.prepareStatement(sql);
+			statement.setString(1, user.getUsername());
+			statement.setString(2, user.getPassword());
+			statement.setString(3, user.getEmail());
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+}

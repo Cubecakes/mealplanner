@@ -1,0 +1,28 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class DatabaseOperation {
+	
+	/**
+	 *  @method getConnection() connect to database
+	 *  @param database: the database intended to connect to
+	 *  @return Connection
+	 */
+	public Connection getConnection(String database){
+		String driver = "org.postgresql.Driver";
+		String url = "jdbc:postgresql://localhost:5432/"+ database;
+		String username = "postgres";
+		String password = "951119";
+		Connection c = null;
+		try {
+			Class.forName(driver);
+			c = (Connection) DriverManager.getConnection(url, username, password);
+		}catch(Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+		return c;
+	}
+}

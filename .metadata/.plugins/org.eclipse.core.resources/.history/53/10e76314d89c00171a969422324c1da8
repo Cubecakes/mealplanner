@@ -1,0 +1,88 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class DatabaseOperation {
+	
+	/**
+	 *  @method getConnection() connect to database
+	 *  @return Connection
+	 */
+	public Connection getConnection(){
+		String driver = "org.postgresql.Driver";
+		String url = "jdbc:postgresql://localhost:5432/mealplanner";
+		String username = "postgres";
+		String password = "951119";
+		Connection c = null;
+		try {
+			Class.forName(driver);
+			c = (Connection) DriverManager.getConnection(url, username, password);
+			
+		}catch(Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+		return c;
+	}
+	
+	/**
+	 * @method insert a new user into table "users", used for user registration
+	 * @param User object intended to add into database
+	 * @return integer, the number of record inserted successfully
+	 */
+	public int insertUser(User user) {
+		Connection connection = getConnection();
+		String sql = "INSERT INTO USERS (username,password,email) VALUES(?,?,?)";
+		PreparedStatement statement;
+		int i=0;
+		try {
+			statement = (PreparedStatement) connection.prepareStatement(sql);
+			statement.setString(1, user.getUsername());
+			statement.setString(2, user.getPassword());
+			statement.setString(3, user.getEmail());
+			i = statement.executeUpdate();
+			statement.close();
+			connection.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return i;
+	}
+	
+	/**
+	 * @method insert a new user into table "users", used for user registration,should be called 
+	 *          each time when food is added by users
+	 * @param PlanUnit object intended to add into database
+	 * @return integer, the number of record inserted successfully
+	 */
+	public int insertPlan(PlanUnit plan) {
+		Connection connection = getConnection();
+		String sql = "INSERT INTO PLANS (username,plan_date,type,food) VALUES(?,?,?,?)";
+		PreparedStatement statement;
+		int r=0;
+		int count=0;
+		int length = plan.getFoodList().size();
+		try {
+			for(int i=0;i<length;i++) {
+				statement = (PreparedStatement) connection.prepareStatement(sql);
+				statement.setString(1, plan.getUser().getUsername());
+				statement.setString(2, plan.getDate().toString());
+				statement.setString(3, plan.getType());
+				statement.setString(4, plan.getFoodList().get(i).getName());
+				r = statement.executeUpdate();
+				if(r!=0) {
+					count++;
+				}
+			}
+			statement.close();
+			connection.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return count;
+	}
+}

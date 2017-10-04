@@ -1,0 +1,38 @@
+nav{
+    float: top;
+    alignment: center;
+    width:2000px;
+    height:46px;
+    background-color:yellowgreen;
+    margin: 100px 0 0 0;
+    padding:0;
+}
+
+nav ul{
+    float: left;
+    alignment:center;
+    margin: 0px;
+    padding: 0 0 0 0;
+    width: 920px;
+    list-style:none;
+}
+
+nav ul li{
+    display: inline;
+}
+
+nav ul li a{
+    float: left;
+    padding: 11px 20px;
+    font-size: 23px;
+    text-align: center;
+    text-decoration: none;
+    background: url(images/menu_divider.png) center right no-repeat;
+    color: white;
+    font-family: "Apple Symbols", fantasy;
+    outline: none;
+}
+
+nav li a:hover {
+    color: #CD8C95;
+}

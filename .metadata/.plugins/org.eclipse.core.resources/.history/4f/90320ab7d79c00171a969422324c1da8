@@ -1,0 +1,31 @@
+
+public class Food {
+	private String name;
+	private int calorie;
+	private String category;
+	
+	public Food(String name, int calorie, String category) {
+		this.name = name;
+		this.calorie = calorie;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public void setCalorie(int calorie) {
+		this.calorie = calorie;
+	}
+	
+	public int getCalorie() {
+		return calorie;
+	}
+	
+	public void setCategory(Stirng category) {
+		this.category = category
+	}
+}
