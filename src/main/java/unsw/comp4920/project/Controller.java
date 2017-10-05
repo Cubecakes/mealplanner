@@ -11,7 +11,7 @@ public class Controller extends javax.servlet.http.HttpServlet {
 
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         String action = request.getParameter("action");
-        String nextPage = "welcome.jsp";
+        String nextPage = "home.html";
         if(action != null){
             //if user want to log in with username and password
             if (action.equals("check_login")) {
@@ -99,11 +99,23 @@ public class Controller extends javax.servlet.http.HttpServlet {
                                 e.printStackTrace();
                             }
                             currentUser.setActive(false);
-                            //SendEmail se = new SendEmail(email);
-                            String code = username+"*active";
-                            //se.sendActivateEmail(code);
+                            currentUser.setEmail(email);
+                            currentUser.setGender(gender);
+                            currentUser.setPhotourl(photourl);
 
-                            request.getSession().setAttribute("currentUser",currentUser);
+                            SendEmail se = new SendEmail(email);
+                            String code = username+"***";
+
+                            //generate activate code
+                            int ram = (int) (Math.random() * 97);
+                            for (int i = 0; i < 30; i++) {
+                                ram = (int) (Math.random() * 26 + 65);
+                                code += Integer.toString(ram);
+                            }
+                            activate_code = code;
+                            getServletContext().setAttribute("activate_code", activate_code);
+                            se.sendActivateEmail(code);
+                            getServletContext().setAttribute("currentUser",currentUser);
                             nextPage = "after_register.jsp";
                         }
                     }
@@ -111,13 +123,15 @@ public class Controller extends javax.servlet.http.HttpServlet {
             }else if(action.equals("activateAccount")){
                 String code = request.getParameter("code");
                 System.out.println("Code: "+code);
-                System.out.println("Activate_code: " + getServletContext().getAttribute("activate_code"));
-                if(code.equals(currentUser.getUsername()+"*active")){
+                System.out.println("Activate_code: "+getServletContext().getAttribute("activate_code"));
+                if(code.equals(getServletContext().getAttribute("activate_code"))){
                     currentUser.setActive(true);
+                    System.out.println();
                     DatabaseOperation dbo = new DatabaseOperation();
                     dbo.activateUser(currentUser.getUsername());
                 }
                 getServletContext().setAttribute("currentUser",currentUser);
+                //nextPage = "home";
                 nextPage = "activate_success.jsp";
             }else if(action.equals("resend_confirm_email")){
                 currentUser = (User)request.getSession().getAttribute("currentUser");

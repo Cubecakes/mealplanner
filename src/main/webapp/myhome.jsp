@@ -21,6 +21,8 @@
                         ret += "<input type=\"hidden\" name=\"day\" value=\""+i+"\">";
                         ret += "<button style=\"width: 100%;\"  class=\"btn btn-primary\">\n";
                             ret += "Add meal!";
+                        //ret += "<input type='submit' value='Add Meal!' class='button_add_meal'>\n";
+                          // ret += "Add meal!";
                         ret += "</button>\n";
                     ret += "</form>\n";
                 ret += "</td>\n";
@@ -34,6 +36,7 @@
 <html>
 <head>
     <title>Home</title>
+    <link type="text/css" rel="stylesheet" href="login_register.css">
 </head>
 <body>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">

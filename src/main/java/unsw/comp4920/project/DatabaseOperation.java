@@ -12,7 +12,7 @@ public class DatabaseOperation {
         String driver = "org.postgresql.Driver";
         String url = "jdbc:postgresql://localhost:5432/mealplanner";
         String username = "postgres";
-        String password = "95119";
+        String password = "951119";
         Connection c = null;
         try {
             Class.forName(driver);
