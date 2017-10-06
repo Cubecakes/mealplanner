@@ -15,7 +15,7 @@
     Sorry, your account is not active...
     <br>
     Didn't get activation email?
-    <a href="./control?action=resend_confirm_email" class="commonHyperLink">ResentEmail</a>
+    <a href="./control?action=resend_confirm_email" class="commonHyperLink">Re-send Email</a>
 </div>
 </body>
 </html>
