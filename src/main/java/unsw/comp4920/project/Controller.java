@@ -39,7 +39,8 @@ public class Controller extends javax.servlet.http.HttpServlet {
                                 System.out.println("Password incorrect ");
                                 request.setAttribute("error_info", "Incorrect password");
                                 nextPage = "login.jsp";
-                            }else if(dbo.isActive("false")){
+                            }
+                            if(dbo.isActive(username) == false) {
                                 System.out.println("Log in isn't active");
                                 //request.setAttribute("error_info", "Incorrect password");
                                 nextPage = "inactive_resend_email.jsp";
@@ -69,10 +70,10 @@ public class Controller extends javax.servlet.http.HttpServlet {
                 }else {
                     if (dbo.userIsExisted(username)) {
                         if (!email.contains("@")) {
-                            request.setAttribute("register_error_info", "username exists,please change to another " +
+                            request.setAttribute("register_error_info", "username exists, please choose another username" +
                                     "username.\nPlease enter a valid email address");
                         } else {
-                            request.setAttribute("register_error_info", "username exists,please change to another " +
+                            request.setAttribute("register_error_info", "username exists, please choose another username" +
                                     "username.");
                         }
                         nextPage = "register.jsp";
