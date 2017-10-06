@@ -12,7 +12,7 @@
 </head>
 <body>
 
-Waiting for the account being activated...
+Check your email to activate your account.
 
 
 </body>
