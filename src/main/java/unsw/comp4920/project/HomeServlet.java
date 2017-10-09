@@ -23,7 +23,6 @@ public class HomeServlet extends HttpServlet {
         String action = request.getParameter("action");
         String nextPage = "myhome.jsp";
         currentUser = (User)request.getSession().getAttribute("currentUser");
-
         if(action != null){
             Calendar c = (Calendar) request.getSession().getAttribute("currentDate");
             if(action.equals("next_week")) {
@@ -114,6 +113,8 @@ public class HomeServlet extends HttpServlet {
             getServletContext().setAttribute("action","logout");
             nextPage = "/control";
         }
+
+        request.getSession().setAttribute("currentUser",currentUser);
         RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);
         rd.forward(request, response);
     }

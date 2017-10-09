@@ -30,12 +30,29 @@
             background:linear-gradient(to bottom, #000000 5%, #17202A 100%);
             background-color:#4D4D4D;
         }
+
+        .profile_img{
+            margin:10px auto;
+            border: 1px dotted #000000; /*border: 1px solid #000000;*/
+            -webkit-border-radius: 50%;
+            border-radius: 50%
+        }
     </style>
 </head>
 <body>
 <%@ include file="header.html" %>
-
+<br><br><br>
+<center>
+    <img src="/images/no_picture.jpg" style="width: 200px;
+     height: 200px;
+     background-size: cover;
+     display: block;
+     border-radius: 100px;
+     -webkit-border-radius: 100px;
+     -moz-border-radius: 100px;"/>
+</center>
 <div class="display_block">
+
 <%
     User user = (User)request.getSession().getAttribute("currentUser");
     request.setAttribute("currentUser",user);
@@ -44,9 +61,9 @@
     out.println("Username:  "+user.getUsername());
     out.println("<br><br>Email:  "+user.getEmail());
     out.println("<br><br>Gender:  "+user.getGender());
-    out.println("<br><br>You have used meal planner for ... days<br><br>");
+    out.println("<br><br>You have used meal planner for ... days<br><br><center>");
 %>
-    <a href="/edit_profile.jsp?username=<%=user.getUsername()%>" class="button_sign_up">Edit Profile</a>
+    <a href="/edit_profile.jsp?username=<%=user.getUsername()%>" class="button_sign_up">Edit Profile</a></center>
 
 </div>
 
