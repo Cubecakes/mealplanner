@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>Profile</title>
+    <link type="text/css" rel="stylesheet" href="login_register.css">
     <style>
         a[class="button_edit"]{
             -moz-box-shadow: inset 0px 1px 0px 0px #AAB7B8;
@@ -33,22 +34,18 @@
 </head>
 <body>
 <%@ include file="header.html" %>
-<div>
-    <table>
 
+<div class="display_block">
 <%
     User user = (User)request.getSession().getAttribute("currentUser");
     request.setAttribute("currentUser",user);
     //show profile picture in the middle
     //show gender as a icon
-    out.println("<tr>\n<td>Username</td>\n<td>"+user.getUsername()+"</td></tr>");
-    out.println("<tr>\n<td>Email</td>\n<td>"+user.getEmail()+"</td></tr>");
-    out.println("You have used meal planner for ... days");
+    out.println("Username:  "+user.getUsername());
+    out.println("<br><br>Email:  "+user.getEmail());
+    out.println("<br><br>You have used meal planner for ... days<br><br>");
 %>
-    </table>
-    <form action="./home" method="post">
-        <a href="./home?action=edit_profile" class="button_edit">Edit Profile</a>
-    </form>
+    <a href="/home?action=edit_profile" class="button_sign_up">Edit Profile</a>
 
 </div>
 
