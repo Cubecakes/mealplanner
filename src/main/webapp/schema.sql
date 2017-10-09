@@ -29,6 +29,7 @@ create table Users (
 	gender		genderType,
 	photourl	LongString,
 	is_active  Boolean,
+	start     Date,
 	primary key (username)
 );
 

@@ -224,16 +224,20 @@ public class DatabaseOperation {
             sql = "select gender from users where username='"+username+"';";
             rs =querystatement.executeQuery(sql);
             if(rs.next()) {
-                user.setGender(rs.getString(1));
+                if(rs.getString(1).equals("F")){
+                    user.setGender("Female");
+                }else{
+                    user.setGender("Male");
+                }
             }
 
-            sql = "select photo from users where username='"+username+"';";
+            sql = "select photourl from users where username='"+username+"';";
             rs =querystatement.executeQuery(sql);
             if(rs.next()) {
                 user.setPhotourl(rs.getString(1));
             }
 
-            sql = "select active from users where username='"+username+"';";
+            sql = "select is_active from users where username='"+username+"';";
             rs =querystatement.executeQuery(sql);
             if(rs.next()) {
                 user.setActive(Boolean.parseBoolean(rs.getString(1)));
@@ -248,6 +252,27 @@ public class DatabaseOperation {
         return user;
     }
 
+
+    /**
+     * @method activateUser(String) set an account active
+     * @param username
+     * @reutnr int
+     */
+    public int updateUserInfo(String username, String attribute, String value){
+        int i=0;
+        Connection conn = getConnection();
+        String sql = "update users set "+ attribute + "='"+ value +"' where username='"+username+"';";
+        PreparedStatement preparedStatement;
+        try{
+            preparedStatement = (PreparedStatement)conn.prepareStatement(sql);
+            i = preparedStatement.executeUpdate();
+            preparedStatement.close();
+            conn.close();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return i;
+    }
 
     /**
      * @method Integer getAll() 查询并打印表中数据

@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Calendar;
@@ -21,7 +22,7 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         String nextPage = "myhome.jsp";
-        currentUser = (User)getServletContext().getAttribute("currentUser");
+        currentUser = (User)request.getSession().getAttribute("currentUser");
 
         if(action != null){
             Calendar c = (Calendar) request.getSession().getAttribute("currentDate");
@@ -33,8 +34,7 @@ public class HomeServlet extends HttpServlet {
                 c = Calendar.getInstance();
                 c.add( Calendar.DAY_OF_WEEK, -(c.get(Calendar.DAY_OF_WEEK)-1));
                 request.getSession().setAttribute("currentDate",c);
-            }else if(action.equals("edit_profile")){
-                request.setAttribute("currentUser", currentUser);
+
             }else if(action.equals("search")){
 
             }else if(action.equals("profile")){
@@ -45,19 +45,75 @@ public class HomeServlet extends HttpServlet {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                getServletContext().setAttribute("currentUser",currentUser);
+                request.getSession().setAttribute("currentUser",currentUser);
                 nextPage = "profile.jsp";
 
             }else if(action.equals("edit_profile")){
+                String username = currentUser.getUsername();
+                String password = request.getParameter("edit_password");
+                String email = request.getParameter("edit_email");
+                String photourl = request.getParameter("edit_profile_photo");
 
-            }else if(action.equals("logout")){
-                currentUser = null;
-                getServletContext().setAttribute("currentUser",null);
-                getServletContext().setAttribute("action","logout");
-                nextPage = "/control";
+
+                System.out.println(photourl);
+                //write into database
+                SearchDatabase sd = new SearchDatabase();
+                if(email!=null && !"".equals(email)) {
+                    DatabaseOperation dbo = new DatabaseOperation();
+                    int i = dbo.updateUserInfo(username,"email",email);
+                    //System.out.print
+                    currentUser.setEmail(email);
+                }else {
+                    currentUser.setEmail(currentUser.getEmail());
+                }
+
+                if(password!=null&&!"".equals(password)){
+                    DatabaseOperation dbo = new DatabaseOperation();
+                    dbo.updateUserInfo(username,"password", password);
+                    currentUser.setPassword(password);
+                }else {
+                    //currentUser.setPassword(currentUser.getPassword());
+                }
+
+                   /* if(photourl != null&&!"".equals(photourl)) {
+                        //upload profile photo
+
+                        FileInputStream pic = null;
+
+                        System.out.println(photourl);
+                        photourl = new String(photourl.getBytes());
+                        if (photourl.contains(".png")) {
+                            db.pngTojpg(photourl);
+                        }
+                        photourl = db.zippicture(photourl, 100, 100, 0.9f);
+                        pic = new FileInputStream(photourl);
+
+
+                        String sql = "update profile set photo =? where username = ? ";
+                        System.out.println(sql);
+                        PreparedStatement pStatement = connection.prepareStatement(sql);
+                        pStatement.setBinaryStream(1, pic, pic.available());
+                        pStatement.setString(2, username);
+                        pStatement.executeUpdate();
+                        currentUser.setPhotoUrl(photourl);
+                    }else {
+                        currentUser.setPhotoUrl(currentUser.getPhotoUrl());
+                    }
+                    */
+
+                nextPage = "profile.jsp";
+
+                request.setAttribute("currentUser",currentUser);
+                request.setAttribute("username", currentUser.getUsername());
+
             }
-        }
 
+        }else if(action.equals("logout")){
+            currentUser = null;
+            getServletContext().setAttribute("currentUser",null);
+            getServletContext().setAttribute("action","logout");
+            nextPage = "/control";
+        }
         RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);
         rd.forward(request, response);
     }
