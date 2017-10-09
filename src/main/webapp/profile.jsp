@@ -43,6 +43,7 @@
     //show gender as a icon
     out.println("Username:  "+user.getUsername());
     out.println("<br><br>Email:  "+user.getEmail());
+    out.println("<br><br>Gender:  "+user.getGender());
     out.println("<br><br>You have used meal planner for ... days<br><br>");
 %>
     <a href="/home?action=edit_profile" class="button_sign_up">Edit Profile</a>

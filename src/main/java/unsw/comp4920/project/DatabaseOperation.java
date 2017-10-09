@@ -238,6 +238,12 @@ public class DatabaseOperation {
             if(rs.next()) {
                 user.setActive(Boolean.parseBoolean(rs.getString(1)));
             }
+
+           /* sql = "select start from users where username='"+username+"';";
+            rs =querystatement.executeQuery(sql);
+            if(rs.next()) {
+                user.setActive(Boolean.parseBoolean(rs.getString(1)));
+            }*/
         }
         return user;
     }

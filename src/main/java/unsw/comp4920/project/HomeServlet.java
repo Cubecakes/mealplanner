@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Calendar;
 
 @WebServlet(name = "HomeServlet", urlPatterns = "/home")
@@ -37,7 +38,16 @@ public class HomeServlet extends HttpServlet {
             }else if(action.equals("search")){
 
             }else if(action.equals("profile")){
+
+                DatabaseOperation dbo = new DatabaseOperation();
+                try {
+                    currentUser = dbo.getUserProfile(currentUser.getUsername());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                getServletContext().setAttribute("currentUser",currentUser);
                 nextPage = "profile.jsp";
+
             }else if(action.equals("edit_profile")){
 
             }else if(action.equals("logout")){
