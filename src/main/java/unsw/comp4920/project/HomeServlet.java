@@ -36,6 +36,12 @@ public class HomeServlet extends HttpServlet {
 
             }else if(action.equals("search")){
 
+                nextPage = "search.jsp";
+
+            }else if(action.equals("search_submit")){
+
+
+
             }else if(action.equals("profile")){
 
                 DatabaseOperation dbo = new DatabaseOperation();
@@ -110,7 +116,7 @@ public class HomeServlet extends HttpServlet {
         }else if(action.equals("logout")){
             currentUser = null;
             getServletContext().setAttribute("currentUser",null);
-            getServletContext().setAttribute("action","logout");
+
             nextPage = "/control";
         }
 
