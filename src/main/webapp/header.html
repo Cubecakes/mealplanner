@@ -5,41 +5,67 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <script
+            src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script>
+    <style>
+    .fixed-header {
+        /* pin to top - 0 is default */
+        position: fixed;
+        top:0;
+        left:0;
+        right:0;
+        /* raise z-index to cover */
+        z-index: 1;
+        /* in this example, header height is unknown --
+        content is duplicated to match height in .main div */
+        /* cover full width when zoomed */
+        width: 100%;
+
+        /*padding:10px 20px 1px;*/
+        /*background:#ccc;*/
+        /*border-bottom:1px solid #000;*/
+        /*box-shadow:0 0 10px rgba(0,0,0,0.3);*/
+    }
+    }
+    </style>
 </head>
 <body>
+<div id="fixed" class="fixed-header">
+    <nav class="navbar navbar-toggleable-md  navColor" >
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!--a class="navbar-brand" href="#">Navbar</a-->
+        <img src="images_website/logonew.jpg" class="img-rounded " alt="Logo" width="210" height="70" ;>
 
-<nav class="navbar navbar-toggleable-md  navColor" >
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <!--a class="navbar-brand" href="#">Navbar</a-->
-    <img src="images_website/logonew.jpg" class="img-rounded " alt="Logo" width="210" height="70" ;>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto">
+                <li class="nav-item" style="font-size: 24px; margin-right: 40px">
+                    <a class="nav-link navbar-right aColor" href="./home?action=home" title="home" target="_self">Home</a>
+                </li>
+                <li class="nav-item" style="font-size: 24px; margin-right: 40px">
+                    <a class="nav-link navbar-right aColor" href="./home?action=search" title="search" target="_self">Search</a>
+                </li>
+                <li class="nav-item " style="font-size: 24px; margin-right: 40px">
+                    <a class="nav-link navbar-right aColor" href="./home?action=profile" title="profile" target="_self">Profile</a>
+                </li>
 
-            <li class="nav-item" style="font-size: 24px; margin-right: 40px">
-                <a class="nav-link navbar-right aColor" href="./home?action=home" title="home" target="_self">Home</a>
-            </li>
-            <li class="nav-item" style="font-size: 24px; margin-right: 40px">
-                <a class="nav-link navbar-right aColor" href="./home?action=search" title="search" target="_self">Search</a>
-            </li>
-            <li class="nav-item " style="font-size: 24px; margin-right: 40px">
-                <a class="nav-link navbar-right aColor" href="./home?action=profile" title="profile" target="_self">Profile</a>
-            </li>
+                <li class="nav-item " style="font-size: 24px; margin-right: 40px">
+                    <a class="nav-link navbar-right aColor" href="./home?action=logout" title="Log Out" target="_self">Log out</a>
+                </li>
 
-            <li class="nav-item " style="font-size: 24px; margin-right: 40px">
-                <a class="nav-link navbar-right aColor" href="./home?action=logout" title="Log Out" target="_self">Log out</a>
-            </li>
+            </ul>
 
-        </ul>
-
-    </div>
-</nav>
+        </div>
+    </nav>
 <!--img src="images/logo.jpg" alt="Logo"-->
 
-
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+</div>
+<!--<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 </body>
