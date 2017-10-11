@@ -105,18 +105,18 @@
 <body>
 <%@ include file="header.html" %>
 
-
     <%--<input type="text" name="search" placeholder="Search for recipes">--%>
     <%--<input type="submit" name="search_submit" value="Search!">--%>
         <%--<input type="hidden" name="action" value="search_submit">--%>
-    <div class="container">
-        <div class="search-box">
-            <input type="hidden" name="action" value="search_submit">
-             <input type="text" name="search" >
+    <div class="container" width="300">
+        <div class="search-box" width="300">
+            <input type="hidden" name="action" value="search_submit" width="100">
+            <input type="text" name="search" >
 
             <span></span>
         </div>
     </div>
+
 
 </body>
 </html>

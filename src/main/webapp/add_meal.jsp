@@ -30,7 +30,7 @@
     <input type="hidden" name="plan_date" value="<%=date%>">
     <a href="/home?action=add_meal" class="button_sign_up">Add</a>
     <br><br>
-    <a href="/home?action=save_plan" class="button_sign_up">Save</a>
+    <a href="/home" class="button_sign_up">Back</a>
 </div>
 
 </body>
