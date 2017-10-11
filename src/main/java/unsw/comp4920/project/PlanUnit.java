@@ -6,14 +6,18 @@ import java.util.List;
 
 public class PlanUnit {
     User user;
-    Date date;
+    String date;
     String type; //breakfast/lunch/dinner
     List<Food> foodList;
 
-    public PlanUnit(User user, Date date, String type) {
+    public PlanUnit(User user, String date, String type) {
         this.user = user;
         this.date = date;
         this.type = type;
+        foodList = new ArrayList<Food>();
+    }
+
+    public PlanUnit(){
         foodList = new ArrayList<Food>();
     }
 
@@ -25,13 +29,11 @@ public class PlanUnit {
         return user;
     }
 
-    public void setDate(Date date, String type) {
+    public void setDate(String date) {
         this.date = date;
-        this.type = type;
-
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 

@@ -12,6 +12,8 @@ public class Food {
         this.calorie = calorie;
     }
 
+    public Food(){}
+
     public void setName(String name) {
         this.name = name;
     }

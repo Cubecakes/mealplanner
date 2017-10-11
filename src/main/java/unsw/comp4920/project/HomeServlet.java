@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 @WebServlet(name = "HomeServlet", urlPatterns = "/home")
 public class HomeServlet extends HttpServlet {
@@ -34,6 +36,24 @@ public class HomeServlet extends HttpServlet {
                 c.add( Calendar.DAY_OF_WEEK, -(c.get(Calendar.DAY_OF_WEEK)-1));
                 request.getSession().setAttribute("currentDate",c);
 
+            }else if(action.equals("add_meal")){
+                PlanUnit planUnit = new PlanUnit();
+                planUnit.setUser(currentUser);
+                String date = request.getParameter("plan_date");
+                planUnit.setDate(date);
+                String type = request.getParameter("meal_type");
+                planUnit.setType(type);
+                Food food = new Food();
+                String foodName = request.getParameter("add_food");
+                food.setName(foodName);
+                planUnit.addToFoodList(food);
+
+                //write into database
+                DatabaseOperation dbo = new DatabaseOperation();
+                dbo.insertPlan(planUnit);
+                nextPage = "add_meal.jsp";
+            }else if(action.equals("save_plan")){
+                nextPage = "";
             }else if(action.equals("search")){
 
                 nextPage = "search.jsp";

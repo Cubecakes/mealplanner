@@ -11,7 +11,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Add meal plan</title>
+    <link type="text/css" rel="stylesheet" href="login_register.css">
 </head>
 <body>
 <%
@@ -21,6 +22,16 @@
     out.println("User : " + user.getUsername());
     out.println("Meal is " + meal + " on date " +date);
 %>
+
+<div class="form-style-8">
+    <h2>Add to your meal plan</h2>
+    <input type="text" name="add_food" placeholder="eg. Lasagne">
+    <input type="hidden" name="meal_type" value="<%=meal%>">
+    <input type="hidden" name="plan_date" value="<%=date%>">
+    <a href="/home?action=add_meal" class="button_sign_up">Add</a>
+    <br><br>
+    <a href="/home?action=save_plan" class="button_sign_up">Save</a>
+</div>
 
 </body>
 </html>

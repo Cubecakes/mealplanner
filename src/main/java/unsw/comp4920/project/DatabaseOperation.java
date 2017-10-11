@@ -62,19 +62,19 @@ public class DatabaseOperation {
         PreparedStatement statement = null;
         int r=0;
         int count=0;
-        int length = plan.getFoodList().size();
+        //int length = plan.getFoodList().size();
         try {
-            for(int i=0;i<length;i++) {
-                statement = (PreparedStatement) connection.prepareStatement(sql);
-                statement.setString(1, plan.getUser().getUsername());
-                statement.setString(2, plan.getDate().toString());
-                statement.setString(3, plan.getType());
-                statement.setString(4, plan.getFoodList().get(i).getName());
-                r = statement.executeUpdate();
-                if(r!=0) {
-                    count++;
-                }
-            }
+            //for(int i=0;i<length;i++) {
+            statement = (PreparedStatement) connection.prepareStatement(sql);
+            statement.setString(1, plan.getUser().getUsername());
+            statement.setString(2, plan.getDate().toString());
+            statement.setString(3, plan.getType());
+            statement.setString(4, plan.getFoodList().get(0).getName());
+            r = statement.executeUpdate();
+                //if(r!=0) {
+                  //  count++;
+                //}
+            //}
             statement.close();
             connection.close();
         }catch(SQLException e) {
