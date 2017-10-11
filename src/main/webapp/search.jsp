@@ -9,13 +9,114 @@
 <html>
 <head>
     <title>Search</title>
+    <style>
+        /*input[type=text] {*/
+            /*width: 50px;*/
+            /*box-sizing: border-box;*/
+            /*border: 2px solid #ccc;*/
+            /*border-radius: 4px;*/
+            /*font-size: 16px;*/
+            /*background-color: white;*/
+            /*background-image: url('searchicon.png');*/
+            /*background-position: 10px 10px;*/
+            /*background-repeat: no-repeat;*/
+            /*padding: 12px 20px 12px 40px;*/
+            /*-webkit-transition: width 0.4s ease-in-out;*/
+            /*transition: width 0.4s ease-in-out;*/
+        /*}*/
+
+        /*input[type=text]:focus {*/
+            /*width: 50%;*/
+        /*}*/
+
+
+
+
+        .container {
+            margin:auto;
+            width: 50%;
+            left: 38%;
+            top: 18%;
+
+        }
+
+        .search-box input[type="text"] {
+            border: none;
+            background: none;
+            z-index: 1;
+            width: 25px;
+            height: 25px;
+            transition: all .25s ease-in .25s;
+            color: transparent;
+            font-size: .75rem;
+            line-height: 25px;
+        }
+        .search-box input[type="text"]:hover {
+            cursor: pointer;
+        }
+        .search-box input[type="text"]:hover:focus {
+            cursor: text;
+        }
+        .search-box input[type="text"]:hover + span {
+            background: rgba(169, 71, 134, 0.2);
+        }
+        .search-box input[type="text"]:focus {
+            width: 200px;
+            padding: 0 10px;
+            outline: none;
+            color: black;
+            background: none;
+            color: #d05ba0;
+        }
+        .search-box input[type="text"]:focus + span {
+            width: 200px;
+        }
+        .search-box input[type="text"]:focus + span::before {
+            width: 2px;
+            opacity: 0;
+            transition: all .25s ease-in;
+        }
+        .search-box input[type="text"] + span {
+            z-index: -1;
+            position: absolute;
+            border: 2px solid #d05ba0;
+            top: 0;
+            width: 25px;
+            height: 25px;
+            transition: all .25s ease-in .25s;
+            border-radius: 25px;
+            left: 0;
+        }
+        .search-box input[type="text"] + span::before {
+            transition: all .25s ease-in .5s;
+            transform-origin: left top;
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 5px;
+            border-radius: 5px;
+            background: #d05ba0;
+            transform: rotate(45deg) translate(26px, -2px);
+        }
+
+    </style>
+
 </head>
 <body>
 <%@ include file="header.html" %>
-<center><form>
-    <input type="hidden" name="action" value="search_submit">
-    <input type="text" name="search" placeholder="Search for recipes">
-    <input type="submit" name="search_submit" value="Search!">
-</form></center>
+
+
+    <%--<input type="text" name="search" placeholder="Search for recipes">--%>
+    <%--<input type="submit" name="search_submit" value="Search!">--%>
+        <%--<input type="hidden" name="action" value="search_submit">--%>
+    <div class="container">
+        <div class="search-box">
+            <input type="hidden" name="action" value="search_submit">
+             <input type="text" name="search" >
+
+            <span></span>
+        </div>
+    </div>
+
 </body>
 </html>
