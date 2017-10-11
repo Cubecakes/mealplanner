@@ -94,7 +94,7 @@ public class HomeServlet extends HttpServlet {
                         pic = new FileInputStream(photourl);
 
 
-                        String sql = "update profile set photo =? where username = ? ";
+                        String sql = "update users set photourl =? where username = ? ";
                         System.out.println(sql);
                         PreparedStatement pStatement = connection.prepareStatement(sql);
                         pStatement.setBinaryStream(1, pic, pic.available());
