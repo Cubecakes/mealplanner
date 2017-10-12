@@ -103,7 +103,7 @@
 <!--background animation-->
 <!--fork from http://vincentgarreau.com/particles.js/-->
 <!-- particles.js container -->
-<div id="particles-js">
+<div id="particles-js" style="margin-top: -785px;">
 </div>
 <!-- scripts -->
 <script src="/js/particles.js"></script>
