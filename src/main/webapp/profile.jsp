@@ -49,22 +49,15 @@
         <form id="contact" class="form-horizontal" role="form">
 
            <%
-            out.println("<h3 class=\"myh3\">USERNAME:</h3>");
-            out.println("<h3 class=\"myh233\">"+user.getUsername()+"</h3>");
-
-            out.println("<h3 class=\"myh3\">email:</h3>");
-            out.println("<h3 class=\"myh233\">"+user.getEmail()+"</h3>");
-
-            out.println("<h3 class=\"myh3\">gender:</h3>");
-            out.println("<h3 class=\"myh233\">"+user.getGender()+"</h3>");
-
-               out.println("<h3 class=\"myh3\">You have used meal planner for ... days</h3>");
-
+            out.println("Username:  "+user.getUsername());
+            out.println("<br><br>Email:  "+user.getEmail());
+            out.println("<br><br>Gender:  "+user.getGender());
+               out.println("<br><br>You have used meal planner for " +user.getStart() + " days<br><br><center>");
             %>
 
             <!--button id="send" name="/edit_profile.jsp?username=<%=user.getUsername()%>" class="btn btn-block">Edit</button-->
 
-            <a href="/edit_profile.jsp?username=<%=user.getUsername()%>" class="btn btn-info btn-block" style="margin-top: 40px;">Edit Profile</a>
+            <a href="/edit_profile.jsp?username=<%=user.getUsername()%>" class="btn btn-info">Edit Profile</a>
         </form>
     </section>
 
