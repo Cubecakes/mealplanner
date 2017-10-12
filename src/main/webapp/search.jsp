@@ -117,6 +117,11 @@
         </div>
     </div>
 
+<div id="particles-js">
+</div>
+<!-- scripts -->
+<script src="/js/particles.js"></script>
+<script src="/js/app.js"></script>
 
 </body>
 </html>
