@@ -52,7 +52,7 @@
             out.println("Username:  "+user.getUsername());
             out.println("<br><br>Email:  "+user.getEmail());
             out.println("<br><br>Gender:  "+user.getGender());
-            out.println("<br><br>You have used meal planner for ... days<br><br><center>");
+               out.println("<br><br>You have used meal planner for " +user.getStart() + " days<br><br><center>");
             %>
 
             <!--button id="send" name="/edit_profile.jsp?username=<%=user.getUsername()%>" class="btn btn-block">Edit</button-->
