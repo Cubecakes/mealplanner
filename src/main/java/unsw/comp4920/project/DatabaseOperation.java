@@ -26,31 +26,6 @@ public class DatabaseOperation {
     }
 
     /**
-     * @method insert a new user into table "users", used for user registration
-     * @param user object intended to add into database
-     * @return integer, the number of record inserted successfully
-     */
-    public int insertUser(User user) {
-        Connection connection = getConnection();
-        String sql = "INSERT INTO USERS (username,password,email) VALUES(?,?,?)";
-        PreparedStatement statement;
-        int i=0;
-        try {
-            statement = (PreparedStatement) connection.prepareStatement(sql);
-            statement.setString(1, user.getUsername());
-            statement.setString(2, user.getPassword());
-            statement.setString(3, user.getEmail());
-            i = statement.executeUpdate();
-            statement.close();
-            connection.close();
-        }catch(SQLException e) {
-            e.printStackTrace();
-        }
-
-        return i;
-    }
-
-    /**
      * @method insert a new user into table "users", used for user registration,should be called
      *          each time when food is added by users
      * @param  plan object intended to add into database
@@ -67,7 +42,7 @@ public class DatabaseOperation {
             //for(int i=0;i<length;i++) {
             statement = (PreparedStatement) connection.prepareStatement(sql);
             statement.setString(1, plan.getUser().getUsername());
-            statement.setString(2, plan.getDate().toString());
+            statement.setString(2, plan.getDate());
             statement.setString(3, plan.getType());
             statement.setString(4, plan.getFoodList().get(0).getName());
             r = statement.executeUpdate();
@@ -163,11 +138,11 @@ public class DatabaseOperation {
      * @method addUser(String,String,String,String) insert a user into users table
      * @return void
      */
-    public int addUser(String username, String password, String email, String gender, String photo,String active) throws SQLException {
+    public int addUser(String username, String password, String email, String gender, String photo,String active,String start) throws SQLException {
         Connection conn = getConnection();
         int i=0;
-        String sql = "insert into users (username,password,email,gender,photourl,is_active) " +
-                "values ('"+username+"','"+password+"','"+email+"','"+gender+"','"+photo+"','"+active+"');";
+        String sql = "insert into users (username,password,email,gender,photourl,is_active,start) " +
+                "values ('"+username+"','"+password+"','"+email+"','"+gender+"','"+photo+"','"+active+"','"+start+"');";
         PreparedStatement pstmt;
         pstmt = (PreparedStatement)conn.prepareStatement(sql);
         i = pstmt.executeUpdate();

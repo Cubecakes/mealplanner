@@ -3,7 +3,9 @@ package unsw.comp4920.project;
 import javax.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class Controller extends javax.servlet.http.HttpServlet {
     private User currentUser;
@@ -88,9 +90,13 @@ public class Controller extends javax.servlet.http.HttpServlet {
                                 currentUser = new User(username, password,email,gender,photourl);
                             }
 
+                            Date dNow = new Date();
+                            SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+                            String start = ft.format(dNow).toString();
+
                             request.setAttribute("currentUser", currentUser);
                             try {
-                                int i = dbo.addUser(username,password,email,gender,photourl,"false");
+                                int i = dbo.addUser(username,password,email,gender,photourl,"false",start);
                                 /*if(dbo.userIsExisted(username)){
                                     nextPage = "register_test.jsp";
                                 }else{
@@ -103,6 +109,7 @@ public class Controller extends javax.servlet.http.HttpServlet {
                             currentUser.setEmail(email);
                             currentUser.setGender(gender);
                             currentUser.setPhotourl(photourl);
+                            currentUser.setStart(start);
 
                             SendEmail se = new SendEmail(email);
                             String code = username+"***";

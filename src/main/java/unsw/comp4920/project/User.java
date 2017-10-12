@@ -1,5 +1,6 @@
 package unsw.comp4920.project;
 
+import java.util.Date;
 import java.util.List;
 
 public class User {
@@ -9,6 +10,7 @@ public class User {
     private String gender;
     private String photourl;
     private Boolean isActive;
+    private String start;
 
     public User(){}
 
@@ -77,5 +79,13 @@ public class User {
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    public String getStart() {
+        return start;
+    }
+
+    public void setStart(String start) {
+        this.start = start;
     }
 }
