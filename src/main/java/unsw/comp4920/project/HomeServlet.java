@@ -39,14 +39,17 @@ public class HomeServlet extends HttpServlet {
             }else if(action.equals("add_meal")){
                 PlanUnit planUnit = new PlanUnit();
                 planUnit.setUser(currentUser);
-                String date = request.getParameter("plan_date");
+                String date = (String) request.getAttribute("plan_date");
                 planUnit.setDate(date);
-                String type = request.getParameter("meal_type");
+                System.out.println("date:  "+date);
+                String type = (String) request.getAttribute("meal_type");
                 planUnit.setType(type);
+                System.out.println("type:  "+type);
                 Food food = new Food();
-                String foodName = request.getParameter("add_food");
+                String foodName = (String) request.getAttribute("add_food");
                 food.setName(foodName);
                 planUnit.addToFoodList(food);
+                System.out.println("food:  "+foodName);
 
                 //write into database
                 DatabaseOperation dbo = new DatabaseOperation();

@@ -29,13 +29,13 @@ create table Users (
 	gender		genderType,
 	photourl	LongString,
 	is_active  Boolean,
-	start     Date,
+	start     MediumString,
 	primary key (username)
 );
 
 create table Plans (
     username 	LongName references Users(username),
-    plan_date	date not null,
+    plan_date	MediumString not null,
     type 		MealType not null,
     food	    LongString,
     primary key (username,plan_date,type)
