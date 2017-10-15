@@ -22,18 +22,12 @@
    <div class="line2"></div>
 
    <div class="home_lower_wrapper">
-       <a href="./control?action=resend_confirm_email" targe="_blank" class="button">Resend👌</a>
+       <a href="./control?action=<%=ControllerActions.NOTHING%>" target="_blank" class="button">Resend👌</a>
    </div>
 
 
     </header>
 
-<div>
-    Sorry, your account is not activated...
-    <br>
-    Didn't get activation email?
-    <a href="./control?action=<%=ControllerActions.SEND_RECONFIRMATION_EMAIL%>" class="commonHyperLink">Re-send Email</a>
-</div>
     <!--a href="./control?action=resend_confirm_email" class="commonHyperLink">Re-send Email</a-->
     <!--background animation-->
     <!--fork from http://vincentgarreau.com/particles.js/-->

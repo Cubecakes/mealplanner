@@ -134,19 +134,49 @@ public class DatabaseOperation {
         return flag;
     }
 
+    public String getActivationCode(String username){
+        try{
+            Connection conn = getConnection();
+            int i = 0;
+
+            String sql = "select activateCode from ActivationCodes where username = '" + username + "'";
+            Statement queryStatement = conn.createStatement();
+            ResultSet rs = queryStatement.executeQuery(sql);
+            if(rs.next()) {
+                return rs.getString(1);
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     /**
      * @method addUser(String,String,String,String) insert a user into users table
      * @return void
      */
-    public int addUser(String username, String password, String email, String gender, String photo,String active,String start) throws SQLException {
+    public int addUser(String username, String password, String email, String gender, String photo,String active,String start, String activationCode) throws SQLException {
         Connection conn = getConnection();
         int i=0;
-        String sql = "insert into users (username,password,email,gender,photourl,is_active,start) " +
-                "values ('"+username+"','"+password+"','"+email+"','"+gender+"','"+photo+"','"+active+"','"+start+"');";
-        PreparedStatement pstmt;
-        pstmt = (PreparedStatement)conn.prepareStatement(sql);
-        i = pstmt.executeUpdate();
-        pstmt.close();
+        System.out.println("adding user\n**************");
+        {
+            String sql = "insert into users (username,password,email,gender,photourl,is_active,start) " +
+                    "values ('" + username + "','" + password + "','" + email + "','" + gender + "','" + photo + "','" + active + "','" + start + "');";
+            PreparedStatement pstmt;
+            pstmt = (PreparedStatement) conn.prepareStatement(sql);
+            i = pstmt.executeUpdate();
+            pstmt.close();
+        }
+        {
+            String sql = "insert into activationcodes (username,activateCode) " +
+                    "values ('" + username + "','" + activationCode +"');";
+            System.out.println(sql);
+            PreparedStatement pstmt;
+            pstmt = (PreparedStatement) conn.prepareStatement(sql);
+            i = pstmt.executeUpdate();
+            pstmt.close();
+        }
         conn.close();
 
         return i;
@@ -164,6 +194,8 @@ public class DatabaseOperation {
         String sql = "update users set is_active='true' where username='"+username+"';";
         PreparedStatement preparedStatement;
         try{
+            System.out.println("activating user " + username);
+            System.out.println(sql);
             preparedStatement = (PreparedStatement)conn.prepareStatement(sql);
             i = preparedStatement.executeUpdate();
             preparedStatement.close();

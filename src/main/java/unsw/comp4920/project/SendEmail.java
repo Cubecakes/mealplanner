@@ -18,7 +18,7 @@ public class SendEmail {
         this.to = to;
     }
 
-    public void sendActivateEmail(String code){
+    public void sendActivateEmail(String code, String user){
         // Setup mail server
         //properties.setProperty("mail.smtp.host", host);
         // Get session
@@ -59,7 +59,8 @@ public class SendEmail {
             // Now set the actual message
             message.setContent("<h1>Hi! This is MealPlanner. Thank you for joining us!<h1> <h3>Please click on the link below" +
                     " to activate your account.<h3>\n" +
-                    "<a href='http://localhost:8080/control?action=activateAccount&&code="+code+"'>http://localhost:8080/activate_account</a>","text/html");
+                    "<a href='http://localhost:8080/control?action="+ ControllerActions.ACTIVATE_ACCOUNT +
+                    "&&code="+code+"&&user="+user+"'>http://localhost:8080/activate_account</a>","text/html");
 
             // Send message
             Transport.send(message);

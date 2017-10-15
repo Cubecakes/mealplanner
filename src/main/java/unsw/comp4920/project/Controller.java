@@ -89,16 +89,6 @@ public class Controller extends javax.servlet.http.HttpServlet {
                 SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
                 String start = ft.format(dNow).toString();
 
-                try {
-                    int i = dbo.addUser(username,password,email,gender,photourl,"false",start);
-                                /*if(dbo.userExists(username)){
-                                    return "register_test.jsp";
-                                }else{
-                                    return "register.jsp";
-                                }*/
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
                 currentUser.setActive(false);
                 currentUser.setEmail(email);
                 currentUser.setGender(gender);
@@ -115,9 +105,18 @@ public class Controller extends javax.servlet.http.HttpServlet {
                     code += Integer.toString(ram);
                 }
                 activate_code = code;
-                getServletContext().setAttribute("activate_code", activate_code);
-                se.sendActivateEmail(code);
-                getServletContext().setAttribute("currentUser",currentUser);
+
+                try {
+                    int i = dbo.addUser(username,password,email,gender,photourl,"false",start,activate_code);
+                                /*if(dbo.userExists(username)){
+                                    return "register_test.jsp";
+                                }else{
+                                    return "register.jsp";
+                                }*/
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                se.sendActivateEmail(code,currentUser.getUsername());
                 request.setAttribute("error_info", "Please check your email to activate your account");
                 return "login.jsp";
             }
@@ -125,17 +124,17 @@ public class Controller extends javax.servlet.http.HttpServlet {
     }
 
     String handleActivateAccount(HttpServletRequest request, HttpServletResponse response) {
+        DatabaseOperation dbo = new DatabaseOperation();
         String code = request.getParameter("code");
+        String account_code = dbo.getActivationCode(request.getParameter("user"));
         System.out.println("Code: "+code);
-        System.out.println("Activate_code: "+getServletContext().getAttribute("activate_code"));
-        if(code.equals(getServletContext().getAttribute("activate_code"))){
-            currentUser.setActive(true);
+        System.out.println("Activate_code: "+account_code);
+        if(code.equals(account_code)){
             System.out.println();
-            DatabaseOperation dbo = new DatabaseOperation();
-            dbo.activateUser(currentUser.getUsername());
+            dbo.activateUser(request.getParameter("user"));
         }
         // TODO Darren: activate_fail.jsp
-        getServletContext().setAttribute("currentUser",currentUser);
+        //getServletContext().setAttribute("currentUser",currentUser);
         request.setAttribute("error_info", "Account successfully activated");
         //return "home";/
         return "login.jsp";
@@ -158,9 +157,7 @@ public class Controller extends javax.servlet.http.HttpServlet {
             code += Integer.toString(ram);
         }
         activate_code = code;
-        request.getSession().setAttribute("activate_code", activate_code);
-        se.sendActivateEmail(code);
-        request.getSession().setAttribute("currentUser",currentUser);
+        se.sendActivateEmail(code,currentUser.getUsername());
         return "register_test.jsp";
     }
 

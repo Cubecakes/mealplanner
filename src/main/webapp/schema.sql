@@ -41,12 +41,17 @@ create table Plans (
     primary key (username,plan_date,type)
 );
 
-create table food (
+create table Food (
 	name  		LongString not null,
 	calorie		integer not null,
 	sugar       integer,
 	protein		integer,
 	category	LongString not null,
 	primary key (name)
-)
+);
+
+create table ActivationCodes(
+	username LongName references Users(username),
+	activateCode LongString
+);
 
