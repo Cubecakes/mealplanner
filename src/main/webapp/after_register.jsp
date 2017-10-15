@@ -11,10 +11,10 @@
 
 
 
-<h1 class="myh1">Check your email to activate your account.</h1>
+<h1 class="myh1">Check your email to activate your account..🎈</h1>
 <div class="line"></div>
 <div class="home_lower_wrapper">
-    <a href="login.jsp" targe="_blank" class="button"> Login </a>
+    <a href="login.jsp" targe="_blank" class="button">Login😝</a>
 </div>
 
 <!-- particles.js container -->
