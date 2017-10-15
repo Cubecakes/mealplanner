@@ -9,16 +9,21 @@
 <html>
 <head>
     <title>Meal Your Day™..🎈</title>
-    <link rel="stylesheet" media="screen" href="/css/style.css">
+    <link rel="stylesheet" media="screen" href="/css/email.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 </head>
 <body>
 
 
 
-   <h1 class="myh1">Sorry, your account is not activated... </h1>
-    <br>
-    Didn't get activation email?
+   <h1 class="myh1">Sorry, your account is not activated...🎈 </h1>
+   <h1 class="myh2">Didn't get activation email? </h1>
+
+   <div class="line2"></div>
+
+   <div class="home_lower_wrapper">
+       <a href="./control?action=resend_confirm_email" targe="_blank" class="button">Resend👌</a>
+   </div>
 
     <!--a href="./control?action=resend_confirm_email" class="commonHyperLink">Re-send Email</a-->
     <!--background animation-->
