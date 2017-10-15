@@ -132,12 +132,12 @@ public class Controller extends javax.servlet.http.HttpServlet {
         if(code.equals(account_code)){
             System.out.println();
             dbo.activateUser(request.getParameter("user"));
+            request.setAttribute("error_info", "Account successfully activated");
+            return "login.jsp";
+        }else{
+            request.setAttribute("error_info", "Account activation failed");
+            return "login.jsp";
         }
-        // TODO Darren: activate_fail.jsp
-        //getServletContext().setAttribute("currentUser",currentUser);
-        request.setAttribute("error_info", "Account successfully activated");
-        //return "home";/
-        return "login.jsp";
     }
 
     String handleLogout(HttpServletRequest request, HttpServletResponse response) {
