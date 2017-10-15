@@ -7,6 +7,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -62,8 +63,7 @@ public class Controller extends javax.servlet.http.HttpServlet {
                     }
                     if(dbo.isActive(username) == false) {
                         System.out.println("Log in isn't active");
-                        request.setAttribute("error_info", "Log in isn't active, click here to resend the confirmation email ");
-                        return "login.jsp";
+                        return handleSendReconfirmationEmail(request,response);
                     }
                 }
             } catch (SQLException e) {
@@ -125,11 +125,6 @@ public class Controller extends javax.servlet.http.HttpServlet {
 
                 try {
                     int i = dbo.addUser(username,password,email,gender,photourl,"false",start,activate_code);
-                                /*if(dbo.userExists(username)){
-                                    return "register_test.jsp";
-                                }else{
-                                    return "register.jsp";
-                                }*/
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -174,19 +169,16 @@ public class Controller extends javax.servlet.http.HttpServlet {
     }
 
     String handleSendReconfirmationEmail(HttpServletRequest request, HttpServletResponse response) {
-        currentUser = (User)request.getSession().getAttribute("currentUser");
-        SendEmail se = new SendEmail(currentUser.getEmail());
-        String code = currentUser.getUsername()+"***";
-
-        //generate activate code
-        int ram = (int) (Math.random() * 97);
-        for (int i = 0; i < 30; i++) {
-            ram = (int) (Math.random() * 26 + 65);
-            code += Integer.toString(ram);
+        String user = request.getParameter("username");
+        DatabaseOperation dbo = new DatabaseOperation();
+        try {
+            SendEmail se = new SendEmail(dbo.getUserProfile(user).getEmail());
+            se.sendActivateEmail(dbo.getActivationCode(user), currentUser.getUsername());
+        }catch (SQLException e){
+            e.printStackTrace();
         }
-        activate_code = code;
-        se.sendActivateEmail(code,currentUser.getUsername());
-        return "register_test.jsp";
+        request.setAttribute("error_info", "Account not activated... Resending activation email");
+        return "login.jsp";
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
