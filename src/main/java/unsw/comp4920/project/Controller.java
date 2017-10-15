@@ -1,6 +1,7 @@
 package unsw.comp4920.project;
 
 import org.apache.commons.lang3.EnumUtils;
+import org.apache.commons.lang3.ObjectUtils;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,13 +12,29 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class Controller extends javax.servlet.http.HttpServlet {
     private User currentUser;
     private String activate_code;
 
+    boolean checkParametersExist(HttpServletRequest request, String[] parameters){
+        for (String s : parameters){
+            if (request.getParameter(s) == null){
+                return false;
+            }
+        }
+        return true;
+    }
 
     String handleCheckLogin(HttpServletRequest request, HttpServletResponse response){
+        String[] usedParameters = {
+                "username",
+                "password"
+        };
+        if (!checkParametersExist(request,usedParameters)){
+            return "welcome.jsp";
+        }
         String username = request.getParameter("username");
         String password = request.getParameter("password");
                 /*
@@ -45,8 +62,8 @@ public class Controller extends javax.servlet.http.HttpServlet {
                     }
                     if(dbo.isActive(username) == false) {
                         System.out.println("Log in isn't active");
-                        //request.setAttribute("error_info", "Incorrect password");
-                        return "inactive_resend_email.jsp";
+                        request.setAttribute("error_info", "Log in isn't active, click here to resend the confirmation email ");
+                        return "login.jsp";
                     }
                 }
             } catch (SQLException e) {
@@ -124,20 +141,31 @@ public class Controller extends javax.servlet.http.HttpServlet {
     }
 
     String handleActivateAccount(HttpServletRequest request, HttpServletResponse response) {
-        DatabaseOperation dbo = new DatabaseOperation();
+        String[] usedParameters = {
+                "code",
+                "user"
+        };
+        if (!checkParametersExist(request,usedParameters)){
+            return "welcome.jsp";
+        }
         String code = request.getParameter("code");
+        String user = request.getParameter("user");
+        DatabaseOperation dbo = new DatabaseOperation();
+
+
         String account_code = dbo.getActivationCode(request.getParameter("user"));
         System.out.println("Code: "+code);
         System.out.println("Activate_code: "+account_code);
         if(code.equals(account_code)){
             System.out.println();
-            dbo.activateUser(request.getParameter("user"));
+            dbo.activateUser(user);
             request.setAttribute("error_info", "Account successfully activated");
             return "login.jsp";
         }else{
             request.setAttribute("error_info", "Account activation failed");
             return "login.jsp";
         }
+
     }
 
     String handleLogout(HttpServletRequest request, HttpServletResponse response) {
@@ -188,7 +216,6 @@ public class Controller extends javax.servlet.http.HttpServlet {
         }
 
         System.out.println(actionString);
-        System.out.println(ControllerActions.CHECK_LOGIN);
         System.out.println(EnumUtils.isValidEnum(ControllerActions.class,actionString));
         System.out.println(nextPage);
 
