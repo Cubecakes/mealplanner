@@ -60,11 +60,11 @@ public class DatabaseOperation {
     }
 
     /**
-     * @method userIsExisted() go through "users" table in database and check if the user exists
+     * @method userExists() go through "users" table in database and check if the user exists
      * @param username
      * @return boolean true if exists, false if user doesn't exist
      **/
-    public boolean userIsExisted(String username){
+    public boolean userExists(String username){
         boolean flag = false;
 
         Connection conn = getConnection();

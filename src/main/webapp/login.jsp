@@ -1,4 +1,5 @@
-<%--
+<%@ page import="unsw.comp4920.project.ControllerActions" %>
+<%@ page import="unsw.comp4920.project.Controller" %><%--
   Created by IntelliJ IDEA.
   User: luyibest001
   Date: 27/09/2017
@@ -22,11 +23,11 @@
     <form action="./control" method="post">
         <input type="text" name="username" placeholder="Username" />
         <input type="password" name="password" placeholder="Password" />
-        <input type="hidden" name="action" value="check_login">
+        <input type="hidden" name="action" value="<%=ControllerActions.CHECK_LOGIN%>">
         <input type="submit" value="Log in" />
         <br><br>
-        <a href="./control?action=forget_password" class="commonHyperLink">Forget password?</a>
-        <a href="./register.jsp" class="commonHyperLink">New to MealPlanner?</a>
+        <a href="./control?action=<%=ControllerActions.NOTHING%>" class="commonHyperLink">Forget password?</a>
+        <a href="./control?action=<%=ControllerActions.GOTO_REGISTER%>" class="commonHyperLink">New to meal planner?</a>
     </form>
 </div>
 </body>

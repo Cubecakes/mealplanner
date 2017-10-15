@@ -1,4 +1,6 @@
-<%@ page import="java.util.Calendar" %><%--
+<%@ page import="java.util.Calendar" %>
+<%@ page import="unsw.comp4920.project.ControllerActions" %>
+<%@ page import="unsw.comp4920.project.Controller" %><%--
   Created by IntelliJ IDEA.
   User: luyibest001
   Date: 24/09/2017
@@ -55,10 +57,10 @@
         <label for="register_photo">Upload profile photo</label>
         <input type="file" id="register_photo" name="register_photo">
         <br><br>
-        <input type="hidden" name="action" value="register">
+        <input type="hidden" name="action" value="<%=ControllerActions.CHECK_REGISTER%>">
         <input type="submit" value="Sign up">
         <br><br>
-        <a href="./login.jsp" class="commonHyperLink">have an account?</a>
+        <a href="./control?Action=<%=ControllerActions.GOTO_LOGIN%>" class="commonHyperLink">have an account?</a>
     </form>
 </div>
 </body>

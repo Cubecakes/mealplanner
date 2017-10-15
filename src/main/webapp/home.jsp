@@ -1,3 +1,11 @@
+<%@ page import="unsw.comp4920.project.ControllerActions" %><%--
+  Created by IntelliJ IDEA.
+  User: Darren
+  Date: 15-Oct-17
+  Time: 9:08 PM
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <style>
         /* This styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk */
-        
+
         .loader {
             position: absolute;
             /*margin: 0 0 2em;*/
@@ -24,7 +32,7 @@
             display: inline-block;
             vertical-align: top;
         }
-        
+
         svg path,
         svg rect {
             fill: rgb(255, 255, 255);
@@ -65,8 +73,8 @@
         <!--header-->
         <nav>
             <ul>
-                <li><a class="axx" href="/login.jsp">Login</a></li>
-                <li><a class="axx" href="/register.jsp">Register</a></li>
+                <li><a class="axx" href="./control?action=<%=ControllerActions.GOTO_LOGIN%>">Login</a></li>
+                <li><a class="axx" href="./control?action=<%=ControllerActions.GOTO_REGISTER%>">Register</a></li>
             </ul>
         </nav>
     </header>
@@ -109,7 +117,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     </div>
     <script src="/js/show_hide.js"></script>
 
-    
+
     <div class="home_lower_line">
         <img src="/images/line.PNG" alt="#">
     </div>
@@ -141,7 +149,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
     </div>
 
-    
+
     <!--background animation-->
     <!--fork from http://vincentgarreau.com/particles.js/-->
     <!-- particles.js container -->

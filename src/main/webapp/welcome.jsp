@@ -1,3 +1,4 @@
+<%@ page import="unsw.comp4920.project.ControllerActions" %>
 <html>
 <head>
     <title>Welcome!</title>
@@ -18,7 +19,7 @@
         <input type="hidden" name="action" value="check_login">
         <input type="submit" value="Log in" />
         <br><br>
-        <a href="./control?action=forget_password" class="commonHyperLink">Forget password?</a>
+        <a href="./control?action=<%=ControllerActions.FORGET_PASSWORD%>" class="commonHyperLink">Forget password?</a>
     </form>
 </div>
 <div class="form-style-8">

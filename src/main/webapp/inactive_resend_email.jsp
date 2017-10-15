@@ -1,4 +1,4 @@
-<%--
+<%@ page import="unsw.comp4920.project.ControllerActions" %><%--
   Created by IntelliJ IDEA.
   User: luyibest001
   Date: 3/10/2017
@@ -44,7 +44,7 @@
     Sorry, your account is not activated...
     <br>
     Didn't get activation email?
-    <a href="./control?action=resend_confirm_email" class="commonHyperLink">Re-send Email</a>
+    <a href="./control?action=<%=ControllerActions.SEND_RECONFIRMATION_EMAIL%>" class="commonHyperLink">Re-send Email</a>
 </div>
 </body>
 </html>
