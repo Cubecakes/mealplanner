@@ -8,34 +8,22 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title></title>
+    <title>Meal Your Day™..🎈</title>
+    <link rel="stylesheet" media="screen" href="/css/email.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 </head>
 <body>
-    <header class="upheaderxx">
-        <!--animation-->
-        <div class="loader loader--style5">
-            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;" xml:space="preserve">
-                <rect x="0" y="0" width="4" height="10" fill="#333">
-                    <animateTransform attributeType="xml"
-                                      attributeName="transform" type="translate"
-                                      values="0 0; 0 20; 0 0"
-                                      begin="0" dur="0.6s" repeatCount="indefinite" />
-                </rect>
-                <rect x="10" y="0" width="4" height="10" fill="#333">
-                    <animateTransform attributeType="xml"
-                                      attributeName="transform" type="translate"
-                                      values="0 0; 0 20; 0 0"
-                                      begin="0.2s" dur="0.6s" repeatCount="indefinite" />
-                </rect>
-                <rect x="20" y="0" width="4" height="10" fill="#333">
-                    <animateTransform attributeType="xml"
-                                      attributeName="transform" type="translate"
-                                      values="0 0; 0 20; 0 0"
-                                      begin="0.4s" dur="0.6s" repeatCount="indefinite" />
-                </rect>
-                  </svg>
-        </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+
+
+
+   <h1 class="myh1">Sorry, your account is not activated...🎈 </h1>
+   <h1 class="myh2">Didn't get activation email? </h1>
+
+   <div class="line2"></div>
+
+   <div class="home_lower_wrapper">
+       <a href="./control?action=resend_confirm_email" targe="_blank" class="button">Resend👌</a>
+   </div>
 
 
     </header>
@@ -46,5 +34,15 @@
     Didn't get activation email?
     <a href="./control?action=<%=ControllerActions.SEND_RECONFIRMATION_EMAIL%>" class="commonHyperLink">Re-send Email</a>
 </div>
+    <!--a href="./control?action=resend_confirm_email" class="commonHyperLink">Re-send Email</a-->
+    <!--background animation-->
+    <!--fork from http://vincentgarreau.com/particles.js/-->
+    <!-- particles.js container -->
+    <div id="particles-js">
+    </div>
+    <!-- scripts -->
+    <script src="/js/particles.js"></script>
+    <script src="/js/app.js"></script>
+
 </body>
 </html>

@@ -1,21 +1,22 @@
 <%@ page import="java.util.Calendar" %>
 <%@ page import="unsw.comp4920.project.User" %>
-<%@ page import="unsw.comp4920.project.DatabaseOperation" %><%--
-  Created by IntelliJ IDEA.
-  User: luyibest001
-  Date: 9/10/2017
-  Time: 10:06 PM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="unsw.comp4920.project.DatabaseOperation" %>
+
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Edit Profile</title>
     <link type="text/css" rel="stylesheet" href="login_register.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 </head>
 <body>
 
-<div class="form-style-8">
+<%@ include file="header.html" %>
+
+
+
+<div class="form-style-8" style="margin-top: 150px;">
     <h2>Edit profile</h2>
     <%
         if(request.getAttribute("edit_error_info")!=null){
@@ -32,5 +33,7 @@
         <input type="submit" value="Save change">
     </form>
 </div>
+
+
 </body>
 </html>
