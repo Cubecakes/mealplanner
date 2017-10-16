@@ -33,22 +33,25 @@ create table Users (
 	primary key (username)
 );
 
-create table Plans (
-    username 	LongName references Users(username),
-    plan_date	MediumString not null,
-    type 		MealType not null,
-    food	    LongString,
-    primary key (username,plan_date,type)
-);
 
 create table Food (
+	id			MediumString not null,
 	name  		LongString not null,
 	calorie		integer not null,
 	sugar       integer,
 	protein		integer,
 	category	LongString not null,
-	primary key (name)
+	primary key (id)
 );
+
+create table Plans (
+    username 	LongName references Users(username),
+    plan_date	Date not null,
+    type 		MealType not null,
+    foodID	    MediumString references Food(id),
+    primary key (username,plan_date,type,foodID)
+);
+
 
 create table ActivationCodes(
 	username LongName references Users(username),

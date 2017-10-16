@@ -5,14 +5,15 @@ public class Food {
     private int calorie;
     private int sugar;
     private int protein;
+    private String id;
     private String category;
 
-    public Food(String name, int calorie, String category) {
+    public Food(String name, int calorie, String category, String id) {
         this.name = name;
         this.calorie = calorie;
+        this.category = category;
+        this.id = id;
     }
-
-    public Food(){}
 
     public void setName(String name) {
         this.name = name;
@@ -22,11 +23,15 @@ public class Food {
         return this.name;
     }
 
+    public String getID() {
+        return this.id;
+    }
+
     public void setCalorie(int calorie) {
         this.calorie = calorie;
     }
 
-    public int getCalorie() {
+    public Integer getCalorie() {
         return calorie;
     }
 
@@ -38,7 +43,7 @@ public class Food {
         return category;
     }
 
-    public int getProtein() {
+    public Integer getProtein() {
         return protein;
     }
 
@@ -46,7 +51,7 @@ public class Food {
         this.protein = protein;
     }
 
-    public int getSugar() {
+    public Integer getSugar() {
         return sugar;
     }
 

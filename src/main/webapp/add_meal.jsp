@@ -17,20 +17,24 @@
 <body>
 <%
     User user = (User)request.getSession().getAttribute("currentUser");
-    String meal = request.getParameter("meal");
-    String date = request.getParameter("date");
+    String meal = request.getParameter("meal_type");
+    String date = request.getParameter("plan_date");
     out.println("User : " + user.getUsername());
     out.println("Meal is " + meal + " on date " +date);
 %>
 
 <div class="form-style-8">
-    <h2>Add to your meal plan</h2>
-    <input type="text" name="add_food" placeholder="eg. Lasagne">
-    <input type="hidden" name="meal_type" value="<%=meal%>">
-    <input type="hidden" name="plan_date" value="<%=date%>">
-    <a href="/home?action=add_meal" class="button_sign_up">Add</a>
-    <br><br>
+    <form action="./home" method="get">
+        <h2>Add to your meal plan</h2>
+            <input type="text" name="add_food" placeholder="eg. Lasagne">
+            <input type="hidden" name="meal_type" value="<%=meal%>">
+            <input type="hidden" name="plan_date" value="<%=date%>">
+            <input type="hidden" name="action" value="add_meal">
+            <input type="submit" value="Add meal" />
+        <br><br>
+    </form>
     <a href="/home" class="button_sign_up">Back</a>
+
 </div>
 
 </body>

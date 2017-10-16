@@ -25,6 +25,28 @@ public class DatabaseOperation {
         return c;
     }
 
+    public int insertFood(Food f){
+        Connection connection = getConnection();
+
+        int r=0;
+        String sql = "INSERT INTO food (id,name,calorie,category) VALUES(?,?,?,?)";
+        PreparedStatement statement = null;
+        //int length = plan.getFoodList().size();
+        try {
+            statement = (PreparedStatement) connection.prepareStatement(sql);
+            statement.setString (1, f.getID());
+            statement.setString (2, f.getName());
+            statement.setInt    (3, f.getCalorie());
+            statement.setString (4, f.getCategory());
+            r = statement.executeUpdate();
+            statement.close();
+            connection.close();
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     /**
      * @method insert a new user into table "users", used for user registration,should be called
      *          each time when food is added by users
@@ -33,7 +55,7 @@ public class DatabaseOperation {
      */
     public int insertPlan(PlanUnit plan) {
         Connection connection = getConnection();
-        String sql = "INSERT INTO PLANS (username,plan_date,type,food) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO PLANS (username,plan_date,type,foodID) VALUES(?,?,?,?)";
         PreparedStatement statement = null;
         int r=0;
         int count=0;
@@ -41,10 +63,11 @@ public class DatabaseOperation {
         try {
             //for(int i=0;i<length;i++) {
             statement = (PreparedStatement) connection.prepareStatement(sql);
-            statement.setString(1, plan.getUser().getUsername());
-            statement.setString(2, plan.getDate());
-            statement.setString(3, plan.getType());
-            statement.setString(4, plan.getFoodList().get(0).getName());
+            statement.setString (1, plan.getUser().getUsername());
+            statement.setDate   (2, new java.sql.Date(plan.getDate().getTime()));
+            statement.setString (3, Character.toString(plan.getType().charAt(0)));
+            statement.setString (4, plan.getFoodList().get(0).getID());
+            System.out.println(statement.toString());
             r = statement.executeUpdate();
                 //if(r!=0) {
                   //  count++;

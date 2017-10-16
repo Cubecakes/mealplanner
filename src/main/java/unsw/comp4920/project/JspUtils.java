@@ -12,10 +12,9 @@ public class JspUtils {
         for (int i = 0; i < 7; i++) {
             ret += "<td>";
             ret += "<form action=\"./add_meal.jsp\" method=\"get\">\n";
-            ret += "<input type=\"hidden\" name=\"meal\" value=\""+heading+"\">";
-            ret += "<input type=\"hidden\" name=\"day\" value=\""+i+"\">";
+            ret += "<input type=\"hidden\" name=\"meal_type\" value=\""+heading+"\">";
             SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
-            ret += "<input type=\"hidden\" name=\"date\" value=\""+f.format(c.getTime())+"\">";
+            ret += "<input type=\"hidden\" name=\"plan_date\" value=\""+f.format(c.getTime())+"\">";
             ret += "<button style=\"width: 100%;\"  class=\"btn btn-primary\">\n";
             ret += "Add meal!";
             ret += "</button>\n";

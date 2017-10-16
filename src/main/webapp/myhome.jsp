@@ -9,28 +9,7 @@
   Time: 9:01 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%!
-    public String printRow(String heading){
-        String ret = "";
-        ret += "<tr style=\"height: 33%\">\n";
-        ret += "<td>" + heading + "</td>\n";
-        for (int i = 0; i < 7; i++) {
-            ret += "<td>";
-            ret += "<form action=\"./add_meal.jsp\" method=\"get\">\n";
-            ret += "<input type=\"hidden\" name=\"meal\" value=\""+heading+"\">";
-            ret += "<input type=\"hidden\" name=\"day\" value=\""+i+"\">";
-            ret += "<button style=\"width: 100%;\"  class=\"btn btn-primary\">\n";
-            ret += "Add meal!";
-            //ret += "<input type='submit' value='Add Meal!' class='button_add_meal'>\n";
-            // ret += "Add meal!";
-            ret += "</button>\n";
-            ret += "</form>\n";
-            ret += "</td>\n";
-        }
-        ret += "</tr>\n";
-        return ret;
-    }
-%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>

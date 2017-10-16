@@ -9,9 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 @WebServlet(name = "HomeServlet", urlPatterns = "/home")
 public class HomeServlet extends HttpServlet {
@@ -20,6 +22,7 @@ public class HomeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request,response);
     }
+
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
@@ -37,23 +40,31 @@ public class HomeServlet extends HttpServlet {
                 request.getSession().setAttribute("currentDate",c);
 
             }else if(action.equals("add_meal")){
-                PlanUnit planUnit = new PlanUnit();
-                planUnit.setUser(currentUser);
-                String date = (String) request.getAttribute("plan_date");
-                planUnit.setDate(date);
-                System.out.println("date:  "+date);
-                String type = (String) request.getAttribute("meal_type");
-                planUnit.setType(type);
-                System.out.println("type:  "+type);
-                Food food = new Food();
-                String foodName = (String) request.getAttribute("add_food");
-                food.setName(foodName);
-                planUnit.addToFoodList(food);
-                System.out.println("food:  "+foodName);
+                try {
+                    PlanUnit planUnit = new PlanUnit();
+                    planUnit.setUser(currentUser);
+                    System.out.println("PLAN DATE " + request.getParameter("plan_date"));
+                    SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date = df.parse((String) request.getParameter("plan_date"));
+                    planUnit.setDate(date);
+                    System.out.println("date:  " + date);
+                    String type = (String) request.getParameter("meal_type");
+                    planUnit.setType(type);
+                    System.out.println("type:  " + type);
 
-                //write into database
-                DatabaseOperation dbo = new DatabaseOperation();
-                dbo.insertPlan(planUnit);
+                    String foodName = (String) request.getParameter("add_food");
+
+                    Food food = new Food(foodName, 0, "Placeholder", UUID.randomUUID().toString());
+
+                    planUnit.addToFoodList(food);
+                    System.out.println("food:  " + foodName);
+                    //write into database
+                    DatabaseOperation dbo = new DatabaseOperation();
+                    dbo.insertFood(food);
+                    dbo.insertPlan(planUnit);
+                }catch (ParseException e){
+                    e.printStackTrace();
+                }
                 nextPage = "add_meal.jsp";
             }else if(action.equals("save_plan")){
                 nextPage = "";
@@ -134,13 +145,13 @@ public class HomeServlet extends HttpServlet {
                 request.setAttribute("currentUser",currentUser);
                 request.setAttribute("username", currentUser.getUsername());
 
+            } else if(action.equals("logout")){
+                currentUser = null;
+                getServletContext().setAttribute("currentUser",null);
+
+                nextPage = "/control";
             }
 
-        }else if(action.equals("logout")){
-            currentUser = null;
-            getServletContext().setAttribute("currentUser",null);
-
-            nextPage = "/control";
         }
 
         request.getSession().setAttribute("currentUser",currentUser);
