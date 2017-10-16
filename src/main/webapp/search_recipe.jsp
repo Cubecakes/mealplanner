@@ -31,8 +31,15 @@
             out = "";
             var count = 0;
             var keyword = '<%=(String)request.getAttribute("search_keyword")%>';
+            keyword = keyword.toLowerCase();
             for(i=0;i<arr.length;i++){
-                if(arr[i].ingredients.includes(keyword)==true) {
+                var temp_ingredients = arr[i].ingredients;
+                temp_ingredients = temp_ingredients.toLowerCase();
+                var temp_name = arr[i].name;
+                temp_name = temp_name.toLowerCase();
+
+                if(temp_ingredients.includes(keyword)==true || temp_name.includes(keyword)) {
+
                     out += "<div class=\"col-xs-12 col-md-6\">\n" +
                         "    <div class=\"prod-info-main prod-wrap clearfix\">\n" +
                         "\n" +
