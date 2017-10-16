@@ -13,11 +13,11 @@ create domain genderType as char(1)
 	));
 
 
-create domain MealType as char(1)
+create domain MealType as varchar(10)
 	check (value in (
-		'B', -- Breakfast
-		'L', -- Lunch
-		'D' -- Dinner
+		'Breakfast',
+		'Lunch',
+		'Dinner'
 	));
 
 -- Users: users using meal Planner

@@ -1,6 +1,9 @@
 package unsw.comp4920.project;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class DatabaseOperation {
 
@@ -23,6 +26,63 @@ public class DatabaseOperation {
             System.exit(0);
         }
         return c;
+    }
+
+    private Food parseFood(ResultSet rs){
+        try {
+            String ID = rs.getString(1);
+            String name = rs.getString(2);
+            Integer calorie = rs.getInt(3);
+            String category = rs.getString(6);
+            return new Food(name,calorie,category,ID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public Food getFood(String ID){
+        Connection connection = getConnection();
+        String sql = "SELECT * FROM food WHERE id = ?";
+        PreparedStatement statement = null;
+        try {
+            statement = (PreparedStatement) connection.prepareStatement(sql);
+            statement.setString (1, ID);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()){
+                return parseFood(rs);
+            }
+            statement.close();
+            connection.close();
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
+    public List<Food> getFoods(String username, java.util.Date date, String type){
+        Connection connection = getConnection();
+        String sql = "SELECT foodID FROM PLANS WHERE username = ? AND plan_date= ? AND type= ?";
+        PreparedStatement statement = null;
+        List<Food> foods = new ArrayList<Food>();
+        try {
+            statement = (PreparedStatement) connection.prepareStatement(sql);
+            statement.setString (1, username);
+            statement.setDate   (2, new java.sql.Date(date.getTime()));
+            statement.setString (3, type);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                foods.add(getFood(rs.getString("foodID")));
+            }
+
+            statement.close();
+            connection.close();
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return foods;
     }
 
     public int insertFood(Food f){
@@ -65,7 +125,7 @@ public class DatabaseOperation {
             statement = (PreparedStatement) connection.prepareStatement(sql);
             statement.setString (1, plan.getUser().getUsername());
             statement.setDate   (2, new java.sql.Date(plan.getDate().getTime()));
-            statement.setString (3, Character.toString(plan.getType().charAt(0)));
+            statement.setString (3, plan.getType());
             statement.setString (4, plan.getFoodList().get(0).getID());
             System.out.println(statement.toString());
             r = statement.executeUpdate();

@@ -69,9 +69,9 @@
         </tr>
         </thead>
         <tbody>
-        <%= JspUtils.printRow("Breakfast"   ,cal) %>
-        <%= JspUtils.printRow("Lunch"       ,cal) %>
-        <%= JspUtils.printRow("Dinner"      ,cal) %>
+        <%= JspUtils.printRow("Breakfast"   ,cal,user.getUsername()) %>
+        <%= JspUtils.printRow("Lunch"       ,cal,user.getUsername()) %>
+        <%= JspUtils.printRow("Dinner"      ,cal,user.getUsername()) %>
         </tbody>
 
 
