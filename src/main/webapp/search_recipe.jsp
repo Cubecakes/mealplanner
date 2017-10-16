@@ -41,7 +41,7 @@
                         "        <div class=\"col-md-5 col-sm-12 col-xs-12\">\n" +
                         "\n" +
                         "          <div class=\"product-image\">"+
-                        "               <img src='images/profolio.png' class=\"img-responsive\">" +
+                        "               <img src='"+arr[i].image+"' onerror='this.src=\"images/logonew.png\";' class='img-responsive'>" +
                         "           </div>\n" +
                         "\n" +
                         "           </div>\n" +
@@ -58,7 +58,7 @@
                         if(arr[i].description==null){
                             out += "<p>No description</p>\n";
                         }else{
-                            out += "<p>"+arr[i].description+"</p>\n";
+                            out += "<p>"+arr[i].description.substring(0,100)+"...</p>\n";
                         }
 
                         out += "    </div>\n" +
@@ -69,10 +69,10 @@
                         "                       <div class=\"col-md-12\">\n" +
                         "\n" +
                         "                           <a href='./home?action=add_recipe_to_plan&&selected_recipe="+ arr[i]._id['$oid']+
-                        "'                            class=\"btn btn-danger\">Add to Plan</a>\n" +
+                        "'                            class='load-more-btn'>Add to Plan</a>\n" +
                         "\n" +
                         "                           <a href='./home?action=show_recipe&&selected_recipe="+ arr[i]._id['$oid']+
-                        "'                          class=\"btn btn-info\">More info</a>\n" +
+                        "'                          class='load-more-btn'>More info</a>\n" +
                         "\n" +
                         "                       </div>\n" +
                         "\n" +
@@ -95,6 +95,7 @@
         document.getElementById("demo").innerHTML = out;
     };
 
+    //btn btn-info
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
 
