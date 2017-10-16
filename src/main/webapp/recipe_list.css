@@ -34,7 +34,7 @@
 
 .prod-info-main .product-image {
 
-    background-color: #EBF8FE;
+    background-color: #FFFFFF;
 
     display: block;
 
@@ -125,31 +125,6 @@
 }
 
 
-
-.prod-info-main .product-deatil span.sale {
-
-    background-color: #21c2f8
-
-}
-
-
-
-.prod-info-main .product-deatil span.discount {
-
-    background-color: #71e134
-
-}
-
-
-
-.prod-info-main .product-deatil span.hot {
-
-    background-color: #fa9442
-
-}
-
-
-
 .prod-info-main .description {
 
     font-size: 12.5px;
@@ -208,7 +183,7 @@
 
 .load-more-btn {
 
-    background-color: #21c2f8;
+    /*background-color: #21c2f8;
 
     border-bottom: 2px solid #037ca5;
 
@@ -220,7 +195,22 @@
 
     padding: 9px 0;
 
-    width: 100%
+    width: 100%*/
+    background:linear-gradient(to bottom, #000000 5%, #17202A 100%);
+    background-color:#4D4D4D;
+    -moz-box-shadow: inset 0px 1px 0px 0px #AAB7B8;
+    -webkit-box-shadow: inset 0px 1px 0px 0px #839192;
+    box-shadow: inset 0px 1px 0px 0px #4D4D4D;
+    background-color: #333333;
+    border: 1px solid black;
+    display: inline-block;
+    cursor: pointer;
+    color: #FFFFFF;
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 14px;
+    padding: 8px 18px;
+    text-decoration: none;
+    text-transform: uppercase;
 
 }
 
@@ -307,29 +297,6 @@
 }
 
 
-
-.prod-wrap .product-image span.sale {
-
-    background-color: #57889c;
-
-}
-
-
-
-.prod-wrap .product-image span.hot {
-
-    background-color: #a90329;
-
-}
-
-
-
-.prod-wrap .product-image span.special {
-
-    background-color: #3B6764;
-
-}
-
 .shop-btn {
 
     position: relative
@@ -385,8 +352,8 @@
 
 
 .product-deatil .product-image {
-
-    border-right: 0px solid #fff !important
+    margin:auto;
+    /*border-right: 0px solid #fff !important*/
 
 }
 
