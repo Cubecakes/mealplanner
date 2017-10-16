@@ -49,6 +49,13 @@ public class HomeServlet extends HttpServlet {
                     planUnit.setDate(date);
                     System.out.println("date:  " + date);
                     String type = (String) request.getParameter("meal_type");
+                    if(type.equals("breakfast")){
+                        type = "B";
+                    }else if(type.equals("lunch")){
+                        type = "L";
+                    }else if(type.equals("dinner")){
+                        type = "D";
+                    }
                     planUnit.setType(type);
                     System.out.println("type:  " + type);
 
@@ -68,13 +75,19 @@ public class HomeServlet extends HttpServlet {
                 nextPage = "add_meal.jsp";
             }else if(action.equals("save_plan")){
                 nextPage = "";
+            }else if(action.equals("show_recipe")){
+
+                String id = (String)request.getParameter("selected_recipe");
+                request.setAttribute("selected_recipe",id);
+                nextPage = "selected_recipe.jsp";
+
             }else if(action.equals("search")){
 
                 nextPage = "search.jsp";
 
             }else if(action.equals("search_submit")){
-
-
+                request.setAttribute("search_keyword",request.getParameter("search_keyword"));
+                nextPage = "search_recipe.jsp";
 
             }else if(action.equals("profile")){
 
