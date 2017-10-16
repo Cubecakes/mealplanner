@@ -108,7 +108,7 @@
     <div class="form-style-8" style="margin-top: 200px;margin-bottom:100px">
         <form action="/home">
             <input type="hidden" name="action" value="search_submit" width="100">
-            <input type="text" name="search_keyword" placeholder="Search for recipes">
+            <input type="text" name="search_keyword" placeholder="Search for recipes by name, ingredients or publish date...">
             <center><input type="submit" name="submit_search" value="Search"></center>
         </form>
     </div>
