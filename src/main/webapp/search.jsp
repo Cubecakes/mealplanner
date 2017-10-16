@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>Search</title>
+    <link type="text/css" rel="stylesheet" href="login_register.css">
     <style>
         /*input[type=text] {*/
             /*width: 50px;*/
@@ -104,18 +105,23 @@
 </head>
 <body>
 <%@ include file="header.html" %>
-
-    <%--<input type="text" name="search" placeholder="Search for recipes">--%>
-    <%--<input type="submit" name="search_submit" value="Search!">--%>
-        <%--<input type="hidden" name="action" value="search_submit">--%>
-    <div class="container" width="300">
-        <div class="search-box" width="300">
+    <div class="form-style-8" style="margin-top: 200px;margin-bottom:100px">
+        <form action="/home">
             <input type="hidden" name="action" value="search_submit" width="100">
-            <input type="text" name="search" >
-
+            <input type="text" name="search_keyword" placeholder="Search for recipes">
+            <center><input type="submit" name="submit_search" value="Search"></center>
+        </form>
+    </div>
+    <%--div class="container" width="300">
+        <div class="search-box" width="300">
+            <form action="/home" method="post">
+            <input type="hidden" name="action" value="search_submit" width="100">
+            <input type="text" name="search_keyword" placeholder="Search for recipes">
+            <input type="submit" name="submit_search" value="Search">
+            </form>
             <span></span>
         </div>
-    </div>
+    </div--%>
 
 <div id="particles-js">
 </div>
