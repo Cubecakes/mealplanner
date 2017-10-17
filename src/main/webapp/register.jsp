@@ -1,12 +1,7 @@
 <%@ page import="java.util.Calendar" %>
 <%@ page import="unsw.comp4920.project.ControllerActions" %>
 <%@ page import="unsw.comp4920.project.Controller" %><%--
-  Created by IntelliJ IDEA.
-  User: luyibest001
-  Date: 24/09/2017
-  Time: 7:03 PM
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
