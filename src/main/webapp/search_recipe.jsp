@@ -48,7 +48,7 @@
                         "        <div class=\"col-md-5 col-sm-12 col-xs-12\">\n" +
                         "\n" +
                         "          <div class=\"product-image\">"+
-                        "               <img src='"+arr[i].image+"' onerror='this.src=\"images/logonew.png\";' class='img-responsive'>" +
+                        "               <img src='"+arr[i].image+"' onerror='this.src=\"images/no_photo_found.png\";' class='img-responsive'>" +
                         "           </div>\n" +
                         "\n" +
                         "           </div>\n" +
@@ -58,7 +58,7 @@
                         "               <div class=\"product-deatil\">\n" +
                         "\n" +
                         "                   <h5 class='name'><a href='./home?action=add_recipe_to_plan&&selected_recipe=" +
-                        arr[i]._id['$oid']+ "'>" + arr[i].name + "</a></h5> </div>\n" +
+                        arr[i]._id['$oid']+ "&&search_keyword="+keyword+"'>" + arr[i].name + "</a></h5> </div>\n" +
                         "               <div class=\"description\">" +
                         "                   </n><p style='color: grey'>Description</p>";
 
@@ -76,7 +76,7 @@
                         "                       <div class=\"col-md-12\">\n" +
                         "\n" +
                         "                           <a href='./home?action=add_recipe_to_plan&&selected_recipe="+ arr[i]._id['$oid']+
-                        "'                            class='load-more-btn'>Add to Plan</a>\n" +
+                        "&&search_keyword="+keyword+"' class='load-more-btn'>Add to Plan</a>\n" +
                         "\n" +
                         "                           <a href='./home?action=show_recipe&&selected_recipe="+ arr[i]._id['$oid']+
                         "'                          class='load-more-btn'>More info</a>\n" +
