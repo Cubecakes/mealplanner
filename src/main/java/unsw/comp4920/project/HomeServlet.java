@@ -79,6 +79,8 @@ public class HomeServlet extends HttpServlet {
 
                 String id = (String)request.getParameter("selected_recipe");
                 request.setAttribute("selected_recipe",id);
+                String keyword = request.getParameter("search_keyword");
+                request.setAttribute("search_keyword",keyword);
                 nextPage = "selected_recipe.jsp";
 
             }else if(action.equals("search")){
