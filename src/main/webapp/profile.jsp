@@ -38,7 +38,6 @@
             User user = (User)request.getSession().getAttribute("currentUser");
             request.setAttribute("currentUser",user);
             out.println("<h1 class=\"myname\"> Hello! "+user.getUsername()+".</h1>");
-            // <h1 class="myh1">Hi! Would U like to have a coffee & chat?</h1>
         %>
         <h1 class="myh1">Welcome to Meal Your Day!</h1>
     </header>
@@ -62,7 +61,7 @@
 
             %>
 
-            <!--button id="send" name="/edit_profile.jsp?username=<%=user.getUsername()%>" class="btn btn-block">Edit</button-->
+            <!--button id="send" name="/edit_profile.jsp?username=<!% =user.getUsername()%>" class="btn btn-block">Edit</button-->
 
             <a href="/edit_profile.jsp?username=<%=user.getUsername()%>" class="btn btn-info btn-block" style="margin-top: 40px;">Edit Profile</a>
         </form>

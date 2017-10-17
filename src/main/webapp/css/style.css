@@ -47,7 +47,7 @@ canvas {
     bottom: 0;
     left: 0;
     margin: 0 auto;
-    background-color: rgba(192, 215, 207, 0.3);
+    background-color: rgba(192, 215, 207, 0.64);
     display: block;
     /*means that any absolutely positioned elements contained inside will
 				be positioned relative to this container, not to the browser window*/
