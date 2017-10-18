@@ -24,9 +24,17 @@
 <div id="recipe_info" style="margin-top: 120px;"></div>
 
 <script type="text/javascript">
-    var recipe_id = '<%=(String)request.getAttribute("selected_recipe")%>';
+
+    function printRecipeTags(arr, i, keyword){
+
+        return '&plan_date=<%= request.getParameter("plan_date") %>&meal_type=<%=request.getParameter("meal_type")%>&&recipe_id='
+            + arr[i]._id['$oid']+'&&recipe_name=' + arr[i].name + '&&search_keyword=' + keyword;
+    }
+    var recipe_id = '<%=(String)request.getAttribute("recipe_id")%>';
     var xmlhttp = new XMLHttpRequest();
     var url = "recipe_test.json";
+    var queryDict = {}
+    location.search.substr(1).split("&").forEach(function(item) {queryDict[item.split("=")[0]] = item.split("=")[1]})
 
     xmlhttp.onreadystatechange = function() {
 
@@ -62,7 +70,7 @@
                     out += "<center>image source: "+arr[i].image+"</center>\n<br><br><br>";
 
                     //description
-                    out += "<h2 style='color: #21c2f8;font-family: Lato, sans-serif;'>Descirption</h2><br>\n";
+                    out += "<h2 style='color: #21c2f8;font-family: Lato, sans-serif;'>Description</h2><br>\n";
                     if(arr[i].description==null){
                         out += "<h4 style='color: grey;font-family: Lato, sans-serif;'>No description</h4><br><br>\n";
                     }else{
@@ -95,17 +103,40 @@
                     }
                     //out += "<h5 style='color: grey;font-family: Lato, sans-serif;'>" +arr[i].ingredients+"</h5><br><br><br>\n";
                     out += "<br><br><br>";
+                    if ("<%=(String)request.getParameter("display_type")%>" == "calendar"){
+                        out += "<div class=\"row\" style='margin-left: 115px;width: 800px'>\n" +
+                            "       <div class=\"col-6\"><center>            " +
+                            "       <form action=\"/home\" method=\"get\" tabindex=\"-1\">\n" +
+                            "           <input type=\"hidden\" name=\"action\" value=\"remove_plan\">\n" +
+                            "           <input type=\"hidden\" name=\"recipe_id\" value=\"<%=(String)request.getParameter("recipe_id")%>\">\n" +
+                            "           <input type=\"hidden\" name=\"recipe_name\" value=\"<%=(String)request.getParameter("recipe_name")%>\">\n" +
+                            "           <input type=\"hidden\" name=\"plan_date\" value=\"<%=(String)request.getParameter("plan_date")%>\">\n" +
+                            "           <input type=\"hidden\" name=\"meal_type\" value=\"<%=(String)request.getParameter("meal_type")%>\">\n" +
+                            "           <input type=\"submit\" name=\"remove_plan\" value=\"Remove from Plan\" class=\"load-more-btn\">\n" +
+                            "       </form></div>\n";
 
-                    //buttons in a line: back       add to plan
-                    out += "<div class=\"row\" style='margin-left: 115px;width: 800px'>\n" +
-                        "       <div class=\"col-6\"><center><a href='#add_meal_modal' class='button_add_meal' data-toggle='modal'>Add to Plan</a></center></div>\n";
+                        out += "    <div class=\"col-6\"><center><a href='/home' class='button_add_meal' >Back</a></center></div>"
+                    }else {
+                        //buttons in a line: back       add to plan
+                        out += "<div class=\"row\" style='margin-left: 115px;width: 800px'>\n" +
+                            "       <div class=\"col-6\"><center>            " +
+                            "       <form action=\"/home\" method=\"get\" tabindex=\"-1\">\n" +
+                            "           <input type=\"hidden\" name=\"action\" value=\"add_to_plan\">\n" +
+                            "           <input type=\"hidden\" name=\"recipe_id\" value=\"<%=(String)request.getParameter("recipe_id")%>\">\n" +
+                            "           <input type=\"hidden\" name=\"recipe_name\" value=\"<%=(String)request.getParameter("recipe_name")%>\">\n" +
+                            "           <input type=\"hidden\" name=\"plan_date\" value=\"<%=(String)request.getParameter("plan_date")%>\">\n" +
+                            "           <input type=\"hidden\" name=\"meal_type\" value=\"<%=(String)request.getParameter("meal_type")%>\">\n" +
+                            "           <input type=\"submit\" name=\"add_meal\" value=\"Add to Plan\" class=\"load-more-btn\">\n" +
+                            "       </form></div>\n";
 
-                    var keyword = '<%=(String)request.getAttribute("search_keyword")%>';
-                    out += "    <div class=\"col-6\"><center><a href='/home?action=search_submit&&search_keyword="+keyword+"&&submit_search=Search' class='button_add_meal' >Back</a></center>" +
-                        "   </div><br><br><br>";
+                        var keyword = '<%=(String)request.getAttribute("search_keyword")%>';
+                        out += "    <div class=\"col-6\"><center><a href='/home?action=search_submit&&" + printRecipeTags(arr,i,keyword) +
+                            " &&submit_search=Search' class='button_add_meal' >Back</a></center></div>"
+                    }
+                    out += "<br><br><br>";
                    // out += "<div class=\"row\" style='margin-left: 115px;width: 800px'><p style='color: grey;margin-left: 80px;'>source: "+arr[i].url+"</p></div>\n";
                     out += "</div><br><br>\n";
-                    out += "<p style='color: grey;margin-left: 80px;'>source: "+arr[i].url+"</p>\n";
+                    out += "<p style='color: grey;margin-left: 80px;'><a href=\""+arr[i].url+"\"> view full recipe: </a></p>\n";
                     break;
                 }
             }
@@ -117,63 +148,18 @@
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
 
+
+
 </script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
-<div class="modal fade" id="add_meal_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <center><h4 class="modal-title" id="myModalLabel">Add to plan</h4></center>
-                <%--button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button--%>
-            </div>
-            <div class="modal-body">
-                <form action="/home" method="post">
-                    <div class="form-style-8" style="width: 400px;">
 
-                        <div class="styled-select slate">
-                            <%
-                                Calendar now = Calendar.getInstance();   // Gets the current date and time
-                                int year = now.get(Calendar.YEAR);
-                                out.println("<select name='add_to_plan_year'>");
 
-                                for(int i=year;i<=year+30;i++){
-                                    out.println("<option>"+i+"</option>");
-                                }
-                                out.println("</select>\n<select name='add_to_plan_month'>");
-
-                                for(int i=1;i<=12;i++){
-                                    out.println("<option>"+i+"</option>");
-                                }
-                                out.println("</select>\n<select name='add_to_plan_day'>");
-
-                                for(int i=1;i<=31;i++){
-                                    out.println("<option>"+i+"</option>");
-                                }
-
-                                out.println("</select>");
-                            %>
-                        </div>
-                        <br><br>
-                        <input type="radio" name="add_to_plan_type" value="Breakfast"> Breakfast
-                        <input type="radio" name="add_to_plan_type" value="Lunch"> Lunch
-                        <input type="radio" name="add_to_plan_type" value="Dinner"> Dinner
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="load-more-btn" data-dismiss="modal">Close</button>
-                        <input type="hidden" name="action" value="add_to_plan">
-                        <input type="hidden" name="recipe_id" value="<%=(String)request.getParameter("selected_recipe")%>">
-                        <input type="hidden" name="recipe_name" value="<%=(String)request.getParameter("recipe_name")%>">
-                        <input type="submit" name="add_meal" value="Add to Plan" class="load-more-btn">
-                        <%--a href='./home?action=add_to_plan&&recipe_id=<%=(String)request.getAttribute("selected_recipe")%>' class="load-more-btn">Add to plan</a--%>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+<%--
+<input type ="hidden" name="meal_type" value="<%=(String) request.getParameter("meal_type")%>">
+<input type ="hidden" name="plan_date" value="<%=(String) request.getParameter("plan_date")%>">
+--%>
 </body>
 </html>

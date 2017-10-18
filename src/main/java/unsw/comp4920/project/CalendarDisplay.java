@@ -6,13 +6,22 @@ import java.util.Date;
 import java.util.List;
 
 public class CalendarDisplay {
-    private static String generateAddFoodButton(Calendar date, String heading){
-        String ret = "";
-        ret += "<form action=\"./add_meal.jsp\" method=\"get\">\n";
-        ret += "<input type=\"hidden\" name=\"meal_type\" value=\"" + heading + "\">";
+    public static String formatCalendar(Calendar c){
         SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
+        return f.format(c.getTime());
+    }
+    public static String formatDate(Date d){
+        SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
+        return f.format(d.getTime());
+    }
+    private static String generateAddFoodButton(Calendar c, String heading){
+        String ret = "";
+        ret += "<form action=\"./home\" method=\"get\">\n";
 
-        ret += "<input type=\"hidden\" name=\"plan_date\" value=\"" + f.format(date.getTime()) + "\">";
+        ret += "<input type=\"hidden\" name=\"meal_type\" value=\"" + heading + "\">";
+
+        ret += "<input type=\"hidden\" name=\"action\" value=\"search\">";
+        ret += "<input type=\"hidden\" name=\"plan_date\" value=\"" + formatCalendar(c) + "\">";
 
         ret += "<button style=\"width: 100%;\"  class=\"btn btn-primary\">\n";
         ret += "Add meal!";
@@ -21,17 +30,39 @@ public class CalendarDisplay {
         return ret;
     }
 
-    private static String generateDisplayFood(List<Recipe> recipes){//(List<Food> foods){
+    private static String generateDisplayFood(List<Plan> plans){//(List<Food> foods){
         String ret = "";
-        for (Recipe r : recipes) {
+        for (Plan p : plans) {
             //ret += "Food: " + f.getName() + "<br> Calories : " + f.getCalorie() + "<br>";
-            System.out.println(r);
-            ret += "Recipe: " + r.getName()+ "<br>";
+            ret += "<form action=\"./home\" method=\"get\">\n";
+
+            ret += "<input type=\"hidden\" name=\"meal_type\" value=\"" +p.getType()+ "\">";
+            ret += "<input type=\"hidden\" name=\"plan_date\" value=\"" +formatDate(p.getDate())+ "\">";
+            ret += "<input type=\"hidden\" name=\"recipe_id\" value=\"" +p.getRecipe().getId()+ "\">";
+            ret += "<input type=\"hidden\" name=\"username\" value=\""  +p.getUser().getUsername()+ "\">";
+            ret += "<input type=\"hidden\" name=\"display_type\" value=\"calendar\">";
+            ret += "<input type=\"hidden\" name=\"action\" value=\"show_recipe\">";
+
+
+            ret += "<button class=\"btn btn-link btn-lg\" style=\"padding:0 !important; white-space: normal\">" + p.getRecipe().getName() + "</button>\n";
+            ret += "</form>";
+            ret += "<form action=\"./home\" method=\"get\">\n";
+
+            ret += "<input type=\"hidden\" name=\"meal_type\" value=\"" +p.getType()+ "\">";
+            ret += "<input type=\"hidden\" name=\"plan_date\" value=\"" +formatDate(p.getDate())+ "\">";
+            ret += "<input type=\"hidden\" name=\"recipe_id\" value=\"" +p.getRecipe().getId()+ "\">";
+            ret += "<input type=\"hidden\" name=\"username\" value=\""  +p.getUser().getUsername()+ "\">";
+            ret += "<input type=\"hidden\" name=\"action\" value=\"remove_plan\">";
+
+
+            ret += "<button style=\"width: 100%;\"  class=\"btn btn-danger\"> Remove meal </button>\n";
+            ret += "</form>";
+
         }
         return ret;
     }
 
-    private static String printRow(MealTypes mealType, Calendar startDate, String username){
+    private static String printRow(MealTypes mealType, Calendar startDate, User user){
         DatabaseOperation dbo = new DatabaseOperation();
         Calendar c = (Calendar) startDate.clone();
         String heading = mealType.toString();
@@ -41,11 +72,11 @@ public class CalendarDisplay {
         ret += "<td>" + heading + "</td>\n";
         for (int i = 0; i < 7; i++) {
             //List<Food> foundFoods = dbo.getFoods(username,c.getTime(),heading);
-            List<Recipe> foundRecipes = dbo.getRecipes(username,c.getTime(),heading);
-            System.out.println("recipe list length: "+foundRecipes.size());
+            List<Plan> foundPlans = dbo.getPlans(user,c.getTime(),heading);
+            System.out.println("plan list length: "+foundPlans.size());
             ret += "<td>";
 
-            ret += generateDisplayFood(foundRecipes);
+            ret += generateDisplayFood(foundPlans);
             ret += generateAddFoodButton(c,heading);
 
             ret += "</td>\n";
@@ -57,18 +88,8 @@ public class CalendarDisplay {
         return ret;
     }
 
-    public static String printCalendar(Date d, String username){
-        String retString = "" +
-            "<table class=`table table-bordered` style=`height: 800px`>".replace('`','"') +
-            "<thead> <tr>" +
-            "<th>Meal</th>";
 
-            //retString +=
-
-        return retString;
-    }
-
-    public static String printCalendar(Calendar c, String username){
+    public static String printCalendar(Calendar c, User user){
         String retString = "" +
             "<table class=`table table-bordered` style=`height: 800px`>".replace('`','"') +
             "<thead> <tr>" +
@@ -84,9 +105,9 @@ public class CalendarDisplay {
         retString += "" +
             "</tr> </thead>" +
             "<tbody>" +
-            CalendarDisplay.printRow(MealTypes.Breakfast   ,c,username)+
-            CalendarDisplay.printRow(MealTypes.Lunch       ,c,username)+
-            CalendarDisplay.printRow(MealTypes.Dinner      ,c,username)+
+            CalendarDisplay.printRow(MealTypes.Breakfast   ,c,user)+
+            CalendarDisplay.printRow(MealTypes.Lunch       ,c,user)+
+            CalendarDisplay.printRow(MealTypes.Dinner      ,c,user)+
             "</tbody> </table>";
         return retString;
     }

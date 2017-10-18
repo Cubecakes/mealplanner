@@ -54,7 +54,7 @@
         </li>
     </ul>
 
-    <%= CalendarDisplay.printCalendar(cal,user.getUsername())%>
+    <%= CalendarDisplay.printCalendar(cal,user)%>
 
 
 <%--

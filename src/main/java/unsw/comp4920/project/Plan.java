@@ -4,25 +4,25 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class PlanUnit {
+public class Plan {
     User user;
     Date date;
     MealTypes type; //breakfast/lunch/dinner
     //List<Food> foodList;
-    List<Recipe> recipeList;
+    Recipe recipe;
 
-    public PlanUnit(User user, Date date, MealTypes type) {
+    public Plan(User user, Date date, MealTypes type, Recipe recipe) {
         this.user = user;
         this.date = date;
         this.type = type;
         //foodList = new ArrayList<Food>();
-        recipeList = new ArrayList<Recipe>();
+        this.recipe = recipe;
     }
 
-    public PlanUnit(){
+    public Plan(){
 
         //foodList = new ArrayList<Food>();
-        recipeList = new ArrayList<Recipe>();
+        //recipe = new ArrayList<Recipe>();
     }
 
     public void setUser(User user) {
@@ -49,20 +49,16 @@ public class PlanUnit {
         return type;
     }
 
-    public void setRecipeList(List<Recipe> recipeList){//List<Food> foodList) {
+    public void setRecipe(Recipe recipe){//List<Food> foodList) {
 
         //this.foodList = foodList;
-        this.recipeList = recipeList;
+        this.recipe = recipe;
     }
 
-    public void addToRecipeList(Recipe recipe){ //(Food food){
 
-        //foodList.add(food);
-        recipeList.add(recipe);
-    }
 
-    public List<Recipe> getRecipeList(){
-        return recipeList;
+    public Recipe getRecipe(){
+        return recipe;
     }
 
 

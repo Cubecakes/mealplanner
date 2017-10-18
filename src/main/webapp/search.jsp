@@ -108,6 +108,8 @@
     <div class="form-style-8" style="margin-top: 200px;margin-bottom:100px;width:700px;">
         <form action="/home">
             <input type="hidden" name="action" value="search_submit" width="100">
+            <input type="hidden" name="meal_type" value="<%=request.getParameter("meal_type")%>" width="100">
+            <input type="hidden" name="plan_date" value="<%=request.getParameter("plan_date")%>" width="100">
             <input type="text" name="search_keyword" placeholder="Search for recipes by name, ingredients...">
             <center>
                 <input type="submit" name="submit_search" value="Search">

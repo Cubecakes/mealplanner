@@ -1,9 +1,9 @@
 package unsw.comp4920.project;
 
 import java.sql.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class DatabaseOperation {
@@ -86,21 +86,52 @@ public class DatabaseOperation {
         return foods;
     }*/
 
-
-    public List<Recipe> getRecipes(String username, java.util.Date date, String type){
+    public void removePlan(String username, String date, String type, String recipe_id){
         Connection connection = getConnection();
-        String sql = "SELECT recipe_id,recipe_name FROM PLANS WHERE username = ? AND plan_date= ? AND type= ?";
         PreparedStatement statement = null;
-        List<Recipe> recipes = new ArrayList<Recipe>();
+        String sql = "DELETE FROM PLANS WHERE username = ? AND plan_date= to_date(?,'DD/MM/YYYY') AND type= ? AND recipe_id=?";
+
         try {
             statement = (PreparedStatement) connection.prepareStatement(sql);
             statement.setString (1, username);
+            statement.setString (2, date);
+            statement.setString (3, type);
+            statement.setString (4, recipe_id);
+            System.out.println(statement);
+            statement.execute();
+
+
+            statement.close();
+            connection.close();
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public List<Plan> getPlans(User user, java.util.Date date, String type){
+        Connection connection = getConnection();
+        String sql = "SELECT username, plan_date, type, recipe_id, recipe_name FROM PLANS WHERE username = ? AND plan_date= ? AND type= ?";
+        PreparedStatement statement = null;
+        List<Plan> plans = new ArrayList<Plan>();
+        try {
+            statement = (PreparedStatement) connection.prepareStatement(sql);
+            statement.setString (1, user.getUsername());
             statement.setDate   (2, new java.sql.Date(date.getTime()));
             statement.setString (3, type);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                Recipe recipe = new Recipe(rs.getString("recipe_name"),rs.getString("recipe_id"));
-                recipes.add(recipe);
+                try {
+                    Plan plan =
+                    new Plan(user
+                            , df.parse(rs.getString("plan_date"))
+                            , MealTypes.valueOf(rs.getString("type"))
+                            , new Recipe(rs.getString("recipe_name"), rs.getString("recipe_id")));
+                    plans.add(plan);
+                }catch(ParseException e){
+                    e.printStackTrace();
+                }
             }
 
             statement.close();
@@ -108,7 +139,7 @@ public class DatabaseOperation {
         }catch(SQLException e) {
             e.printStackTrace();
         }
-        return recipes;
+        return plans;
     }
 
     public int insertFood(Food f){
@@ -139,7 +170,7 @@ public class DatabaseOperation {
      * @param  plan object intended to add into database
      * @return integer, the number of record inserted successfully
      */
-    public int insertPlan(PlanUnit plan) {
+    public int insertPlan(Plan plan) {
         Connection connection = getConnection();
         String sql = "INSERT INTO PLANS (username,plan_date,type,recipe_id,recipe_name) VALUES(?,?,?,?,?)";
         PreparedStatement statement = null;
@@ -153,8 +184,8 @@ public class DatabaseOperation {
             statement.setDate   (2, new java.sql.Date(plan.getDate().getTime()));
             statement.setString (3, plan.getType().toString());
             //statement.setString (4, plan.getFoodList().get(0).getID());
-            statement.setString (4, plan.getRecipeList().get(0).getId());
-            statement.setString(5,plan.getRecipeList().get(0).getName());
+            statement.setString (4, plan.getRecipe().getId());
+            statement.setString(5,plan.getRecipe().getName());
             System.out.println(statement.toString());
             r = statement.executeUpdate();
                 //if(r!=0) {
@@ -169,6 +200,8 @@ public class DatabaseOperation {
 
         return count;
     }
+
+
 
     /**
      * @method userExists() go through "users" table in database and check if the user exists
