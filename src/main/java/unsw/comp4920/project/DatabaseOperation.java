@@ -125,7 +125,7 @@ public class DatabaseOperation {
             statement = (PreparedStatement) connection.prepareStatement(sql);
             statement.setString (1, plan.getUser().getUsername());
             statement.setDate   (2, new java.sql.Date(plan.getDate().getTime()));
-            statement.setString (3, plan.getType());
+            statement.setString (3, plan.getType().toString());
             statement.setString (4, plan.getFoodList().get(0).getID());
             System.out.println(statement.toString());
             r = statement.executeUpdate();

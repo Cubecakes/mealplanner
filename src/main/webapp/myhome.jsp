@@ -1,7 +1,7 @@
 <%@ page import="unsw.comp4920.project.User" %>
 <%@ page import="java.util.Calendar" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="unsw.comp4920.project.JspUtils" %>
+<%@ page import="unsw.comp4920.project.CalendarDisplay" %>
 <%--
   Created by IntelliJ IDEA.
   User: luyibest001
@@ -54,29 +54,10 @@
         </li>
     </ul>
 
-    <table class="table table-bordered" style="height: 800px">
-        <thead>
-        <tr>
-            <th>Meal</th>
-            <%
-                Calendar currentCal = (Calendar) ((Calendar)s.getAttribute("currentDate")).clone();
-                for (int i = 0; i < 7; i++) {
-                    SimpleDateFormat f = new SimpleDateFormat("EEEE, dd-MM-yyyy");
-                    out.println("<th>" + f.format(currentCal.getTime()) + "</th>");
-                    currentCal.add(Calendar.DATE,1);
-                }
-            %>
-        </tr>
-        </thead>
-        <tbody>
-        <%= JspUtils.printRow("Breakfast"   ,cal,user.getUsername()) %>
-        <%= JspUtils.printRow("Lunch"       ,cal,user.getUsername()) %>
-        <%= JspUtils.printRow("Dinner"      ,cal,user.getUsername()) %>
-        </tbody>
+    <%= CalendarDisplay.printCalendar(cal,user.getUsername())%>
 
 
-    </table>
-
+<%--
 
 </div>
 <!--background animation-->
@@ -87,5 +68,6 @@
 <!-- scripts -->
 <script src="/js/particles.js"></script>
 <script src="/js/app.js"></script>
+--%>
 </body>
 </html>
