@@ -62,15 +62,15 @@ public class DatabaseOperation {
 
     }
 
-    public List<Food> getFoods(String username, java.util.Date date, String type){
+    public List<Food> getFoods(String username, String date, String type){
         Connection connection = getConnection();
-        String sql = "SELECT foodID FROM PLANS WHERE username = ? AND plan_date= ? AND type= ?";
+        String sql = "SELECT foodID FROM PLANS WHERE username = ? AND plan_date= to_date(?,'DD/MM/YYY') AND type= ?";
         PreparedStatement statement = null;
         List<Food> foods = new ArrayList<Food>();
         try {
             statement = (PreparedStatement) connection.prepareStatement(sql);
             statement.setString (1, username);
-            statement.setDate   (2, new java.sql.Date(date.getTime()));
+            statement.setString (2, date);
             statement.setString (3, type);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {

@@ -6,13 +6,18 @@ import java.util.Date;
 import java.util.List;
 
 public class CalendarDisplay {
-    private static String generateAddFoodButton(Calendar date, String heading){
+    public static String calendarToDate(Calendar c){
+        SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
+        return f.format(c.getTime());
+    }
+    private static String generateAddFoodButton(String date, MealTypes mealType){
+        String heading = mealType.toString();
         String ret = "";
         ret += "<form action=\"./add_meal.jsp\" method=\"get\">\n";
         ret += "<input type=\"hidden\" name=\"meal_type\" value=\"" + heading + "\">";
-        SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
 
-        ret += "<input type=\"hidden\" name=\"plan_date\" value=\"" + f.format(date.getTime()) + "\">";
+
+        ret += "<input type=\"hidden\" name=\"plan_date\" value=\"" + date + "\">";
 
         ret += "<button style=\"width: 100%;\"  class=\"btn btn-primary\">\n";
         ret += "Add meal!";
@@ -38,11 +43,11 @@ public class CalendarDisplay {
         ret += "<tr style=\"height: 33%\">\n";
         ret += "<td>" + heading + "</td>\n";
         for (int i = 0; i < 7; i++) {
-            List<Food> foundFoods = dbo.getFoods(username,c.getTime(),heading);
+            List<Food> foundFoods = dbo.getFoods(username,calendarToDate(c),heading);
             ret += "<td>";
 
             ret += generateDisplayFood(foundFoods);
-            ret += generateAddFoodButton(c,heading);
+            ret += generateAddFoodButton(calendarToDate(c),mealType);
 
             ret += "</td>\n";
 
@@ -53,13 +58,18 @@ public class CalendarDisplay {
         return ret;
     }
 
-    public static String printCalendar(Date d, String username){
+    public static String printCalendarColumn(String d, String username){
+        DatabaseOperation dbo = new DatabaseOperation();
         String retString = "" +
             "<table class=`table table-bordered` style=`height: 800px`>".replace('`','"') +
             "<thead> <tr>" +
-            "<th>Meal</th>";
-
-            //retString +=
+            "<th>Meal</th> </th>";
+        List<Food> foundFoods = dbo.getFoods(username,d,MealTypes.Breakfast.toString());
+        retString +=
+            "<tr>"+
+            generateDisplayFood(foundFoods)+
+            generateAddFoodButton(d,MealTypes.Breakfast)+
+            "</tr>";
 
         return retString;
     }
