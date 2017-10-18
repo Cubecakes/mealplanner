@@ -366,6 +366,28 @@ public class DatabaseOperation {
         }
         return i;
     }
+    
+    /**
+     * @method addFavourite(String,String) 
+     * @return void
+     */
+    public int addFavourite(String username,String recipe) throws SQLException {
+        Connection conn = getConnection();
+        int i=0;
+        System.out.println("adding user\n**************");
+        {
+            String sql = "insert into likeRecipe (username,recipe)" +
+                    "values ('" + username + recipe + "');";
+            PreparedStatement pstmt;
+            pstmt = (PreparedStatement) conn.prepareStatement(sql);
+            i = pstmt.executeUpdate();
+            pstmt.close();
+        }
+
+        conn.close();
+
+        return i;
+    }
 
     /**
      * @method Integer getAll() 查询并打印表中数据
