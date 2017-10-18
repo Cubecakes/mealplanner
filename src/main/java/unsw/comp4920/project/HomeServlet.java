@@ -94,12 +94,11 @@ public class HomeServlet extends HttpServlet {
                     }
                     //System.out.println("Date======"+date);
                     System.out.println("Type======"+type);
-                    System.out.println("Recipe_id======"+recipe_id);
+                    System.out.println("Recipe_name======"+name);
 
                     PlanUnit planUnit = new PlanUnit();
                     planUnit.setUser(currentUser);
                     planUnit.setDate(date);
-
                     planUnit.setType(type);
                     planUnit.addToRecipeList(recipe);
 

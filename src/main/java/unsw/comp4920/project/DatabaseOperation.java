@@ -86,44 +86,10 @@ public class DatabaseOperation {
         return foods;
     }*/
 
-    private Recipe parseRecipe(ResultSet rs){
-        try {
-            String ID = rs.getString(1);
-            String name = rs.getString(2);
-            //Integer calorie = rs.getInt(3);
-            //String category = rs.getString(6);
-            //return new Food(name,calorie,category,ID);
-            return new Recipe(name,ID);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    public Recipe getRecipe(String ID){
-        Connection connection = getConnection();
-        String sql = "SELECT * FROM food WHERE id = ?";
-        PreparedStatement statement = null;
-        try {
-            statement = (PreparedStatement) connection.prepareStatement(sql);
-            statement.setString (1, ID);
-            ResultSet rs = statement.executeQuery();
-            if (rs.next()){
-                return parseRecipe(rs);
-            }
-            statement.close();
-            connection.close();
-        }catch(SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-
-    }
 
     public List<Recipe> getRecipes(String username, java.util.Date date, String type){
         Connection connection = getConnection();
-        String sql = "SELECT recipe_id FROM PLANS WHERE username = ? AND plan_date= ? AND type= ?";
+        String sql = "SELECT recipe_id,recipe_name FROM PLANS WHERE username = ? AND plan_date= ? AND type= ?";
         PreparedStatement statement = null;
         List<Recipe> recipes = new ArrayList<Recipe>();
         try {
@@ -133,7 +99,8 @@ public class DatabaseOperation {
             statement.setString (3, type);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                recipes.add(getRecipe(rs.getString("recipe_id")));
+                Recipe recipe = new Recipe(rs.getString("recipe_name"),rs.getString("recipe_id"));
+                recipes.add(recipe);
             }
 
             statement.close();
@@ -174,7 +141,7 @@ public class DatabaseOperation {
      */
     public int insertPlan(PlanUnit plan) {
         Connection connection = getConnection();
-        String sql = "INSERT INTO PLANS (username,plan_date,type,recipe_id) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO PLANS (username,plan_date,type,recipe_id,recipe_name) VALUES(?,?,?,?,?)";
         PreparedStatement statement = null;
         int r=0;
         int count=0;
@@ -187,6 +154,7 @@ public class DatabaseOperation {
             statement.setString (3, plan.getType().toString());
             //statement.setString (4, plan.getFoodList().get(0).getID());
             statement.setString (4, plan.getRecipeList().get(0).getId());
+            statement.setString(5,plan.getRecipeList().get(0).getName());
             System.out.println(statement.toString());
             r = statement.executeUpdate();
                 //if(r!=0) {
