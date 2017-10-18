@@ -89,31 +89,6 @@
         <input type="radio" name="register_gender" value="M"> Male
         <input type="radio" name="register_gender" value="F"> Female
         <br><br>
-
-        <select name="register_dob_year">
-            <%
-                Calendar now = Calendar.getInstance();   // Gets the current date and time
-                int year = now.get(Calendar.YEAR);
-                for(int i=1900;i<=year;i++){
-                    out.println("<option>"+i+"</option>");
-                }
-            %>
-        </select>
-        <select name="register_dob_month">
-            <%
-                for(int i=1;i<=12;i++){
-                    out.println("<option>"+i+"</option>");
-                }
-            %>
-        </select>
-        <select name="register_dob_day">
-            <%
-                for(int i=1;i<=31;i++){
-                    out.println("<option>"+i+"</option>");
-                }
-            %>
-        </select>
-        <br><br/>
         <label for="register_photo">Upload profile photo</label>
         <input type="file" id="register_photo" name="register_photo">
         <br><br>
