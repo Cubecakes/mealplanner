@@ -1,6 +1,7 @@
 package unsw.comp4920.project;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -308,7 +309,6 @@ public class DatabaseOperation {
             rs =querystatement.executeQuery(sql);
             if(rs.next()) {
                 user.setEmail(rs.getString(1));
-
             }
 
             sql = "select gender from users where username='"+username+"';";
@@ -333,11 +333,14 @@ public class DatabaseOperation {
                 user.setActive(Boolean.parseBoolean(rs.getString(1)));
             }
 
-           /* sql = "select start from users where username='"+username+"';";
+            sql = "select start from users where username='"+username+"';";
             rs =querystatement.executeQuery(sql);
             if(rs.next()) {
-                user.setActive(Boolean.parseBoolean(rs.getString(1)));
-            }*/
+                java.util.Date dNow = new java.util.Date();
+                SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+                String start = ft.format(dNow).toString();
+                user.setStart(start);
+            }
         }
         return user;
     }
