@@ -281,7 +281,7 @@ nav ul li .axx:hover {
 }
 
 .home_lower_wrapper h1 {
-    width: 960px;
+    width: 100%;
     font-size: 38px;
     letter-spacing: 3px;
     margin-bottom: 10px;
