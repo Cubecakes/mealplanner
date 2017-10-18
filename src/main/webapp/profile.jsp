@@ -45,7 +45,7 @@
     </header>
     <section>
 
-        <img src="images/<%=user.getPhotourl()%>">
+        <img src="images/<%=user.getPhotourl()%>" style="max-height: 150px; max-width: 150px;">
 
         <div class="arrow-up"></div>
         <form id="contact" class="form-horizontal" role="form">
