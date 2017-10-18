@@ -1,6 +1,6 @@
 <%@ page import="java.util.Calendar" %>
 <%@ page import="unsw.comp4920.project.ControllerActions" %>
-<%@ page import="unsw.comp4920.project.Controller" %><%--
+<%@ page import="unsw.comp4920.project.Controller" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -89,7 +89,7 @@
         <input type="radio" name="register_gender" value="M"> Male
         <input type="radio" name="register_gender" value="F"> Female
         <br><br>
-       <%-- Date of Birth
+
         <select name="register_dob_year">
             <%
                 Calendar now = Calendar.getInstance();   // Gets the current date and time
@@ -113,7 +113,7 @@
                 }
             %>
         </select>
-        <br><br--%>
+        <br><br/>
         <label for="register_photo">Upload profile photo</label>
         <input type="file" id="register_photo" name="register_photo">
         <br><br>

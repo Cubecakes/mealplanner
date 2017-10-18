@@ -1,4 +1,6 @@
 <%@ page import="unsw.comp4920.project.User" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%--
   Created by IntelliJ IDEA.
   User: luyibest001
@@ -57,7 +59,7 @@
                 out.println("<h3 class=\"myh3\">gender:</h3>");
                 out.println("<h3 class=\"myh233\">"+user.getGender()+"</h3>");
 
-                out.println("<h3 class=\"myh3\">You have used meal planner for ... days</h3>");
+                out.println("<h3 class=\"myh3\">You have been using meal planner since " + user.getStart().split("-")[2] + "/" + user.getStart().split("-")[1] + "/" + user.getStart().split("-")[0] + " </h3>");
 
             %>
 

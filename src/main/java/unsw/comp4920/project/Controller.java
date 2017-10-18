@@ -105,7 +105,6 @@ public class Controller extends javax.servlet.http.HttpServlet {
                 Date dNow = new Date();
                 SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
                 String start = ft.format(dNow).toString();
-
                 currentUser.setActive(false);
                 currentUser.setEmail(email);
                 currentUser.setGender(gender);
