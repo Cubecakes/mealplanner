@@ -105,12 +105,17 @@
 </head>
 <body>
 <%@ include file="header.html" %>
-    <div class="form-style-8" style="margin-top: 200px;margin-bottom:100px">
+    <div class="form-style-8" style="margin-top: 200px;margin-bottom:100px;width:700px;">
         <form action="/home">
             <input type="hidden" name="action" value="search_submit" width="100">
-            <input type="text" name="search_keyword" placeholder="Search for recipes by name, ingredients or publish date...">
-            <center><input type="submit" name="submit_search" value="Search"></center>
+            <input type="text" name="search_keyword" placeholder="Search for recipes by name, ingredients...">
+            <center>
+                <input type="submit" name="submit_search" value="Search">
+            </center>
         </form>
+        <br>
+        <center><a href="/home?action=search_all" class="button_add_meal">Show all recipes</a></center>
+
     </div>
     <%--div class="container" width="300">
         <div class="search-box" width="300">
@@ -123,11 +128,11 @@
         </div>
     </div--%>
 
-<div id="particles-js">
-</div>
+<!--div id="particles-js">
+</div-->
 <!-- scripts -->
-<script src="/js/particles.js"></script>
-<script src="/js/app.js"></script>
+<!--script src="/js/particles.js"></script>
+<script src="/js/app.js"></script-->
 
 </body>
 </html>

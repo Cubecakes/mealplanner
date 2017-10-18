@@ -45,16 +45,24 @@ create table Food (
 );
 
 create table Plans (
-    username 	LongName references Users(username),
-    plan_date	Date not null,
-    type 		MealType not null,
-    foodID	    MediumString references Food(id),
-    primary key (username,plan_date,type,foodID)
+  username 	LongName references Users(username),
+  plan_date	Date not null,
+  type 		MealType not null,
+  --foodID	    MediumString references Food(id),
+  recipe_id 	MediumString not null,
+  --recipe_name LongString,
+  primary key (username,plan_date,type,recipe_id)
 );
 
 
 create table ActivationCodes(
 	username LongName references Users(username),
 	activateCode LongString
+);
+
+create table LikeRecipe(
+  username LongName REFERENCES Users(username) NOT NULL ,
+  recipe_id LongString NOT NULL,
+  PRIMARY KEY (username, recipe_id)
 );
 

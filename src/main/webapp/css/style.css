@@ -9,8 +9,9 @@ html,
 body {
     width: 100%;
     height: 100%;
-    background: rgb(255, 255, 255);
+    /*background: rgb(255, 255, 255);*/
     font-family: 'Montserrat', sans-serif;
+
 }
 
 html {
@@ -280,7 +281,7 @@ nav ul li .axx:hover {
 }
 
 .home_lower_wrapper h1 {
-    width: 960px;
+    width: 100%;
     font-size: 38px;
     letter-spacing: 3px;
     margin-bottom: 10px;

@@ -1,6 +1,6 @@
 <%@ page import="java.util.Calendar" %>
 <%@ page import="unsw.comp4920.project.ControllerActions" %>
-<%@ page import="unsw.comp4920.project.Controller" %><%--
+<%@ page import="unsw.comp4920.project.Controller" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -29,6 +29,13 @@
         }
 
     </style>
+
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous">
+
+    </script>
 </head>
 
 
@@ -36,6 +43,12 @@
 
 <body>
 
+<div id="background-image" style="background-image: url('/images/food_bg/0.jpg'); "></div>
+
+<!--smooth change background background, using jquery-->
+<script src="js/changeBackgroundIMG.js"></script>
+
+<div id="content">
 <!--header-->
 <header class="upheaderxx">
     <div class="loader loader--style5">
@@ -72,9 +85,6 @@
     </nav>
 </header>
 
-
-
-
 <div class="form-style-8">
     <h2>Join MealPlanner today</h2>
     <%
@@ -89,31 +99,6 @@
         <input type="radio" name="register_gender" value="M"> Male
         <input type="radio" name="register_gender" value="F"> Female
         <br><br>
-       <%-- Date of Birth
-        <select name="register_dob_year">
-            <%
-                Calendar now = Calendar.getInstance();   // Gets the current date and time
-                int year = now.get(Calendar.YEAR);
-                for(int i=1900;i<=year;i++){
-                    out.println("<option>"+i+"</option>");
-                }
-            %>
-        </select>
-        <select name="register_dob_month">
-            <%
-                for(int i=1;i<=12;i++){
-                    out.println("<option>"+i+"</option>");
-                }
-            %>
-        </select>
-        <select name="register_dob_day">
-            <%
-                for(int i=1;i<=31;i++){
-                    out.println("<option>"+i+"</option>");
-                }
-            %>
-        </select>
-        <br><br--%>
         <label for="register_photo">Upload profile photo</label>
         <input type="file" id="register_photo" name="register_photo">
         <br><br>
@@ -123,5 +108,8 @@
         <a href="./control?Action=<%=ControllerActions.GOTO_LOGIN%>" class="commonHyperLink">have an account?</a>
     </form>
 </div>
+
+</div>
+
 </body>
 </html>

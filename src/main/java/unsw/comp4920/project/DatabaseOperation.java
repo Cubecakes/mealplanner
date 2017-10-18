@@ -1,6 +1,7 @@
 package unsw.comp4920.project;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -308,7 +309,6 @@ public class DatabaseOperation {
             rs =querystatement.executeQuery(sql);
             if(rs.next()) {
                 user.setEmail(rs.getString(1));
-
             }
 
             sql = "select gender from users where username='"+username+"';";
@@ -333,11 +333,14 @@ public class DatabaseOperation {
                 user.setActive(Boolean.parseBoolean(rs.getString(1)));
             }
 
-           /* sql = "select start from users where username='"+username+"';";
+            sql = "select start from users where username='"+username+"';";
             rs =querystatement.executeQuery(sql);
             if(rs.next()) {
-                user.setActive(Boolean.parseBoolean(rs.getString(1)));
-            }*/
+                java.util.Date dNow = new java.util.Date();
+                SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+                String start = ft.format(dNow).toString();
+                user.setStart(start);
+            }
         }
         return user;
     }
@@ -361,6 +364,28 @@ public class DatabaseOperation {
         }catch (SQLException e){
             e.printStackTrace();
         }
+        return i;
+    }
+    
+    /**
+     * @method addFavourite(String,String) 
+     * @return void
+     */
+    public int addFavourite(String username,String recipe) throws SQLException {
+        Connection conn = getConnection();
+        int i=0;
+        System.out.println("adding user\n**************");
+        {
+            String sql = "insert into likeRecipe (username,recipe)" +
+                    "values ('" + username + recipe + "');";
+            PreparedStatement pstmt;
+            pstmt = (PreparedStatement) conn.prepareStatement(sql);
+            i = pstmt.executeUpdate();
+            pstmt.close();
+        }
+
+        conn.close();
+
         return i;
     }
 

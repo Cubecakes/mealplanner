@@ -28,10 +28,22 @@
 
     </style>
 </head>
-<body>
+<script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous">
+
+</script>
+<body class>
 
 
-<!--header-->
+
+<div id="background-image" style="background-image: url('/images/food_bg/0.jpg'); "></div>
+<script src="js/changeBackgroundIMG.js"></script>
+
+<div id="content">
+
+    <!--header-->
 <header class="upheaderxx">
     <div class="loader loader--style5">
         <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"  x="0px" y="0px" width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;" xml:space="preserve">
@@ -57,7 +69,6 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
 
-
     <nav>
         <ul>
             <li><a class="axx" href="./control?action=<%=ControllerActions.NOTHING%>">Home</a></li>
@@ -66,11 +77,6 @@
         </ul>
     </nav>
 </header>
-
-
-
-
-
 
 
 <div class="form-style-8">
@@ -90,5 +96,10 @@
         <a href="./control?action=<%=ControllerActions.GOTO_REGISTER%>" class="commonHyperLink">New to meal planner?</a>
     </form>
 </div>
+</div>
+
+
 </body>
+
 </html>
+
