@@ -21,10 +21,12 @@ public class CalendarDisplay {
         return ret;
     }
 
-    private static String generateDisplayFood(List<Food> foods){
+    private static String generateDisplayFood(List<Recipe> recipes){//(List<Food> foods){
         String ret = "";
-        for (Food f : foods) {
-            ret += "Food: " + f.getName() + "<br> Calories : " + f.getCalorie() + "<br>";
+        for (Recipe r : recipes) {
+            //ret += "Food: " + f.getName() + "<br> Calories : " + f.getCalorie() + "<br>";
+            System.out.println(r);
+            //ret += "Recipe: " + r.getName()+ "<br>";
         }
         return ret;
     }
@@ -38,10 +40,12 @@ public class CalendarDisplay {
         ret += "<tr style=\"height: 33%\">\n";
         ret += "<td>" + heading + "</td>\n";
         for (int i = 0; i < 7; i++) {
-            List<Food> foundFoods = dbo.getFoods(username,c.getTime(),heading);
+            //List<Food> foundFoods = dbo.getFoods(username,c.getTime(),heading);
+            List<Recipe> foundRecipes = dbo.getRecipes(username,c.getTime(),heading);
+            System.out.println("recipe list length: "+foundRecipes.size());
             ret += "<td>";
 
-            ret += generateDisplayFood(foundFoods);
+            ret += generateDisplayFood(foundRecipes);
             ret += generateAddFoodButton(c,heading);
 
             ret += "</td>\n";
