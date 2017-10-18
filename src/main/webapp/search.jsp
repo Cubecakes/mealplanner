@@ -113,7 +113,7 @@
                 <input type="submit" name="submit_search" value="Search">
             </center>
         </form>
-
+        <br>
         <center><a href="/home?action=search_all" class="button_add_meal">Show all recipes</a></center>
 
     </div>

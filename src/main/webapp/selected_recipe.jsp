@@ -57,7 +57,7 @@
 
 
                     //picture
-                    out += "<center><img src='"+arr[i].image+"' onerror=\"this.src='images/no_photo_found.png'\" class='rounded' style='width: 500px;'></center>\n<br>";
+                    out += "<center><img src='"+arr[i].image+"' onerror=\"this.src='images/no_photo_found.png'\" class='rounded' style='width: 400px;'></center>\n<br>";
                     //picture source
                     out += "<center>image source: "+arr[i].image+"</center>\n<br><br><br>";
 
@@ -98,7 +98,7 @@
 
                     //buttons in a line: back       add to plan
                     out += "<div class=\"row\" style='margin-left: 115px;width: 800px'>\n" +
-                        "       <div class=\"col-6\"><center><a href='#add_meal_modal' class='button_add_meal' data-toggle='modal'>Add to Meal</a></center></div>\n";
+                        "       <div class=\"col-6\"><center><a href='#add_meal_modal' class='button_add_meal' data-toggle='modal'>Add to Plan</a></center></div>\n";
 
                     var keyword = '<%=(String)request.getAttribute("search_keyword")%>';
                     out += "    <div class=\"col-6\"><center><a href='/home?action=search_submit&&search_keyword="+keyword+"&&submit_search=Search' class='button_add_meal' >Back</a></center>" +
@@ -122,7 +122,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
-<div class="modal fade" id="add_meal_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="width: 800px;">
+<div class="modal fade" id="add_meal_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -130,39 +130,46 @@
                 <%--button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button--%>
             </div>
             <div class="modal-body">
-                <div class="form-style-8" style="width: 400px;">
-                    <div class="styled-select slate">
-                        <%
-                            Calendar now = Calendar.getInstance();   // Gets the current date and time
-                            int year = now.get(Calendar.YEAR);
-                            out.println("<select name='add_to_plan_year'>");
+                <form action="/home" method="post">
+                    <div class="form-style-8" style="width: 400px;">
 
-                            for(int i=year;i<=year+30;i++){
-                                out.println("<option>"+i+"</option>");
-                            }
-                            out.println("</select><br>\n<select name='add_to_plan_month'>");
+                        <div class="styled-select slate">
+                            <%
+                                Calendar now = Calendar.getInstance();   // Gets the current date and time
+                                int year = now.get(Calendar.YEAR);
+                                out.println("<select name='add_to_plan_year'>");
 
-                            for(int i=1;i<=12;i++){
-                                out.println("<option>"+i+"</option>");
-                            }
-                            out.println("</select><br>\n<select name='add_to_plan_day'>");
+                                for(int i=year;i<=year+30;i++){
+                                    out.println("<option>"+i+"</option>");
+                                }
+                                out.println("</select>\n<select name='add_to_plan_month'>");
 
-                            for(int i=1;i<=31;i++){
-                                out.println("<option>"+i+"</option>");
-                            }
+                                for(int i=1;i<=12;i++){
+                                    out.println("<option>"+i+"</option>");
+                                }
+                                out.println("</select>\n<select name='add_to_plan_day'>");
 
-                            out.println("</select>");
-                        %>
+                                for(int i=1;i<=31;i++){
+                                    out.println("<option>"+i+"</option>");
+                                }
+
+                                out.println("</select>");
+                            %>
+                        </div>
+                        <br><br>
+                        <input type="radio" name="add_to_plan_type" value="Breakfast"> Breakfast
+                        <input type="radio" name="add_to_plan_type" value="Lunch"> Lunch
+                        <input type="radio" name="add_to_plan_type" value="Dinner"> Dinner
+
                     </div>
-                    <br><br>
-                    <input type="radio" name="add_to_plan_type" value="B"> Breakfast
-                    <input type="radio" name="add_to_plan_type" value="L"> Lunch
-                    <input type="radio" name="add_to_plan_type" value="M"> Dinner
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="load-more-btn" data-dismiss="modal">Close</button>
-                <a href='/home?action=add_to_plan' class="load-more-btn">Add to plan</a>
+                    <div class="modal-footer">
+                        <button type="button" class="load-more-btn" data-dismiss="modal">Close</button>
+                        <input type="hidden" name="action" value="add_to_plan">
+                        <input type="hidden" name="recipe_id" value="<%=(String)request.getAttribute("selected_recipe")%>">
+                        <input type="submit" name="add_meal" value="Add to Plan" class="load-more-btn">
+                        <%--a href='./home?action=add_to_plan&&recipe_id=<%=(String)request.getAttribute("selected_recipe")%>' class="load-more-btn">Add to plan</a--%>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
