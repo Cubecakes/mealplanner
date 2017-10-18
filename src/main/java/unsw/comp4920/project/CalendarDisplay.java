@@ -6,18 +6,13 @@ import java.util.Date;
 import java.util.List;
 
 public class CalendarDisplay {
-    public static String calendarToDate(Calendar c){
-        SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
-        return f.format(c.getTime());
-    }
-    private static String generateAddFoodButton(String date, MealTypes mealType){
-        String heading = mealType.toString();
+    private static String generateAddFoodButton(Calendar date, String heading){
         String ret = "";
         ret += "<form action=\"./add_meal.jsp\" method=\"get\">\n";
         ret += "<input type=\"hidden\" name=\"meal_type\" value=\"" + heading + "\">";
+        SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
 
-
-        ret += "<input type=\"hidden\" name=\"plan_date\" value=\"" + date + "\">";
+        ret += "<input type=\"hidden\" name=\"plan_date\" value=\"" + f.format(date.getTime()) + "\">";
 
         ret += "<button style=\"width: 100%;\"  class=\"btn btn-primary\">\n";
         ret += "Add meal!";
@@ -26,10 +21,12 @@ public class CalendarDisplay {
         return ret;
     }
 
-    private static String generateDisplayFood(List<Food> foods){
+    private static String generateDisplayFood(List<Recipe> recipes){//(List<Food> foods){
         String ret = "";
-        for (Food f : foods) {
-            ret += "Food: " + f.getName() + "<br> Calories : " + f.getCalorie() + "<br>";
+        for (Recipe r : recipes) {
+            //ret += "Food: " + f.getName() + "<br> Calories : " + f.getCalorie() + "<br>";
+            System.out.println(r);
+            //ret += "Recipe: " + r.getName()+ "<br>";
         }
         return ret;
     }
@@ -43,11 +40,13 @@ public class CalendarDisplay {
         ret += "<tr style=\"height: 33%\">\n";
         ret += "<td>" + heading + "</td>\n";
         for (int i = 0; i < 7; i++) {
-            List<Food> foundFoods = dbo.getFoods(username,calendarToDate(c),heading);
+            //List<Food> foundFoods = dbo.getFoods(username,c.getTime(),heading);
+            List<Recipe> foundRecipes = dbo.getRecipes(username,c.getTime(),heading);
+            System.out.println("recipe list length: "+foundRecipes.size());
             ret += "<td>";
 
-            ret += generateDisplayFood(foundFoods);
-            ret += generateAddFoodButton(calendarToDate(c),mealType);
+            ret += generateDisplayFood(foundRecipes);
+            ret += generateAddFoodButton(c,heading);
 
             ret += "</td>\n";
 
@@ -58,18 +57,13 @@ public class CalendarDisplay {
         return ret;
     }
 
-    public static String printCalendarColumn(String d, String username){
-        DatabaseOperation dbo = new DatabaseOperation();
+    public static String printCalendar(Date d, String username){
         String retString = "" +
             "<table class=`table table-bordered` style=`height: 800px`>".replace('`','"') +
             "<thead> <tr>" +
-            "<th>Meal</th> </th>";
-        List<Food> foundFoods = dbo.getFoods(username,d,MealTypes.Breakfast.toString());
-        retString +=
-            "<tr>"+
-            generateDisplayFood(foundFoods)+
-            generateAddFoodButton(d,MealTypes.Breakfast)+
-            "</tr>";
+            "<th>Meal</th>";
+
+            //retString +=
 
         return retString;
     }

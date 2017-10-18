@@ -1,7 +1,6 @@
 package unsw.comp4920.project;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,12 +12,14 @@ public class User {
     private String photourl;
     private Boolean isActive;
     private String start;
+    private List<String> favouriteList;
 
     public User(){}
 
     public User(String username, String password){
         this.username = username;
         this.password = password;
+        favouriteList = new ArrayList<String>();
     }
 
     public User(String username, String password, String email, String gender){
@@ -26,6 +27,7 @@ public class User {
         this.password = password;
         this.gender = gender;
         this.photourl = photourl;
+        favouriteList = new ArrayList<String>();
     }
 
     public User(String username, String password, String email, String gender,String photourl){
@@ -33,6 +35,7 @@ public class User {
         this.password = password;
         this.gender = gender;
         this.photourl = photourl;
+        favouriteList = new ArrayList<String>();
     }
 
     public void setUsername(String username) {
@@ -89,5 +92,13 @@ public class User {
 
     public void setStart(String start) {
         this.start = start;
+    }
+
+    public List<String> getFavouriteList() {
+        return favouriteList;
+    }
+
+    public void addToFavouriteList(String recipe) {
+        favouriteList.add(recipe);
     }
 }

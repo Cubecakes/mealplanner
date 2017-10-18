@@ -29,7 +29,7 @@ public class DatabaseOperation {
         return c;
     }
 
-    private Food parseFood(ResultSet rs){
+    /*private Food parseFood(ResultSet rs){
         try {
             String ID = rs.getString(1);
             String name = rs.getString(2);
@@ -41,9 +41,9 @@ public class DatabaseOperation {
         }
 
         return null;
-    }
+    }*/
 
-    public Food getFood(String ID){
+    /*public Food getFood(String ID){
         Connection connection = getConnection();
         String sql = "SELECT * FROM food WHERE id = ?";
         PreparedStatement statement = null;
@@ -61,17 +61,17 @@ public class DatabaseOperation {
         }
         return null;
 
-    }
+    }*/
 
-    public List<Food> getFoods(String username, String date, String type){
+   /* public List<Food> getFoods(String username, java.util.Date date, String type){
         Connection connection = getConnection();
-        String sql = "SELECT foodID FROM PLANS WHERE username = ? AND plan_date= to_date(?,'DD/MM/YYY') AND type= ?";
+        String sql = "SELECT foodID FROM PLANS WHERE username = ? AND plan_date= ? AND type= ?";
         PreparedStatement statement = null;
         List<Food> foods = new ArrayList<Food>();
         try {
             statement = (PreparedStatement) connection.prepareStatement(sql);
             statement.setString (1, username);
-            statement.setString (2, date);
+            statement.setDate   (2, new java.sql.Date(date.getTime()));
             statement.setString (3, type);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -84,6 +84,31 @@ public class DatabaseOperation {
             e.printStackTrace();
         }
         return foods;
+    }*/
+
+
+    public List<Recipe> getRecipes(String username, java.util.Date date, String type){
+        Connection connection = getConnection();
+        String sql = "SELECT recipe_id,recipe_name FROM PLANS WHERE username = ? AND plan_date= ? AND type= ?";
+        PreparedStatement statement = null;
+        List<Recipe> recipes = new ArrayList<Recipe>();
+        try {
+            statement = (PreparedStatement) connection.prepareStatement(sql);
+            statement.setString (1, username);
+            statement.setDate   (2, new java.sql.Date(date.getTime()));
+            statement.setString (3, type);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Recipe recipe = new Recipe(rs.getString("recipe_name"),rs.getString("recipe_id"));
+                recipes.add(recipe);
+            }
+
+            statement.close();
+            connection.close();
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return recipes;
     }
 
     public int insertFood(Food f){
@@ -116,7 +141,7 @@ public class DatabaseOperation {
      */
     public int insertPlan(PlanUnit plan) {
         Connection connection = getConnection();
-        String sql = "INSERT INTO PLANS (username,plan_date,type,foodID) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO PLANS (username,plan_date,type,recipe_id,recipe_name) VALUES(?,?,?,?,?)";
         PreparedStatement statement = null;
         int r=0;
         int count=0;
@@ -127,7 +152,9 @@ public class DatabaseOperation {
             statement.setString (1, plan.getUser().getUsername());
             statement.setDate   (2, new java.sql.Date(plan.getDate().getTime()));
             statement.setString (3, plan.getType().toString());
-            statement.setString (4, plan.getFoodList().get(0).getID());
+            //statement.setString (4, plan.getFoodList().get(0).getID());
+            statement.setString (4, plan.getRecipeList().get(0).getId());
+            statement.setString(5,plan.getRecipeList().get(0).getName());
             System.out.println(statement.toString());
             r = statement.executeUpdate();
                 //if(r!=0) {
@@ -366,9 +393,9 @@ public class DatabaseOperation {
         }
         return i;
     }
-    
+
     /**
-     * @method addFavourite(String,String) 
+     * @method addFavourite(String,String) insert a user into users table
      * @return void
      */
     public int addFavourite(String username,String recipe) throws SQLException {
@@ -376,8 +403,8 @@ public class DatabaseOperation {
         int i=0;
         System.out.println("adding user\n**************");
         {
-            String sql = "insert into likeRecipe (username,recipe)" +
-                    "values ('" + username + recipe + "');";
+            String sql = "insert into likeRecipe (username,recipe_id)" +
+                    "values ('" + username + "','" + recipe + "');";
             PreparedStatement pstmt;
             pstmt = (PreparedStatement) conn.prepareStatement(sql);
             i = pstmt.executeUpdate();
@@ -387,35 +414,6 @@ public class DatabaseOperation {
         conn.close();
 
         return i;
-    }
-
-    /**
-     * @method Integer getAll() 查询并打印表中数据
-     * @return Integer 查询并打印表中数据
-     */
-    public Integer getAllUsers() {
-        Connection conn = getConnection();
-        String sql = "select * from users";
-        PreparedStatement pstmt;
-        try {
-            pstmt = (PreparedStatement)conn.prepareStatement(sql);
-            ResultSet rs = pstmt.executeQuery();
-            int col = rs.getMetaData().getColumnCount();
-            System.out.println("============================");
-            while (rs.next()) {
-                for (int i = 1; i <= col; i++) {
-                    System.out.print(rs.getString(i) + "\t");
-                    if ((i == 2) && (rs.getString(i).length() < 8)) {
-                        System.out.print("\t");
-                    }
-                }
-                System.out.println("");
-            }
-            System.out.println("============================");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     /**
@@ -447,32 +445,4 @@ public class DatabaseOperation {
         return null;
     }
 
-    /**
-     * @method Integer getAllFood() get all food info in database
-     * @return Integer
-     */
-    public Integer getAllFood() {
-        Connection conn = getConnection();
-        String sql = "select * from food";
-        PreparedStatement pstmt;
-        try {
-            pstmt = (PreparedStatement)conn.prepareStatement(sql);
-            ResultSet rs = pstmt.executeQuery();
-            int col = rs.getMetaData().getColumnCount();
-            System.out.println("============================");
-            while (rs.next()) {
-                for (int i = 1; i <= col; i++) {
-                    System.out.print(rs.getString(i) + "\t");
-                    if ((i == 2) && (rs.getString(i).length() < 8)) {
-                        System.out.print("\t");
-                    }
-                }
-                System.out.println("");
-            }
-            System.out.println("============================");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }
