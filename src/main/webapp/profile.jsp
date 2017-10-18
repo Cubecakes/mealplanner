@@ -44,7 +44,8 @@
         <h1 class="myh1">Welcome to Meal Your Day!</h1>
     </header>
     <section>
-        <img src="images/profolio.PNG">
+
+        <img src="images/<%=user.getPhotourl()%>">
 
         <div class="arrow-up"></div>
         <form id="contact" class="form-horizontal" role="form">

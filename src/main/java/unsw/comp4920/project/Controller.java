@@ -97,7 +97,7 @@ public class Controller extends javax.servlet.http.HttpServlet {
                 return "register.jsp";
             } else {
                 if(photourl==null){
-                    currentUser = new User(username, password,email,gender);
+                    currentUser = new User(username, password,email,gender,"profolio.PNG");
                 }else{
                     currentUser = new User(username, password,email,gender,photourl);
                 }
