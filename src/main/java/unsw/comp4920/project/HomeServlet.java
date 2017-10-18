@@ -68,6 +68,28 @@ public class HomeServlet extends HttpServlet {
                 nextPage = "add_meal.jsp";
             }else if(action.equals("save_plan")){
                 nextPage = "";
+            }else if(action.equals("search_all")){
+
+                //request.setAttribute("search_keyword",null);
+                nextPage = "search_recipe.jsp";
+                request.getSession().setAttribute("currentDate",c);
+
+            }else if(action.equals("favourite")){
+                System.out.println("HAHHAHAH");
+                String id = request.getParameter("recipe_id");
+                currentUser.addToFavouriteList(id);
+                nextPage = "search_recipe.jsp";
+                //write to database
+                DatabaseOperation dbo = new DatabaseOperation();
+                try {
+                    dbo.addFavourite(currentUser.getUsername(),id);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                request.setAttribute("search_keyword",request.getParameter("search_keyword"));
+
+                request.getSession().setAttribute("currentDate",c);
+
             }else if(action.equals("show_recipe")){
 
                 String id = (String)request.getParameter("selected_recipe");
