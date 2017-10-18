@@ -112,10 +112,9 @@ public class HomeServlet extends HttpServlet {
                     request.setAttribute("error_message",error);
                     //error message
                 }
-                request.setAttribute("selected_recipe",recipe_id);
-                nextPage = "selected_recipe.jsp";
-                request.getSession().setAttribute("currentDate",c);
-                request.getSession().setAttribute("currentUser",currentUser);
+                nextPage = "myhome.jsp";
+                //request.getSession().setAttribute("currentDate",c);
+                //request.getSession().setAttribute("currentUser",currentUser);
 
             }else if(action.equals("save_plan")){
                 nextPage = "";
