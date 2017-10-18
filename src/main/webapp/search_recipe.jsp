@@ -81,10 +81,10 @@
                             "\n" +
                             "                       <div class=\"col-md-12\">\n" +
                             "\n" +
-                            "                           <a href='./home?action=add_recipe_to_plan&&selected_recipe=" + arr[i]._id['$oid'] +
+                            "                           <a href='./home?action=add_recipe_to_plan&&selected_recipe=" + arr[i]._id['$oid'] + "&&recipe_name=" + arr[i].name +
                             "' class='load-more-btn'>Add to Plan</a>\n" +
                             "\n" +
-                            "                           <a href='./home?action=show_recipe&&selected_recipe=" + arr[i]._id['$oid'] +
+                            "                           <a href='./home?action=show_recipe&&selected_recipe=" + arr[i]._id['$oid'] + "&&recipe_name=" + arr[i].name +
                             "&&search_keyword=" + keyword + "' class='load-more-btn'>More info</a>\n" +
                             "\n" +
                             "                       </div>\n" +

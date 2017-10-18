@@ -26,7 +26,7 @@ public class CalendarDisplay {
         for (Recipe r : recipes) {
             //ret += "Food: " + f.getName() + "<br> Calories : " + f.getCalorie() + "<br>";
             System.out.println(r);
-            //ret += "Recipe: " + r.getName()+ "<br>";
+            ret += "Recipe: " + r.getName()+ "<br>";
         }
         return ret;
     }

@@ -165,8 +165,8 @@
                     <div class="modal-footer">
                         <button type="button" class="load-more-btn" data-dismiss="modal">Close</button>
                         <input type="hidden" name="action" value="add_to_plan">
-                        <input type="hidden" name="recipe_id" value="<%=(String)request.getAttribute("selected_recipe")%>">
-                        <input type="hidden" name="recipe_name" value="<%=(String)request.getAttribute("recipe_name")%>">
+                        <input type="hidden" name="recipe_id" value="<%=(String)request.getParameter("selected_recipe")%>">
+                        <input type="hidden" name="recipe_name" value="<%=(String)request.getParameter("recipe_name")%>">
                         <input type="submit" name="add_meal" value="Add to Plan" class="load-more-btn">
                         <%--a href='./home?action=add_to_plan&&recipe_id=<%=(String)request.getAttribute("selected_recipe")%>' class="load-more-btn">Add to plan</a--%>
                     </div>
