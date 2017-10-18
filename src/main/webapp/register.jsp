@@ -1,6 +1,6 @@
 <%@ page import="java.util.Calendar" %>
 <%@ page import="unsw.comp4920.project.ControllerActions" %>
-<%@ page import="unsw.comp4920.project.Controller" %><%--
+<%@ page import="unsw.comp4920.project.Controller" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -29,6 +29,13 @@
         }
 
     </style>
+
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous">
+
+    </script>
 </head>
 
 
@@ -36,6 +43,12 @@
 
 <body>
 
+<div id="background-image" style="background-image: url('/images/food_bg/0.jpg'); "></div>
+
+<!--smooth change background background, using jquery-->
+<script src="js/changeBackgroundIMG.js"></script>
+
+<div id="content">
 <!--header-->
 <header class="upheaderxx">
     <div class="loader loader--style5">
@@ -71,9 +84,6 @@
         </ul>
     </nav>
 </header>
-
-
-
 
 <div class="form-style-8">
     <h2>Join MealPlanner today</h2>
@@ -123,5 +133,8 @@
         <a href="./control?Action=<%=ControllerActions.GOTO_LOGIN%>" class="commonHyperLink">have an account?</a>
     </form>
 </div>
+
+</div>
+
 </body>
 </html>
