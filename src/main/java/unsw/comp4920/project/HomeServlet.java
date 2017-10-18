@@ -48,14 +48,7 @@ public class HomeServlet extends HttpServlet {
                     Date date = df.parse((String) request.getParameter("plan_date"));
                     planUnit.setDate(date);
                     System.out.println("date:  " + date);
-                    String type = (String) request.getParameter("meal_type");
-                    if(type.equals("breakfast")){
-                        type = "B";
-                    }else if(type.equals("lunch")){
-                        type = "L";
-                    }else if(type.equals("dinner")){
-                        type = "D";
-                    }
+                    MealTypes type = MealTypes.valueOf((String) request.getParameter("meal_type"));
                     planUnit.setType(type);
                     System.out.println("type:  " + type);
 

@@ -7,10 +7,10 @@ import java.util.List;
 public class PlanUnit {
     User user;
     Date date;
-    String type; //breakfast/lunch/dinner
+    MealTypes type; //breakfast/lunch/dinner
     List<Food> foodList;
 
-    public PlanUnit(User user, Date date, String type) {
+    public PlanUnit(User user, Date date, MealTypes type) {
         this.user = user;
         this.date = date;
         this.type = type;
@@ -37,11 +37,11 @@ public class PlanUnit {
         return date;
     }
 
-    public void setType(String type) {
+    public void setType(MealTypes type) {
         this.type = type;
     }
 
-    public String getType() {
+    public MealTypes getType() {
         return type;
     }
 
