@@ -1,0 +1,13 @@
+.navColor{
+    background-color: rgba(192, 215, 207, 0.3);
+}
+
+.aColor{
+
+    color: #d05ba0;
+}
+
+.aColor:hover{
+
+    color:gainsboro;
+}
