@@ -1,0 +1,4 @@
+sign up new account->send email->active->login
+sign up new account->send email->not active->resend email
+profile page->change ur profile- ->change ur pic
+sign up -> have an account?->forget ur account?
