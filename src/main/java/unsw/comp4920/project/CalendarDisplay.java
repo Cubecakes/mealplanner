@@ -23,7 +23,7 @@ public class CalendarDisplay {
         ret += "<input type=\"hidden\" name=\"action\" value=\"search\">";
         ret += "<input type=\"hidden\" name=\"plan_date\" value=\"" + formatCalendar(c) + "\">";
 
-        ret += "<button style=\"width: 100%;\"  class=\"btn btn-primary\">\n";
+        ret += "<button style=\"width: 100%;\"  class=\"btn btn-outline-info\">\n";
         ret += "Add meal!";
         ret += "</button>\n";
         ret += "</form>\n";
@@ -55,7 +55,7 @@ public class CalendarDisplay {
             ret += "<input type=\"hidden\" name=\"action\" value=\"remove_plan\">";
 
 
-            ret += "<button style=\"width: 100%;\"  class=\"btn btn-danger\"> Remove meal </button>\n";
+            ret += "<button style=\"width: 100%;\"  class=\"btn btn-outline-danger\"> Remove meal </button>\n";
             ret += "</form>";
 
         }
@@ -69,12 +69,16 @@ public class CalendarDisplay {
 
         String ret = "";
         ret += "<tr style=\"height: 33%\">\n";
-        ret += "<td>" + heading + "</td>\n";
+        ret += "<td class=\"table-info\">" + heading + "</td>\n";
         for (int i = 0; i < 7; i++) {
             //List<Food> foundFoods = dbo.getFoods(username,c.getTime(),heading);
             List<Plan> foundPlans = dbo.getPlans(user,c.getTime(),heading);
             System.out.println("plan list length: "+foundPlans.size());
-            ret += "<td>";
+            if(foundPlans.size() > 0) {
+               ret += "<td class=\"table-warning\">";
+            }else{
+               ret += "<td>";
+            }
 
             ret += generateDisplayFood(foundPlans);
             ret += generateAddFoodButton(c,heading);
@@ -91,14 +95,14 @@ public class CalendarDisplay {
 
     public static String printCalendar(Calendar c, User user){
         String retString = "" +
-            "<table class=`table table-bordered` style=`height: 800px`>".replace('`','"') +
+            "<table class=`table` style=`height: 800px`>".replace('`','"') +
             "<thead> <tr>" +
-            "<th>Meal</th>";
+            "<th class=\"table-success\">Meal</th>";
 
         Calendar currentCal = (Calendar) (c).clone();
         for (int i = 0; i < 7; i++) {
             SimpleDateFormat f = new SimpleDateFormat("EEEE, dd-MM-yyyy");
-            retString += "<th>" + f.format(currentCal.getTime()) + "</th>";
+            retString += "<th class=\"table-success\">" + f.format(currentCal.getTime()) + "</th>";
             currentCal.add(Calendar.DATE,1);
         }
 
