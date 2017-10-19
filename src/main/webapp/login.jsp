@@ -6,6 +6,10 @@
 <head>
     <title>Sign in</title>
     <link type="text/css" rel="stylesheet" href="login_register.css">
+    <link type="text/css" rel="stylesheet" href="css/bootstrap-grid.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" ref="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .loader {
             position: absolute;
@@ -83,7 +87,28 @@
     <h2>Login to your account</h2>
     <%
         if(request.getAttribute("error_info")!=null){
-            out.println("<p style='color:red'>"+request.getAttribute("error_info")+"</p>");
+            String error = (String)request.getAttribute("error_info");
+
+            if(error.equals("Account not activated... Resending activation email")){
+
+                out.println("<div class=\"alert alert-danger\" role=\"alert\">"+error+"</div>");
+
+            }else if(error.equals("Incorrect password")||error.equals("Account activation failed")){
+
+                out.println("<div class=\"alert alert-danger\" role=\"alert\">"+error+"</div>");
+
+            }else if(error.equals("Username doesn't  exist")){
+
+                out.println("<div class=\"alert alert-danger\" role=\"alert\">"+error+"</div>");
+
+            }else if(error.equals("Please check your email to activate your account")){
+
+                out.println("<div class=\"alert alert-info\" role=\"alert\">"+error+"</div>");
+
+            }else if(error.equals("Account successfully activated")){
+                out.println("<div class=\"alert alert-success\" role=\"alert\">"+error+"</div>");
+            }
+            //out.println("<p style='color:red'>"+request.getAttribute("error_info")+"</p>");
         }
     %>
     <form action="./control" method="post">

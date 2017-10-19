@@ -89,7 +89,7 @@
     <h2>Join MealPlanner today</h2>
     <%
         if(request.getAttribute("register_error_info")!=null){
-            out.println("<p style='color:red'>"+request.getAttribute("register_error_info")+"</p>");
+            out.println("<div class=\"alert alert-danger\" role=\"alert\">"+request.getAttribute("register_error_info")+"</div>");
         }
     %>
     <form action="./control" method="post">
