@@ -63,6 +63,7 @@ create table ActivationCodes(
 create table LikeRecipe(
   username LongName REFERENCES Users(username) NOT NULL ,
   recipe_id LongString NOT NULL,
+  recipe_name LongString NOT NULL,
   PRIMARY KEY (username, recipe_id)
 );
 
