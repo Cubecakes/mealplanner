@@ -17,7 +17,7 @@
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
-<body>
+<body style="margin:150;padding:0">
 <%@ include file="header.html" %>
 <div id="demo" class="container"></div>
 
