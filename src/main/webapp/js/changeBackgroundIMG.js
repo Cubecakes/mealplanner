@@ -25,4 +25,4 @@ function changeBackgroundSmoothly() {
     $('#background-image').fadeOut(1000, changeBg); //this is new, will fade out smoothly
 }
 
-setInterval(changeBackgroundSmoothly,6000);
+setInterval(changeBackgroundSmoothly,3000);
