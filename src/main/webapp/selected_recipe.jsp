@@ -1,4 +1,5 @@
-<%@ page import="java.util.Calendar" %><%--suppress ALL --%>
+<%@ page import="java.util.Calendar" %>
+<%@ page import="unsw.comp4920.project.User" %><%--suppress ALL --%>
 <%--
   Created by IntelliJ IDEA.
   User: luyibest001
@@ -44,8 +45,23 @@
 
             for(i=0;i<arr.length;i++){
                 if(arr[i]._id['$oid']==recipe_id){
-                    //name
-                    out += "<center><h1 style='color: #21c2f8;font-family: Lato, sans-serif;'>"+arr[i].name+"</h1></center>\n";
+                    var liked = false;
+                    var liked_recipes = new Array();
+                    <%
+                        User user = (User)request.getSession().getAttribute("currentUser");
+                        System.out.println("Selected_recipe page:username====="+user.getUsername());
+                        for(int i=0;i<user.getFavouriteList().size();i++){
+                            out.println("liked_recipes.push('"+user.getFavouriteList().get(i).getId()+"')");
+                        }
+                    %>;
+                    for(j=0;liked_recipes.length;j++){
+                        if(recipe_id==liked_recipes[j]){
+                            liked = true;
+                            break;
+                        }
+                    }
+
+                    out += "<center><h1 style='color: #21c2f8;font-family: Lato, sans-serif;'>"+arr[i].name+"</h1></center><br>\n";
                     //recipe details:
                     out += "<div class='recipe_display_block'>\n";
                     /*
@@ -53,6 +69,12 @@
                       creator, if have one:
                       publish date:
                     */
+                    if(liked == true){
+                        out += "<a class='btn btn-success' href='/home?action=unlike&&recipe_id="+recipe_id+"&&username=" + <%=(String)request.getAttribute("username")%> + "'>Unlike</a>";
+                    }else{
+                        out += "<a class='btn btn-success' href='/home?action=favourite&&recipe_id="+recipe_id+"&&recipe_name=" + arr[i].name + "'>Like</a>";
+                    }
+
                     out += "<p style='color: grey;margin-left:80 px;'>";
                     if(arr[i].creator != null){
                         out += "By "+arr[i].creator+"            ";
@@ -116,7 +138,7 @@
                             "       </form></div>\n";
 
                         out += "    <div class=\"col-6\"><center><a href='/home' class='button_add_meal' >Back</a></center></div>"
-                    }else {
+                    }else if("<%=(String)request.getParameter("display_type")%>" == "search") {
                         //buttons in a line: back       add to plan
                         out += "<div class=\"row\" style='margin-left: 115px;width: 800px'>\n" +
                             "       <div class=\"col-6\"><center>            " +
@@ -130,9 +152,24 @@
                             "       </form></div>\n";
 
                         var keyword = '<%=(String)request.getAttribute("search_keyword")%>';
-                        out += "    <div class=\"col-6\"><center><a href='/home?action=search_submit&&" + printRecipeTags(arr,i,keyword) +
-                            " &&submit_search=Search' class='button_add_meal' >Back</a></center></div>"
+                        out += "    <div class=\"col-6\"><center><a href='/home?action=search_submit&&" + printRecipeTags(arr, i, keyword) +
+                            " &&submit_search=Search' class='button_add_meal' >Back</a></center></div>";
+
+                    }else if("<%=(String)request.getParameter("display_type")%>" == "profile") {
+                        out += "<div class=\"row\" style='margin-left: 115px;width: 800px'>\n" +
+                            "       <div class=\"col-6\"><center>            " +
+                            "       <form action=\"/home\" method=\"get\" tabindex=\"-1\">\n" +
+                            "           <input type=\"hidden\" name=\"action\" value=\"add_to_plan\">\n" +
+                            "           <input type=\"hidden\" name=\"recipe_id\" value=\"<%=(String)request.getParameter("recipe_id")%>\">\n" +
+                            "           <input type=\"hidden\" name=\"recipe_name\" value=\"<%=(String)request.getParameter("recipe_name")%>\">\n" +
+                            "           <input type=\"hidden\" name=\"plan_date\" value=\"<%=(String)request.getParameter("plan_date")%>\">\n" +
+                            "           <input type=\"hidden\" name=\"meal_type\" value=\"<%=(String)request.getParameter("meal_type")%>\">\n" +
+                            "           <input type=\"submit\" name=\"add_meal\" value=\"Add to Plan\" class=\"load-more-btn\">\n" +
+                            "       </form></div>\n";
+
+                        out += "    <div class=\"col-6\"><center><a href='/home?action=profile' class='button_add_meal' >Back</a></center></div>";
                     }
+
                     out += "<br><br><br>";
                    // out += "<div class=\"row\" style='margin-left: 115px;width: 800px'><p style='color: grey;margin-left: 80px;'>source: "+arr[i].url+"</p></div>\n";
                     out += "</div><br><br>\n";

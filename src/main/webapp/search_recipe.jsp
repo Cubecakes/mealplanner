@@ -17,7 +17,7 @@
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
-<body style="margin:150;padding:0">
+<body>
 <%@ include file="header.html" %>
 <div id="demo" class="container"></div>
 
@@ -26,7 +26,7 @@
     var url = "recipe_test.json";
     function printRecipeTags(arr, i, keyword){
 
-        return '&plan_date=<%= request.getParameter("plan_date") %>&meal_type=<%=request.getParameter("meal_type")%>&&recipe_id='
+        return '&plan_date=<%= request.getParameter("plan_date") %>&&meal_type=<%=request.getParameter("meal_type")%>&&recipe_id='
             + arr[i]._id['$oid']+'&&recipe_name=' + arr[i].name + '&&search_keyword=' + keyword;
     }
     xmlhttp.onreadystatechange = function() {
@@ -68,7 +68,8 @@
                         "               <div class=\"product-deatil\">\n" +
                         "\n" +
                         "                   <h5 class='name'><a href='./home?action=show_recipe&display_type=search" + printRecipeTags(arr,i,keyword)+ "'>" + arr[i].name + "</a></h5> " +
-                        "                   <a class='btn btn-info' href='/home?action=favourite&&search_keyword="+ printRecipeTags(arr,i,keyword) + "'>Like!</a>" +
+                        "                   <br>" +
+                        "                   <a class='btn btn-info' href='/home?action=favourite&"+ printRecipeTags(arr,i,keyword) + "'>Like!</a>" +
                         "               </div>\n" +
                         "               <div class=\"description\">" +
                         "                   </n><p style='color: grey'>Description</p>";

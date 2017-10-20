@@ -120,7 +120,7 @@
                                 "           <div class=\"col-md-7 col-sm-12 col-xs-12\">\n" +
                                 "\n" +
                                 "               <div class=\"product-deatil\">\n" +
-                                "                   <h5 class='name'><a href='./home?action=show_recipe&display_type=search'>" + arr[i].name + "</a></h5> " +
+                                "                   <h5 class='name'><a href='./home?action=show_recipe&&display_type=profile&&search_keyword=myFavourite&&recipe_id="+arr[i]._id['$oid']+"&&recipe_name="+arr[i].name+"'>" + arr[i].name + "</a></h5> " +
                                 "                   <br>" +
                                 "               </div>\n" +
                                 "               <div class=\"description\">" +
@@ -139,10 +139,10 @@
                                 "\n" +
                                 "                       <div class=\"col-md-12\">\n" +
                                 "\n" +
-                                "                           <a href='./home?action=add_to_plan" +
+                                "                           <a href='./home?action=add_to_plan&&recipe_id="+ arr[i]._id['$oid'] + "&&recipe_name="+ arr[i].name+
                                 "' class='load-more-btn'>Add to Plan</a>\n" +
                                 "\n" +
-                                "                           <a href='./home?action=show_recipe&display_type=search' class='load-more-btn'>More info</a>\n" +
+                                "                           <a href='./home?action=show_recipe&&display_type=profile&&search_keyword=myFavourite&&recipe_id="+arr[i]._id['$oid']+"&&recipe_name="+arr[i].name+"' class='load-more-btn'>More Info</a> " +
                                 "\n" +
                                 "                       </div>\n" +
                                 "\n" +
