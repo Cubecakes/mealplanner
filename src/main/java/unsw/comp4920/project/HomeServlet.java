@@ -43,39 +43,10 @@ public class HomeServlet extends HttpServlet {
                 request.getSession().setAttribute("currentDate",c);
                 request.getSession().setAttribute("currentUser",currentUser);
 
-            }else if(action.equals("add_meal")){
-               /* try {
-                    Plan planUnit = new Plan();
-                    planUnit.setUser(currentUser);
-                    System.out.println("PLAN DATE " + request.getParameter("plan_date"));
-                    SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-                    Date date = df.parse((String) request.getParameter("plan_date"));
-                    planUnit.setDate(date);
-                    System.out.println("date:  " + date);
-                    MealTypes type = MealTypes.valueOf((String)request.getAttribute("meal_type"));
-
-                    System.out.println("type:  " + type);
-
-                    String foodName = (String) request.getParameter("add_food");
-
-                    Food food = new Food(foodName, 0, "Placeholder", UUID.randomUUID().toString());
-
-                    planUnit.addToRecipe;List(food);
-                    System.out.println("food:  " + foodName);
-                    //write into database
-                    DatabaseOperation dbo = new DatabaseOperation();
-                    dbo.insertFood(food);
-                    dbo.insertPlan(planUnit);
-                }catch (ParseException e){
-                    e.printStackTrace();
-                }
-                nextPage = "add_meal.jsp";*/
-
             }else if(action.equals("add_to_plan")){
                 String recipe_id = request.getParameter("recipe_id");
                 String name = request.getParameter("recipe_name");
                 Recipe recipe = new Recipe(name,recipe_id);
-
 
                 System.out.println(request.getParameter("meal_type"));
                 System.out.println(MealTypes.Breakfast.toString().compareTo(request.getParameter("meal_type")));
@@ -86,6 +57,45 @@ public class HomeServlet extends HttpServlet {
                 Date date=null;
                 try {
                     date = df.parse(request.getParameter("plan_date"));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                Plan plan = new Plan();
+                plan.setUser(currentUser);
+                plan.setDate(date);
+                plan.setType(type);
+                plan.setRecipe(recipe);
+
+                //write to database
+                DatabaseOperation dbo = new DatabaseOperation();
+                dbo.insertPlan(plan);
+                //request.setAttribute("recipe_id",recipe);
+
+                nextPage = "myhome.jsp";
+                request.getSession().setAttribute("currentDate",c);
+                request.getSession().setAttribute("currentUser",currentUser);
+
+            }else if(action.equals("add_to_plan_without_plan_date")){
+
+                String recipe_id = request.getParameter("recipe_id");
+                String name = request.getParameter("recipe_name");
+                Recipe recipe = new Recipe(name,recipe_id);
+
+                System.out.println(request.getParameter("meal_type"));
+                System.out.println(MealTypes.Breakfast.toString().compareTo(request.getParameter("meal_type")));
+                System.out.println(MealTypes.valueOf(MealTypes.Breakfast.toString()));
+                MealTypes type = MealTypes.valueOf(request.getParameter("meal_type"));
+
+                String year = request.getParameter("add_to_plan_year");
+                String month = request.getParameter("add_to_plan_month");
+                String day = request.getParameter("add_to_plan_day");
+                String dateStr = day +"-"+month+"-"+year;
+
+                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+                Date date=null;
+                try {
+                    date = df.parse(dateStr);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -102,11 +112,12 @@ public class HomeServlet extends HttpServlet {
                 //write to database
                 DatabaseOperation dbo = new DatabaseOperation();
                 dbo.insertPlan(plan);
-                //request.setAttribute("recipe_id",recipe);
 
-                nextPage = "myhome.jsp";
-                //request.getSession().setAttribute("currentDate",c);
-                //request.getSession().setAttribute("currentUser",currentUser);
+                request.setAttribute("recipe_id",recipe_id);
+                request.setAttribute("display_type","profile");
+                nextPage = "selected_recipe.jsp";
+                request.getSession().setAttribute("currentDate",c);
+                request.getSession().setAttribute("currentUser",currentUser);
 
             }else if(action.equals("save_plan")){
                 nextPage = "";
@@ -142,11 +153,13 @@ public class HomeServlet extends HttpServlet {
                 request.setAttribute("recipe_name",name);
                 nextPage = "selected_recipe.jsp";
 
+                request.getSession().setAttribute("currentDate",c);
+                request.getSession().setAttribute("currentUser",currentUser);
             }else if(action.equals("search_all")){
 
                 //request.setAttribute("search_keyword",null);
                 nextPage = "search_recipe.jsp";
-                //request.getSession().setAttribute("currentDate",c);
+                request.getSession().setAttribute("currentDate",c);
                 request.getSession().setAttribute("currentUser",currentUser);
             }else if(action.equals("search")){
 
@@ -155,7 +168,7 @@ public class HomeServlet extends HttpServlet {
 
             }else if(action.equals("search_submit")){
                 nextPage = "search_recipe.jsp";
-                //request.getSession().setAttribute("currentDate",c);
+                request.getSession().setAttribute("currentDate",c);
                 request.getSession().setAttribute("currentUser",currentUser);
             }else if(action.equals("profile")){
 
