@@ -44,7 +44,7 @@
     <header class="contact_header">
         <%
             User user = (User)request.getSession().getAttribute("currentUser");
-            request.setAttribute("currentUser",user);
+            request.getSession().setAttribute("currentUser",user);
             out.println("<h1 class=\"myname\"> Hello! "+user.getUsername()+".</h1>");
         %>
         <h1 class="myh1">Welcome to Meal Your Day!</h1>
