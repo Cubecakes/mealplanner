@@ -113,9 +113,15 @@ public class HomeServlet extends HttpServlet {
                 DatabaseOperation dbo = new DatabaseOperation();
                 dbo.insertPlan(plan);
 
-                request.setAttribute("recipe_id",recipe_id);
-                request.setAttribute("display_type","profile");
-                nextPage = "selected_recipe.jsp";
+                if (request.getParameter("parent_page").equals("profile")) {
+                    request.setAttribute("username",currentUser.getUsername());
+                    nextPage = "profile.jsp";
+                }else if(request.getParameter("parent_page").equals("selected_recipe")){
+                    request.setAttribute("recipe_id",recipe_id);
+                    request.setAttribute("display_type","profile");
+                    nextPage = "selected_recipe.jsp";
+                }
+
                 request.getSession().setAttribute("currentDate",c);
                 request.getSession().setAttribute("currentUser",currentUser);
 
