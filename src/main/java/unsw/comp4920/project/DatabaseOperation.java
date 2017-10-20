@@ -116,7 +116,7 @@ public class DatabaseOperation {
         try {
             statement = (PreparedStatement) connection.prepareStatement(sql);
             statement.setString (1, user.getUsername());
-            statement.setDate   (2, new java.sql.Date(date.getTime()));
+            statement.setDate   (2, new Date(date.getTime()));
             statement.setString (3, type);
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -181,7 +181,7 @@ public class DatabaseOperation {
             //for(int i=0;i<length;i++) {
             statement = (PreparedStatement) connection.prepareStatement(sql);
             statement.setString (1, plan.getUser().getUsername());
-            statement.setDate   (2, new java.sql.Date(plan.getDate().getTime()));
+            statement.setDate   (2, new Date(plan.getDate().getTime()));
             statement.setString (3, plan.getType().toString());
             //statement.setString (4, plan.getFoodList().get(0).getID());
             statement.setString (4, plan.getRecipe().getId());
@@ -401,6 +401,13 @@ public class DatabaseOperation {
                 String start = ft.format(dNow).toString();
                 user.setStart(start);
             }
+
+            sql = "select * from likeRecipe where username='"+username+"';";
+            rs = querystatement.executeQuery(sql);
+            while(rs.next()){
+                Recipe recipe = new Recipe(rs.getString("recipe_name"),rs.getString("recipe_id"));
+                user.addToFavouriteList(recipe);
+            }
         }
         return user;
     }
@@ -431,14 +438,18 @@ public class DatabaseOperation {
      * @method addFavourite(String,String) insert a user into users table
      * @return void
      */
-    public int addFavourite(String username,String recipe) throws SQLException {
+    public int addFavourite(String username,Recipe recipe) throws SQLException {
         Connection conn = getConnection();
         int i=0;
         System.out.println("adding user\n**************");
         {
-            String sql = "insert into likeRecipe (username,recipe_id)" +
-                    "values ('" + username + "','" + recipe + "');";
+            String sql = "select count(*) from likeRecipe where username="+username+" and recipe_id="+recipe.getId()+";";
             PreparedStatement pstmt;
+            pstmt = (PreparedStatement)conn.prepareStatement(sql);
+
+            sql = "insert into likeRecipe (username,recipe_id,recipe_name)" +
+                    "values ('" + username + "','" + recipe.getId() + "','"+recipe.getName()+"');";
+
             pstmt = (PreparedStatement) conn.prepareStatement(sql);
             i = pstmt.executeUpdate();
             pstmt.close();
@@ -448,34 +459,4 @@ public class DatabaseOperation {
 
         return i;
     }
-
-    /**
-     * @method Integer getAll Plan
-     * @return Integer
-     */
-    public Integer getAllPlans() {
-        Connection conn = getConnection();
-        String sql = "select * from plans";
-        PreparedStatement pstmt;
-        try {
-            pstmt = (PreparedStatement)conn.prepareStatement(sql);
-            ResultSet rs = pstmt.executeQuery();
-            int col = rs.getMetaData().getColumnCount();
-            System.out.println("============================");
-            while (rs.next()) {
-                for (int i = 1; i <= col; i++) {
-                    System.out.print(rs.getString(i) + "\t");
-                    if ((i == 2) && (rs.getString(i).length() < 8)) {
-                        System.out.print("\t");
-                    }
-                }
-                System.out.println("");
-            }
-            System.out.println("============================");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
 }
