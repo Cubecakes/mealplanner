@@ -1,6 +1,7 @@
 <%@ page import="unsw.comp4920.project.User" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Calendar" %>
 <%--
   Created by IntelliJ IDEA.
   User: luyibest001
@@ -139,8 +140,9 @@
                                 "\n" +
                                 "                       <div class=\"col-md-12\">\n" +
                                 "\n" +
-                                "                           <a href='./home?action=add_to_plan&&recipe_id="+ arr[i]._id['$oid'] + "&&recipe_name="+ arr[i].name+
-                                "' class='load-more-btn'>Add to Plan</a>\n" +
+                                "                           <button type=\"button\" class='load-more-btn' data-toggle=\"modal\" data-target='#addMeal'>\n" +
+                                "                               Add to Plan\n" +
+                                "                           </button>\n"+
                                 "\n" +
                                 "                           <a href='./home?action=show_recipe&&display_type=profile&&search_keyword=myFavourite&&recipe_id="+arr[i]._id['$oid']+"&&recipe_name="+arr[i].name+"' class='load-more-btn'>More Info</a> " +
                                 "\n" +
@@ -177,8 +179,61 @@
     xmlhttp.send();
 </script>
 
-<div id="particles-js">
+<div id="particles-js"></div>
+
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" id="addMeal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Add to Plan</h4>
+            </div>
+            <form action="/home">
+                <div class="modal-body"><center>
+                    <select name="add_to_plan_year">
+                        <%
+                            Calendar now = Calendar.getInstance();   // Gets the current date and time
+                            int year = now.get(Calendar.YEAR);
+                            for(int i=year;i<=year+30;i++){
+                                out.println("<option>"+i+"</option>");
+                            }
+                        %>
+                    </select >
+
+                    <select name="add_to_plan_month">
+                        <%
+                            for(int i=1;i<=12;i++){
+                                out.println("<option>"+i+"</option>");
+                            }
+                        %>
+                    </select>
+
+                    <select name="add_to_plan_day">
+                        <%
+                            for(int i=1;i<=31;i++){
+                                out.println("<option>"+i+"</option>");
+                            }
+                        %>
+                    </select>
+                    <br><br><br>
+                    <input type="radio" name="meal_type" value="Breakfast"> Breakfast
+                    <input type="radio" name="meal_type" value="Lunch"> Lunch
+                    <input type="radio" name="meal_type" value="Dinner"> Dinner
+                </center></div>
+                <div class="modal-footer"><center>
+                    <button type="button" class="load-more-btn" data-dismiss="modal">Close</button>
+                    <input type="hidden" name="recipe_id" value="<%=(String)request.getParameter("recipe_id")%>">
+                    <input type="hidden" name="recipe_name" value="<%=(String)request.getParameter("recipe_name")%>">
+                    <input type="hidden" name="action" value="add_to_plan_without_plan_date">
+                    <input type="hidden" name="parent_page" value="profile">
+                    <input type="submit" class="load-more-btn" value="Add">
+                </center></div>
+            </form>
+        </div>
+    </div>
 </div>
+
+
 <script src="/js/particles.js"></script>
 <script src="/js/app.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

@@ -236,6 +236,7 @@
                     <input type="hidden" name="recipe_id" value="<%=(String)request.getParameter("recipe_id")%>">
                     <input type="hidden" name="recipe_name" value="<%=(String)request.getParameter("recipe_name")%>">
                     <input type="hidden" name="action" value="add_to_plan_without_plan_date">
+                    <input type="hidden" name="parent_page" value="selected_recipe">
                     <input type="submit" class="load-more-btn" value="Add">
                 </center></div>
             </form>
