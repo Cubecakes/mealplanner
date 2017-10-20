@@ -113,18 +113,22 @@ public class HomeServlet extends HttpServlet {
 
             }else if(action.equals("favourite")){
                 System.out.println("HAHHAHAH");
-                String id = request.getParameter("recipe_id");
-                currentUser.addToFavouriteList(id);
-                nextPage = "search_recipe.jsp";
+                String recipe_id = request.getParameter("recipe_id");
+                String recipe_name = request.getParameter("recipe_name");
+
+                Recipe recipe = new Recipe(recipe_name,recipe_id);
+                currentUser.addToFavouriteList(recipe);
+
                 //write to database
                 DatabaseOperation dbo = new DatabaseOperation();
                 try {
-                    dbo.addFavourite(currentUser.getUsername(),id);
+                    dbo.addFavourite(currentUser.getUsername(),recipe);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                request.setAttribute("search_keyword",request.getParameter("search_keyword"));
 
+                nextPage = "search_recipe.jsp";
+                request.setAttribute("search_keyword",request.getParameter("search_keyword"));
                 request.getSession().setAttribute("currentDate",c);
                 request.getSession().setAttribute("currentUser",currentUser);
 
@@ -142,17 +146,16 @@ public class HomeServlet extends HttpServlet {
 
                 //request.setAttribute("search_keyword",null);
                 nextPage = "search_recipe.jsp";
-                request.getSession().setAttribute("currentDate",c);
+                //request.getSession().setAttribute("currentDate",c);
                 request.getSession().setAttribute("currentUser",currentUser);
             }else if(action.equals("search")){
 
                 nextPage = "search.jsp";
-                request.getSession().setAttribute("currentDate",c);
-                request.getSession().setAttribute("currentUser",currentUser);
+
 
             }else if(action.equals("search_submit")){
                 nextPage = "search_recipe.jsp";
-                request.getSession().setAttribute("currentDate",c);
+                //request.getSession().setAttribute("currentDate",c);
                 request.getSession().setAttribute("currentUser",currentUser);
             }else if(action.equals("profile")){
 
@@ -162,9 +165,11 @@ public class HomeServlet extends HttpServlet {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                request.getSession().setAttribute("currentUser",currentUser);
+
                 nextPage = "profile.jsp";
                 request.getSession().setAttribute("currentDate",c);
+                request.getSession().setAttribute("currentUser",currentUser);
+                request.setAttribute("username",currentUser.getUsername());
 
             }else if(action.equals("edit_profile")){
                 String username = currentUser.getUsername();
