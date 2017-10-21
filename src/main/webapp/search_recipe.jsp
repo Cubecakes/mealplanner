@@ -1,4 +1,6 @@
-<%--suppress ALL --%>
+<%@ page import="unsw.comp4920.project.DatabaseOperation" %>
+<%@ page import="unsw.comp4920.project.RecipeNew" %>
+<%@ page import="java.util.List" %><%--suppress ALL --%>
 <%--
   Created by IntelliJ IDEA.
   User: luyibest001
@@ -20,6 +22,7 @@
 <body>
 <%@ include file="header.html" %>
 <div id="demo" class="container"></div>
+
 
 <script type="text/javascript">
     var xmlhttp = new XMLHttpRequest();
