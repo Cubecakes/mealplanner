@@ -43,7 +43,6 @@ public class ParseJson {
                 String prepTime    = o.get("prepTime").toString();
 
                 RecipeNew recipe = new RecipeNew(id,name,description,ingredients,url,imageUrl,unixTime,cookTime,prepTime);
-                // dbo new
                 // dbo.addRecipe(recipe);
                 //String recipeYield  = o.get("recipeYield").toString();
             }
