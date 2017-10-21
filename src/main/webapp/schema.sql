@@ -48,14 +48,14 @@ create table Food (
 create table Recipes (
 	id			MediumString not null,
 	name 		LongString not null,
-	ingredients VeryLongString;
+	ingredients VeryLongString,
 	url			VeryLongString,
 	image_url	VeryLongString,
 	cook_time	MediumString,
 	prep_time	MediumString,
 	time_stamp	MediumString,
 	primary key (id)
-)
+);
 
 create table Plans (
   username 	LongName references Users(username),
