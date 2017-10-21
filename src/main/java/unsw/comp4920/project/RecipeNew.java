@@ -1,7 +1,7 @@
 package unsw.comp4920.project;
 
 public class RecipeNew {
-    public RecipeNew(String id, String name, String description, String ingredients, String url, String imageUrl, Integer unixTime, String cookTime, String prepTime) {
+    public RecipeNew(String id, String name, String description, String ingredients, String url, String imageUrl, Long unixTime, String cookTime, String prepTime) {
         this.id = id;
         this.name = name;
         this.ingredients = ingredients;
@@ -54,11 +54,11 @@ public class RecipeNew {
         this.imageUrl = imageUrl;
     }
 
-    public Integer getUnixTime() {
+    public Long getUnixTime() {
         return unixTime;
     }
 
-    public void setUnixTime(Integer unixTime) {
+    public void setUnixTime(Long unixTime) {
         this.unixTime = unixTime;
     }
 
@@ -91,7 +91,7 @@ public class RecipeNew {
     private String ingredients;
     private String url;
     private String imageUrl;
-    private Integer unixTime;
+    private Long unixTime;
     private String cookTime;
     private String prepTime;
     private String description;

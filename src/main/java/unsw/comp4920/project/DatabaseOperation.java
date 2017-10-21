@@ -142,20 +142,51 @@ public class DatabaseOperation {
         return plans;
     }
 
-    public int insertFood(Food f){
+    public RecipeNew getRecipe(String id){
+        String sql = "SELECT id, name, ingredients, url, image_url, cook_time, prep_time, time_stamp FROM recipes WHERE id=?";
+        PreparedStatement statement = null;
+        //int length = plan.getFoodList().size();
         Connection connection = getConnection();
+        try {
+            statement = (PreparedStatement) connection.prepareStatement(sql);
+            statement.setString (1, id);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()){
+                String name        = rs.getString("name");
+                String description = rs.getString("description");
+                String ingredients = rs.getString("ingredients");
+                String url         = rs.getString("url");
+                String imageUrl    = rs.getString("image_url");
+                Long unixTime      = rs.getLong  ("time_stamp");
+                String cookTime    = rs.getString("cook_time");
+                String prepTime    = rs.getString("prep_time");
+                return new RecipeNew(id,name,description,ingredients,url,imageUrl,unixTime,cookTime,prepTime);
+            }
+            statement.close();
+            connection.close();
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-        int r=0;
-        String sql = "INSERT INTO food (id,name,calorie,category) VALUES(?,?,?,?)";
+    public int addRecipe(RecipeNew r){
+        Connection connection = getConnection();
+        String sql = "INSERT INTO Recipes (id,name,ingredients,url,image_url,cook_time,prep_time,time_stamp) " +
+                "                   VALUES(? ,?   ,?          ,?  ,?        ,?        ,?        ,?)";
         PreparedStatement statement = null;
         //int length = plan.getFoodList().size();
         try {
             statement = (PreparedStatement) connection.prepareStatement(sql);
-            statement.setString (1, f.getID());
-            statement.setString (2, f.getName());
-            statement.setInt    (3, f.getCalorie());
-            statement.setString (4, f.getCategory());
-            r = statement.executeUpdate();
+            statement.setString (1, r.getId());
+            statement.setString (2, r.getName());
+            statement.setString (3, r.getIngredients());
+            statement.setString (4, r.getUrl());
+            statement.setString (5, r.getImageUrl());
+            statement.setString (6, r.getCookTime());
+            statement.setString (7, r.getPrepTime());
+            statement.setLong   (8, r.getUnixTime());
+            statement.executeUpdate();
             statement.close();
             connection.close();
         }catch(SQLException e) {

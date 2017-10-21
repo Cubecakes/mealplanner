@@ -1,6 +1,7 @@
 <%@ page import="unsw.comp4920.project.DatabaseOperation" %>
 <%@ page import="unsw.comp4920.project.RecipeNew" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="unsw.comp4920.project.SearchCommons" %><%--
   Created by IntelliJ IDEA.
   User: Darren
   Date: 21-Oct-17
@@ -35,9 +36,7 @@
 %>
 
 <%!
-    String printRecipeTags (RecipeNew r, String plan_date, String meal_type, String keyword){
-        return "&plan_date=" + plan_date + "&&meal_type= " +meal_type+"+&&recipe_id=" + r.getId() +"&&recipe_name=" + r.getName() + "&&search_keyword=" + keyword;
-    }
+
 
     String printRecipe(RecipeNew r, String plan_date, String meal_type, String keyword) {
         String out = "";
@@ -58,9 +57,9 @@
                 "\n" +
                 "               <div class=\"product-deatil\">\n" +
                 "\n" +
-                "                   <h5 class='name'><a href='./home?action=show_recipe&display_type=search" + printRecipeTags(r, plan_date, meal_type,keyword) + "'>" + r.getName() + "</a></h5> " +
+                "                   <h5 class='name'><a href='./home?action=show_recipe&display_type=search" + SearchCommons.printRecipeTags(r, plan_date, meal_type,keyword) + "'>" + r.getName() + "</a></h5> " +
                 "                   <br>" +
-                "                   <a class='btn btn-info' href='/home?action=favourite&" + printRecipeTags(r, plan_date, meal_type,keyword) + "'>Like!</a>" +
+                "                   <a class='btn btn-info' href='/home?action=favourite&" + SearchCommons.printRecipeTags(r, plan_date, meal_type,keyword) + "'>Like!</a>" +
                 "               </div>\n" +
                 "               <div class=\"description\">" +
                 "                   </n><p style='color: grey'>Description</p>";
@@ -77,10 +76,10 @@
                 "\n" +
                 "                       <div class=\"col-md-12\">\n" +
                 "\n" +
-                "                           <a href='./home?action=add_to_plan" + printRecipeTags(r, plan_date, meal_type,keyword) +
+                "                           <a href='./home?action=add_to_plan" + SearchCommons.printRecipeTags(r, plan_date, meal_type,keyword) +
                 "' class='load-more-btn'>Add to Plan</a>\n" +
                 "\n" +
-                "                           <a href='./home?action=show_recipe&display_type=search" + printRecipeTags(r, plan_date, meal_type,keyword) + "' class='load-more-btn'>More info</a>\n" +
+                "                           <a href='./home?action=show_recipe&display_type=search" + SearchCommons.printRecipeTags(r, plan_date, meal_type,keyword) + "' class='load-more-btn'>More info</a>\n" +
                 "\n" +
                 "                       </div>\n" +
                 "\n" +

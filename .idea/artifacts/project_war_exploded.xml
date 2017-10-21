@@ -14,6 +14,11 @@
           <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.2" />
           <element id="library" level="project" name="Maven: com.github.wnameless:json-flattener:0.4.0" />
           <element id="library" level="project" name="Maven: com.eclipsesource.minimal-json:minimal-json:0.9.4" />
+          <element id="library" level="project" name="Maven: org.postgresql:postgresql:9.3-1103-jdbc41" />
+          <element id="library" level="project" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-jre8:1.1.51" />
+          <element id="library" level="project" name="Maven: org.jetbrains.kotlin:kotlin-stdlib:1.1.51" />
+          <element id="library" level="project" name="Maven: org.jetbrains:annotations:13.0" />
+          <element id="library" level="project" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-jre7:1.1.51" />
         </element>
       </element>
       <element id="directory" name="META-INF">

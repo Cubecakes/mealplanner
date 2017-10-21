@@ -53,7 +53,7 @@ create table Recipes (
 	image_url	VeryLongString,
 	cook_time	MediumString,
 	prep_time	MediumString,
-	time_stamp	MediumString,
+	time_stamp	bigint,
 	primary key (id)
 );
 

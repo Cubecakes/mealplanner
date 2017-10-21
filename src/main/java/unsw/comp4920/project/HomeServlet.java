@@ -27,6 +27,7 @@ public class HomeServlet extends HttpServlet {
 
         String nextPage = "myhome.jsp";
         currentUser = (User)request.getSession().getAttribute("currentUser");
+        System.out.println(currentUser  == null ? currentUser : currentUser.getUsername());
         if(action != null){
             System.out.println("Action|||"+action+"|||");
 
