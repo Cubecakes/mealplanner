@@ -3,6 +3,7 @@
 create domain ShortString as varchar(16);
 create domain MediumString as varchar(64);
 create domain LongString as varchar(256);
+create domain VeryLongString as varchar(65536);
 create domain EmailString as varchar(64) check (value like '%@%');
 create domain LongName as varchar(128);
 
@@ -44,6 +45,18 @@ create table Food (
 	primary key (id)
 );
 
+create table Recipes (
+	id			MediumString not null,
+	name 		LongString not null,
+	ingredients VeryLongString;
+	url			VeryLongString,
+	image_url	VeryLongString,
+	cook_time	MediumString,
+	prep_time	MediumString,
+	time_stamp	MediumString,
+	primary key (id)
+)
+
 create table Plans (
   username 	LongName references Users(username),
   plan_date	Date not null,
@@ -53,6 +66,8 @@ create table Plans (
   --recipe_name LongString,
   primary key (username,plan_date,type,recipe_id)
 );
+
+
 
 
 create table ActivationCodes(

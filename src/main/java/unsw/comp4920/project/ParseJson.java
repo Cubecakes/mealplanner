@@ -3,6 +3,7 @@ package unsw.comp4920.project;
 import com.github.wnameless.json.flattener.JsonFlattener;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
@@ -26,10 +27,25 @@ public class ParseJson {
 
             for (JsonElement e : root.getAsJsonArray()){
                 System.out.println(e);
+                JsonObject o = e.getAsJsonObject();
                 System.out.println(e.getAsJsonObject().get("_id").getAsJsonObject().get("$oid"));
-                System.out.println(e.getAsJsonObject().get("name"));
-                System.out.println(e.getAsJsonObject().get("ingredients"));
-                System.out.println(e.getAsJsonObject().get("ingredients"));
+                System.out.println(e.getAsJsonObject().get("ts"));
+                System.out.println(e.getAsJsonObject().keySet());
+
+                String id           = o.get("_id").getAsJsonObject().get("$oid").toString();
+                String name         = o.get("name").toString();
+                String description  = o.get("description").toString();
+                String ingredients  = o.get("ingredients").toString();
+                String url          = o.get("url").toString();
+                String imageUrl    = o.get("image").toString();
+                Integer unixTime   = o.get("ts").getAsJsonObject().get("$date").getAsInt();
+                String cookTime    = o.get("cookTime").toString();
+                String prepTime    = o.get("prepTime").toString();
+
+                RecipeNew recipe = new RecipeNew(id,name,description,ingredients,url,imageUrl,unixTime,cookTime,prepTime);
+                // dbo new
+                // dbo.addRecipe(recipe);
+                //String recipeYield  = o.get("recipeYield").toString();
             }
         }
 
