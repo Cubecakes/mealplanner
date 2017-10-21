@@ -66,7 +66,7 @@
 
                 out.println("<h3 class=\"myh3\">gender:</h3>");
                 out.println("<h3 class=\"myh233\">"+user.getGender()+"</h3>");
-
+                System.out.println("huehuehehuehue" + user.getStart().split("-")[0]);
                 out.println("<h3 class=\"myh3\">You have been using meal planner since " + user.getStart().split("-")[2] + "/" + user.getStart().split("-")[1] + "/" + user.getStart().split("-")[0] + " </h3>");
 
             %>

@@ -21,7 +21,9 @@ public class DatabaseOperation {
         try {
             Class.forName(driver);
             c = (Connection) DriverManager.getConnection(url, username, password);
-
+            System.out.println("OPEND1");
+            DriverManager.getConnection(url, username, password).close();
+            System.out.println("CLOSED1");
         }catch(Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
@@ -88,6 +90,7 @@ public class DatabaseOperation {
 
     public void removePlan(String username, String date, String type, String recipe_id){
         Connection connection = getConnection();
+        System.out.println("OPEND2");
         PreparedStatement statement = null;
         String sql = "DELETE FROM PLANS WHERE username = ? AND plan_date= to_date(?,'DD/MM/YYYY') AND type= ? AND recipe_id=?";
 
@@ -103,6 +106,7 @@ public class DatabaseOperation {
 
             statement.close();
             connection.close();
+            System.out.println("CLOSED2");
         }catch(SQLException e) {
             e.printStackTrace();
         }
@@ -110,11 +114,15 @@ public class DatabaseOperation {
     }
     public List<Plan> getPlans(User user, java.util.Date date, String type){
         Connection connection = getConnection();
+        System.out.println("OPEND3");
         String sql = "SELECT username, plan_date, type, recipe_id, recipe_name FROM PLANS WHERE username = ? AND plan_date= ? AND type= ?";
         PreparedStatement statement = null;
         List<Plan> plans = new ArrayList<Plan>();
         try {
             statement = (PreparedStatement) connection.prepareStatement(sql);
+
+            connection.close();
+            System.out.println("CLOSED3");
             statement.setString (1, user.getUsername());
             statement.setDate   (2, new Date(date.getTime()));
             statement.setString (3, type);
@@ -135,7 +143,6 @@ public class DatabaseOperation {
             }
 
             statement.close();
-            connection.close();
         }catch(SQLException e) {
             e.printStackTrace();
         }
@@ -144,6 +151,7 @@ public class DatabaseOperation {
 
     public int insertFood(Food f){
         Connection connection = getConnection();
+        System.out.println("OPENED4");
 
         int r=0;
         String sql = "INSERT INTO food (id,name,calorie,category) VALUES(?,?,?,?)";
@@ -158,6 +166,7 @@ public class DatabaseOperation {
             r = statement.executeUpdate();
             statement.close();
             connection.close();
+            System.out.println("CLOSED4");
         }catch(SQLException e) {
             e.printStackTrace();
         }
@@ -172,6 +181,7 @@ public class DatabaseOperation {
      */
     public int insertPlan(Plan plan) {
         Connection connection = getConnection();
+        System.out.println("OPENED5");
         String sql = "INSERT INTO PLANS (username,plan_date,type,recipe_id,recipe_name) VALUES(?,?,?,?,?)";
         PreparedStatement statement = null;
         int r=0;
@@ -194,6 +204,7 @@ public class DatabaseOperation {
             //}
             statement.close();
             connection.close();
+            System.out.println("CLOSED5");
         }catch(SQLException e) {
             e.printStackTrace();
         }
@@ -208,10 +219,11 @@ public class DatabaseOperation {
      * @param username
      * @return boolean true if exists, false if user doesn't exist
      **/
-    public boolean userExists(String username){
+    public boolean userExists(String username) throws SQLException {
         boolean flag = false;
-
+        System.out.println("OPENED7");
         Connection conn = getConnection();
+        System.out.println("OPEDN6");
         String sql = "select * from users";
         PreparedStatement pstmt;
         try {
@@ -227,7 +239,8 @@ public class DatabaseOperation {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        conn.close();
+        System.out.println("CLOSED6");
         return flag;
     }
 
@@ -239,6 +252,7 @@ public class DatabaseOperation {
     public boolean checkPassword(String username, String password) throws SQLException {
         boolean flag = false;
         Connection conn = getConnection();
+        System.out.println("OPEDN7");
         String sql = "select password from users where username='"+username+"'";
         PreparedStatement pstmt;
         pstmt = (PreparedStatement)conn.prepareStatement(sql);
@@ -250,7 +264,8 @@ public class DatabaseOperation {
                 break;
             }
         }
-
+        conn.close();
+        System.out.println("CLOSED7");
         return flag;
     }
 
@@ -264,6 +279,7 @@ public class DatabaseOperation {
         boolean flag = false;
 
         Connection conn = getConnection();
+        System.out.println("OPEDN8");
         String sql = "select is_Active from users where username='"+username+"';";
         PreparedStatement pstmt;
         pstmt = (PreparedStatement)conn.prepareStatement(sql);
@@ -274,13 +290,15 @@ public class DatabaseOperation {
                 break;
             }
         }
-
+        conn.close();
+        System.out.println("CLOSED8");
         return flag;
     }
 
     public String getActivationCode(String username){
         try{
             Connection conn = getConnection();
+            System.out.println("OPENED9");
             int i = 0;
 
             String sql = "select activateCode from ActivationCodes where username = '" + username + "'";
@@ -289,7 +307,8 @@ public class DatabaseOperation {
             if(rs.next()) {
                 return rs.getString(1);
             }
-
+            conn.close();
+            System.out.println("CLOSED9");
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -302,6 +321,7 @@ public class DatabaseOperation {
      */
     public int addUser(String username, String password, String email, String gender, String photo,String active,String start, String activationCode) throws SQLException {
         Connection conn = getConnection();
+        System.out.println("OPEND10");
         int i=0;
         System.out.println("adding user\n**************");
         {
@@ -322,7 +342,7 @@ public class DatabaseOperation {
             pstmt.close();
         }
         conn.close();
-
+        System.out.println("CLOSED10");
         return i;
     }
 
@@ -332,9 +352,10 @@ public class DatabaseOperation {
      * @param username
      * @reutnr int
      */
-    public int activateUser(String username){
+    public int activateUser(String username) throws SQLException {
         int i=0;
         Connection conn = getConnection();
+        System.out.println("OPEDN11");
         String sql = "update users set is_active='true' where username='"+username+"';";
         PreparedStatement preparedStatement;
         try{
@@ -347,6 +368,8 @@ public class DatabaseOperation {
         }catch (SQLException e){
             e.printStackTrace();
         }
+        conn.close();
+        System.out.println("CLOSED11");
         return i;
     }
 
@@ -359,6 +382,7 @@ public class DatabaseOperation {
         User user = new User();
         user.setUsername(username);
         Connection conn = getConnection();
+        System.out.println("OPEDN12");
         int i=0;
         String sql = "select password from users where username='"+username+"';";
         Statement querystatement = conn.createStatement();
@@ -409,6 +433,8 @@ public class DatabaseOperation {
                 user.addToFavouriteList(recipe);
             }
         }
+        conn.close();
+        System.out.println("CLOSEd12");
         return user;
     }
 
@@ -418,9 +444,10 @@ public class DatabaseOperation {
      * @param username
      * @reutnr int
      */
-    public int updateUserInfo(String username, String attribute, String value){
+    public int updateUserInfo(String username, String attribute, String value) throws SQLException {
         int i=0;
         Connection conn = getConnection();
+        System.out.println("OPEDN13");
         String sql = "update users set "+ attribute + "='"+ value +"' where username='"+username+"';";
         PreparedStatement preparedStatement;
         try{
@@ -431,6 +458,8 @@ public class DatabaseOperation {
         }catch (SQLException e){
             e.printStackTrace();
         }
+        conn.close();
+        System.out.println("CLOSED13");
         return i;
     }
 
@@ -440,6 +469,7 @@ public class DatabaseOperation {
      */
     public int addFavourite(String username,Recipe recipe) throws SQLException {
         Connection conn = getConnection();
+        System.out.println("OPEDN14");
         int i=0;
         System.out.println("adding user\n**************");
         {
@@ -456,7 +486,7 @@ public class DatabaseOperation {
         }
 
         conn.close();
-
+        System.out.println("CLOSED14");
         return i;
     }
 }
