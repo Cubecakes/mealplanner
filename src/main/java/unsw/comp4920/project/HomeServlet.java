@@ -196,14 +196,18 @@ public class HomeServlet extends HttpServlet {
                 String password = request.getParameter("edit_password");
                 String email = request.getParameter("edit_email");
                 String photourl = request.getParameter("edit_profile_photo");
-
+                currentUser.setPhotourl(photourl);
 
                 System.out.println(photourl);
                 //write into database
                 SearchDatabase sd = new SearchDatabase();
                 if(email!=null && !"".equals(email)) {
                     DatabaseOperation dbo = new DatabaseOperation();
-                    int i = dbo.updateUserInfo(username,"email",email);
+                    try {
+                        int i = dbo.updateUserInfo(username,"email",email);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                     //System.out.print
                     currentUser.setEmail(email);
                 }else {
@@ -212,7 +216,11 @@ public class HomeServlet extends HttpServlet {
 
                 if(password!=null&&!"".equals(password)){
                     DatabaseOperation dbo = new DatabaseOperation();
-                    dbo.updateUserInfo(username,"password", password);
+                    try {
+                        dbo.updateUserInfo(username,"password", password);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                     currentUser.setPassword(password);
                 }else {
                     //currentUser.setPassword(currentUser.getPassword());

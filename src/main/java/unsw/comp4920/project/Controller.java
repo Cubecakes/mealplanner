@@ -28,7 +28,7 @@ public class Controller extends javax.servlet.http.HttpServlet {
         return true;
     }
 
-    String handleCheckLogin(HttpServletRequest request, HttpServletResponse response){
+    String handleCheckLogin(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         String[] usedParameters = {
                 "username",
                 "password"
@@ -77,7 +77,7 @@ public class Controller extends javax.servlet.http.HttpServlet {
         return "login.jsp";
     }
 
-    String handleCheckRegister(HttpServletRequest request, HttpServletResponse response){
+    String handleCheckRegister(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         String username = request.getParameter("register_username");
         String password = request.getParameter("register_password");
         String email = request.getParameter("register_email");
@@ -134,7 +134,7 @@ public class Controller extends javax.servlet.http.HttpServlet {
         }
     }
 
-    String handleActivateAccount(HttpServletRequest request, HttpServletResponse response) {
+    String handleActivateAccount(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         String[] usedParameters = {
                 "code",
                 "user"
@@ -192,11 +192,23 @@ public class Controller extends javax.servlet.http.HttpServlet {
             }else if (action == ControllerActions.GOTO_REGISTER) {
                 nextPage = "register.jsp";
             }else if (action == ControllerActions.CHECK_LOGIN) {
-                nextPage = handleCheckLogin(request,response);
+                try {
+                    nextPage = handleCheckLogin(request,response);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }else if(action == ControllerActions.CHECK_REGISTER){
-                nextPage = handleCheckRegister(request,response);
+                try {
+                    nextPage = handleCheckRegister(request,response);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }else if(action == ControllerActions.ACTIVATE_ACCOUNT){
-                nextPage = handleActivateAccount(request,response);
+                try {
+                    nextPage = handleActivateAccount(request,response);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }else if(action == ControllerActions.SEND_RECONFIRMATION_EMAIL){
                 nextPage = handleSendReconfirmationEmail(request,response);
             }else if(action == ControllerActions.LOGOUT){
