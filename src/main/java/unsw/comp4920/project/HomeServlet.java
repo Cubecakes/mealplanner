@@ -195,7 +195,7 @@ public class HomeServlet extends HttpServlet {
                 String password = request.getParameter("edit_password");
                 String email = request.getParameter("edit_email");
                 String photourl = request.getParameter("edit_profile_photo");
-
+                currentUser.setPhotourl(photourl);
 
                 System.out.println(photourl);
                 //write into database
