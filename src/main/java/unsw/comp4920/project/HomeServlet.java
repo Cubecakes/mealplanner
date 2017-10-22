@@ -145,7 +145,7 @@ public class HomeServlet extends HttpServlet {
                     e.printStackTrace();
                 }
 
-                nextPage = "search_recipe.jsp";
+                nextPage = "_search_recipe.jsp";
                 request.setAttribute("search_keyword",request.getParameter("search_keyword"));
                 request.getSession().setAttribute("currentDate",c);
                 request.getSession().setAttribute("currentUser",currentUser);
@@ -162,19 +162,13 @@ public class HomeServlet extends HttpServlet {
 
                 request.getSession().setAttribute("currentDate",c);
                 request.getSession().setAttribute("currentUser",currentUser);
-            }else if(action.equals("search_all")){
-
-                //request.setAttribute("search_keyword",null);
-                nextPage = "search_recipe.jsp";
-                request.getSession().setAttribute("currentDate",c);
-                request.getSession().setAttribute("currentUser",currentUser);
             }else if(action.equals("search")){
 
                 nextPage = "search.jsp";
 
 
             }else if(action.equals("search_submit")){
-                nextPage = "search_recipe.jsp";
+                nextPage = "_search_recipe.jsp";
                 request.getSession().setAttribute("currentDate",c);
                 request.getSession().setAttribute("currentUser",currentUser);
             }else if(action.equals("profile")){

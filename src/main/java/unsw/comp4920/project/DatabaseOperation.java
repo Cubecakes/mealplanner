@@ -90,7 +90,6 @@ public class DatabaseOperation {
 
     public void removePlan(String username, String date, String type, String recipe_id){
         Connection connection = getConnection();
-        System.out.println("OPEND2");
         PreparedStatement statement = null;
         String sql = "DELETE FROM PLANS WHERE username = ? AND plan_date= to_date(?,'DD/MM/YYYY') AND type= ? AND recipe_id=?";
 
@@ -143,6 +142,7 @@ public class DatabaseOperation {
             }
 
             statement.close();
+            connection.close();
         }catch(SQLException e) {
             e.printStackTrace();
         }
@@ -150,7 +150,7 @@ public class DatabaseOperation {
     }
 
     public RecipeNew getRecipe(String id){
-        String sql = "SELECT id, name, ingredients, url, image_url, cook_time, prep_time, time_stamp FROM recipes WHERE id=?";
+        String sql = "SELECT id, name, description, ingredients, url, image_url, cook_time, prep_time, time_stamp FROM recipes WHERE id=?";
         PreparedStatement statement = null;
         //int length = plan.getFoodList().size();
         Connection connection = getConnection();
@@ -177,22 +177,56 @@ public class DatabaseOperation {
         return null;
     }
 
-    public int addRecipe(RecipeNew r){
-        Connection connection = getConnection();
-        String sql = "INSERT INTO Recipes (id,name,ingredients,url,image_url,cook_time,prep_time,time_stamp) " +
-                "                   VALUES(? ,?   ,?          ,?  ,?        ,?        ,?        ,?)";
+    public List<RecipeNew> getMatchingRecipes(String keyword){
+        keyword = keyword.toLowerCase();
+        String sql = "SELECT id, name, ingredients, description, url, image_url, cook_time, prep_time, time_stamp FROM recipes WHERE name LIKE ?";
         PreparedStatement statement = null;
         //int length = plan.getFoodList().size();
+        Connection connection = getConnection();
+        try {
+            statement = (PreparedStatement) connection.prepareStatement(sql);
+            statement.setString (1, "%"+keyword+"%");
+            ResultSet rs = statement.executeQuery();
+            List<RecipeNew> list = new ArrayList<RecipeNew>();
+            while (rs.next()){
+                String id          = rs.getString("id");
+                String name        = rs.getString("name");
+                String description = rs.getString("description");
+                String ingredients = rs.getString("ingredients");
+                String url         = rs.getString("url");
+                String imageUrl    = rs.getString("image_url");
+                Long unixTime      = rs.getLong  ("time_stamp");
+                String cookTime    = rs.getString("cook_time");
+                String prepTime    = rs.getString("prep_time");
+                list.add(new RecipeNew(id,name,description,ingredients,url,imageUrl,unixTime,cookTime,prepTime));
+            }
+            statement.close();
+            connection.close();
+            return list;
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public int addRecipe(RecipeNew r){
+        Connection connection = getConnection();
+        String sql = "INSERT INTO Recipes (id,name, description,ingredients,url,image_url,cook_time,prep_time,time_stamp) " +
+                "                   VALUES(? ,?   ,?           ,?          ,?  ,?        ,?        ,?        ,?)";
+        PreparedStatement statement = null;
+        //int length = plan.getFoodList().size();
+        System.out.println("ADDING " + r.getDescription());
         try {
             statement = (PreparedStatement) connection.prepareStatement(sql);
             statement.setString (1, r.getId());
             statement.setString (2, r.getName());
-            statement.setString (3, r.getIngredients());
-            statement.setString (4, r.getUrl());
-            statement.setString (5, r.getImageUrl());
-            statement.setString (6, r.getCookTime());
-            statement.setString (7, r.getPrepTime());
-            statement.setLong   (8, r.getUnixTime());
+            statement.setString (3, r.getDescription());
+            statement.setString (4, r.getIngredients());
+            statement.setString (5, r.getUrl());
+            statement.setString (6, r.getImageUrl());
+            statement.setString (7, r.getCookTime());
+            statement.setString (8, r.getPrepTime());
+            statement.setLong   (9, r.getUnixTime());
             statement.executeUpdate();
             statement.close();
             connection.close();
@@ -498,7 +532,6 @@ public class DatabaseOperation {
      */
     public int addFavourite(String username,Recipe recipe) throws SQLException {
         Connection conn = getConnection();
-        System.out.println("OPEDN14");
         int i=0;
         System.out.println("adding user\n**************");
         {
@@ -515,7 +548,7 @@ public class DatabaseOperation {
         }
 
         conn.close();
-        System.out.println("CLOSED14");
+
         return i;
     }
 }

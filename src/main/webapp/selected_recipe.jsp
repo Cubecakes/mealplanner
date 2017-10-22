@@ -1,5 +1,9 @@
 <%@ page import="java.util.Calendar" %>
-<%@ page import="unsw.comp4920.project.User" %><%--suppress ALL --%>
+<%@ page import="unsw.comp4920.project.User" %>
+<%@ page import="unsw.comp4920.project.RecipeNew" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="unsw.comp4920.project.SearchCommons" %>
+<%@ page import="unsw.comp4920.project.DatabaseOperation" %><%--suppress ALL --%>
 <%--
   Created by IntelliJ IDEA.
   User: luyibest001
@@ -8,6 +12,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <!--suppress ALL -->
+<%@ include file="header.html" %>
+
 <html>
 <head>
     <title>Recipe</title>
@@ -21,175 +27,126 @@
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-reboot.min.css" rel="stylesheet">
 </head>
 <body>
-<%@ include file="header.html" %>
+
 <div id="recipe_info" style="margin-top: 120px;"></div>
+<%!
+    String displayRecipeDetails(RecipeNew r, User user, String displayType, String meal_type, String plan_date, String keyword){
+        String out = "";
+        System.out.println(user);
+        //System.out.println(user.getFavouriteList());
+        Boolean liked = user.getFavouriteList().stream().anyMatch(fav_recipe -> fav_recipe.getId().equals(r.getId()));
+        out += "<center><h1 style='color: #21c2f8;font-family: Lato, sans-serif;'>"+r.getName()+"</h1></center><br>\n";
+        //recipe details:
+        out += "<div class='recipe_display_block'>\n";
 
-<script type="text/javascript">
+        if(liked){
+            out += "<a class='btn btn-success' href='/home?action=unlike&&recipe_id="+r.getId()+"&&username=" + user.getUsername() + "'>Unlike</a>";
+        }else{
+            out += "<a class='btn btn-success' href='/home?action=favourite&&recipe_id="+r.getId()+"&&recipe_name=" + r.getName()+ "'>Like</a>";
+        }
+        out += "<p style='color: grey;margin-left:80 px;'>";
 
-    function printRecipeTags(arr, i, keyword){
-
-        return '&plan_date=<%= request.getParameter("plan_date") %>&meal_type=<%=request.getParameter("meal_type")%>&&recipe_id='
-            + arr[i]._id['$oid']+'&&recipe_name=' + arr[i].name + '&&search_keyword=' + keyword;
-    }
-    var recipe_id = '<%=(String)request.getAttribute("recipe_id")%>';
-    var xmlhttp = new XMLHttpRequest();
-    var url = "recipe_test.json";
-    var queryDict = {}
-    location.search.substr(1).split("&").forEach(function(item) {queryDict[item.split("=")[0]] = item.split("=")[1]})
-
-    xmlhttp.onreadystatechange = function() {
-
-        if (xmlhttp.readyState == 4 && xmlhttp.status == "200") {
-            var arr = JSON.parse(xmlhttp.responseText);
-            out = "";
-
-            for(i=0;i<arr.length;i++){
-                if(arr[i]._id['$oid']==recipe_id){
-                    var liked = false;
-                    var liked_recipes = new Array();
-                    <%
-                        User user = (User)request.getSession().getAttribute("currentUser");
-                        request.getSession().setAttribute("currentUser",user);
-                        System.out.println("Selected_recipe page:username====="+user.getUsername());
-                        for(int i=0;i<user.getFavouriteList().size();i++){
-                            out.println("liked_recipes.push('"+user.getFavouriteList().get(i).getId()+"')");
-                        }
-                    %>;
-                    for(j=0;liked_recipes.length;j++){
-                        if(recipe_id==liked_recipes[j]){
-                            liked = true;
-                            break;
-                        }
-                    }
-
-                    out += "<center><h1 style='color: #21c2f8;font-family: Lato, sans-serif;'>"+arr[i].name+"</h1></center><br>\n";
-                    //recipe details:
-                    out += "<div class='recipe_display_block'>\n";
-                    /*
-                      in one line...
-                      creator, if have one:
-                      publish date:
-                    */
-                    if(liked == true){
-                        out += "<a class='btn btn-success' href='/home?action=unlike&&recipe_id="+recipe_id+"&&username=" + <%=(String)request.getAttribute("username")%> + "'>Unlike</a>";
-                    }else{
-                        out += "<a class='btn btn-success' href='/home?action=favourite&&recipe_id="+recipe_id+"&&recipe_name=" + arr[i].name + "'>Like</a>";
-                    }
-
-                    out += "<p style='color: grey;margin-left:80 px;'>";
-                    if(arr[i].creator != null){
-                        out += "By "+arr[i].creator+"            ";
-                    }
-
-                    if(arr[i].datePublished!=null){
-                        out += "Published date: "+arr[i].datePublished;
-                    }
-                    out += "</p>\n";
+        if(r.getUnixTime() !=null){
+            SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy 'at' h:mm a");
+            String date = sdf.format(r.getUnixTime());
+            out += "Published date: "+ date;
+        }
+        out += "</p>\n";
 
 
-                    //picture
-                    out += "<center><img src='"+arr[i].image+"' onerror=\"this.src='images/no_photo_found.png'\" class='rounded' style='width: 400px;'></center>\n<br>";
-                    //picture source
-                    out += "<center>image source: "+arr[i].image+"</center>\n<br><br><br>";
 
-                    //description
-                    out += "<h2 style='color: #21c2f8;font-family: Lato, sans-serif;'>Description</h2><br>\n";
-                    if(arr[i].description==null){
-                        out += "<h4 style='color: grey;font-family: Lato, sans-serif;'>No description</h4><br><br>\n";
-                    }else{
-                        out += "<h4 style='color: grey;font-family: Lato, sans-serif;'>" +arr[i].description+"</h4><br><br>\n";
-                    }
+        //picture
+        out += "<center><img src='"+r.getImageUrl()+"' onerror=\"this.src='images/no_photo_found.png'\" class='rounded' style='width: 400px;'></center>\n<br>";
+        //picture source
+        out += "<center>image source: "+r.getImageUrl()+"</center>\n<br><br><br>";
 
-
-                    //prepare time:
-                    var prep_time = arr[i].prepTime;
-                    if(prep_time!=null){
-                        prep_time = prep_time.substring(2);
-                        out += "<h2 style='color: #21c2f8;font-family: Lato, sans-serif;'>Preparation Time:  ";
-                        out += prep_time+"</h3><br><br>\n";
-                    }
-                    //cook time:
-                    var cook_time = arr[i].cookTime;
-                    if(cook_time!=null){
-                        cook_time = cook_time.substring(2);
-                        out += "<h2 style='color: #21c2f8;font-family: Lato, sans-serif;'>Cook Time:  ";
-                        out += cook_time+"</h3><br><br>\n";
-                    }
-
-                    //ingredients:
-
-                    var ingredients = new Array();
-                    ingredients = arr[i].ingredients.split("\n");
-                    out += "<h2 style='color: #21c2f8;font-family: Lato, sans-serif;'>Ingredients</h2><br>\n";
-                    for(j=0;j<ingredients.length;j++){
-                        out += "<h4 style='color: grey;font-family: Lato, sans-serif;'>" +ingredients[j]+"</h4>\n";
-                    }
-                    //out += "<h5 style='color: grey;font-family: Lato, sans-serif;'>" +arr[i].ingredients+"</h5><br><br><br>\n";
-                    out += "<br><br><br>";
-                    if ("<%=(String)request.getParameter("display_type")%>" == "calendar"){
-                        out += "<div class=\"row\" style='margin-left: 115px;width: 800px'>\n" +
-                            "       <div class=\"col-6\"><center>            " +
-                            "       <form action=\"/home\" method=\"get\" tabindex=\"-1\">\n" +
-                            "           <input type=\"hidden\" name=\"action\" value=\"remove_plan\">\n" +
-                            "           <input type=\"hidden\" name=\"recipe_id\" value=\"<%=(String)request.getParameter("recipe_id")%>\">\n" +
-                            "           <input type=\"hidden\" name=\"recipe_name\" value=\"<%=(String)request.getParameter("recipe_name")%>\">\n" +
-                            "           <input type=\"hidden\" name=\"plan_date\" value=\"<%=(String)request.getParameter("plan_date")%>\">\n" +
-                            "           <input type=\"hidden\" name=\"meal_type\" value=\"<%=(String)request.getParameter("meal_type")%>\">\n" +
-                            "           <input type=\"submit\" name=\"remove_plan\" value=\"Remove from Plan\" class=\"load-more-btn\">\n" +
-                            "       </form></div>\n";
-
-                        out += "    <div class=\"col-6\"><center><a href='/home' class='button_add_meal' >Back</a></center></div>"
-                    }else if("<%=(String)request.getParameter("display_type")%>" == "search") {
-                        //buttons in a line: back       add to plan
-                        out += "<div class=\"row\" style='margin-left: 115px;width: 800px'>\n" +
-                            "       <div class=\"col-6\"><center>            " +
-                            "       <form action=\"/home\" method=\"get\" tabindex=\"-1\">\n" +
-                            "           <input type=\"hidden\" name=\"action\" value=\"add_to_plan\">\n" +
-                            "           <input type=\"hidden\" name=\"recipe_id\" value=\"<%=(String)request.getParameter("recipe_id")%>\">\n" +
-                            "           <input type=\"hidden\" name=\"recipe_name\" value=\"<%=(String)request.getParameter("recipe_name")%>\">\n" +
-                            "           <input type=\"hidden\" name=\"plan_date\" value=\"<%=(String)request.getParameter("plan_date")%>\">\n" +
-                            "           <input type=\"hidden\" name=\"meal_type\" value=\"<%=(String)request.getParameter("meal_type")%>\">\n" +
-                            "           <input type=\"submit\" name=\"add_meal\" value=\"Add to Plan\" class=\"load-more-btn\">\n" +
-                            "       </form></div>\n";
-
-                        var keyword = '<%=(String)request.getAttribute("search_keyword")%>';
-                        out += "    <div class=\"col-6\"><center><a href='/home?action=search_submit&&" + printRecipeTags(arr, i, keyword) +
-                            " &&submit_search=Search' class='button_add_meal' >Back</a></center></div>";
-
-                    }else if("<%=(String)request.getAttribute("display_type")%>" == "profile") {
-                        out += "<div class=\"row\" style='margin-left: 115px;width: 800px'>\n" +
-                            "       <div class=\"col-6\"><center>            " +
-                            "       <button type=\"button\" class='button_add_meal' data-toggle=\"modal\" data-target='#addMeal'>\n" +
-                            "           Add to Plan\n" +
-                            "       </button></div>\n";
-
-                        out += "    <div class=\"col-6\"><center><a href='/home?action=profile' class='button_add_meal' >Back</a></center></div>";
-                    }else if("<%=(String)request.getParameter("display_type")%>" == "profile") {
-                        out += "<div class=\"row\" style='margin-left: 115px;width: 800px'>\n" +
-                            "       <div class=\"col-6\"><center>            " +
-                            "       <button type=\"button\" class='button_add_meal' data-toggle=\"modal\" data-target='#addMeal'>\n" +
-                            "           Add to Plan\n" +
-                            "       </button></div>\n";
-
-                        out += "    <div class=\"col-6\"><center><a href='/home?action=profile' class='button_add_meal' >Back</a></center></div>";
-                    }
-
-                    out += "<br><br><br>";
-                   // out += "<div class=\"row\" style='margin-left: 115px;width: 800px'><p style='color: grey;margin-left: 80px;'>source: "+arr[i].url+"</p></div>\n";
-                    out += "</div><br><br>\n";
-                    out += "<center><a href=\""+arr[i].url+"\" style='color: grey;'> view full recipe: </a></center>\n";
-                    break;
-                }
-            }
+        //description
+        out += "<h2 style='color: #21c2f8;font-family: Lato, sans-serif;'>Description</h2><br>\n";
+        if(r.getDescription() == null){
+            out += "<h4 style='color: grey;font-family: Lato, sans-serif;'>No description</h4><br><br>\n";
+        }else{
+            out += "<h4 style='color: grey;font-family: Lato, sans-serif;'>" +r.getDescription()+"</h4><br><br>\n";
         }
 
-        document.getElementById("recipe_info").innerHTML = out;
-    };
 
-    xmlhttp.open("GET", url, true);
-    xmlhttp.send();
+        //prepare time:
+        if(r.getPrepTime()!=null){
+            String prepTime = r.getPrepTime().substring(2);
+            out += "<h2 style='color: #21c2f8;font-family: Lato, sans-serif;'>Preparation Time:  ";
+            out += prepTime +"</h3><br><br>\n";
+        }
 
-</script>
+        //cook time:
+        if(r.getCookTime()!=null){
+            String cookTime = r.getCookTime().substring(2);
+            out += "<h2 style='color: #21c2f8;font-family: Lato, sans-serif;'>Cook Time:  ";
+            out += cookTime+"</h3><br><br>\n";
+        }
+
+        String []ingredients = null;
+        ingredients = r.getIngredients().split("\n");
+        out += "<h2 style='color: #21c2f8;font-family: Lato, sans-serif;'>Ingredients</h2><br>\n";
+        for(String i : ingredients){
+            out += "<h4 style='color: grey;font-family: Lato, sans-serif;'>" +i+"</h4>\n";
+        }
+        out += "<br><br><br>";
+
+        out += "<br><br><br>";
+        if (displayType.equals("calendar")){
+            out += "<div class=\"row\" style='margin-left: 115px;width: 800px'>\n" +
+                    "       <div class=\"col-6\"><center>            " +
+                    "       <form action=\"/home\" method=\"get\" tabindex=\"-1\">\n" +
+                    "           <input type=\"hidden\" name=\"action\" value=\"remove_plan\">\n" +
+                    "           <input type=\"hidden\" name=\"recipe_id\" value=\""+r.getId()+"\">\n" +
+                    "           <input type=\"hidden\" name=\"recipe_name\" value=\""+r.getName()+"\">\n" +
+                    "           <input type=\"hidden\" name=\"plan_date\" value=\""+plan_date+"\">\n" +
+                    "           <input type=\"hidden\" name=\"meal_type\" value=\""+meal_type+"\">\n" +
+                    "           <input type=\"submit\" name=\"remove_plan\" value=\"Remove from Plan\" class=\"load-more-btn\">\n" +
+                    "       </form></div>\n";
+
+            out += "    <div class=\"col-6\"><center><a href='/home' class='button_add_meal' >Back</a></center></div>";
+        }else if(displayType.equals("search")){
+            //buttons in a line: back       add to plan
+            out += "<div class=\"row\" style='margin-left: 115px;width: 800px'>\n" +
+                    "       <div class=\"col-6\"><center>            " +
+                    "       <form action=\"/home\" method=\"get\" tabindex=\"-1\">\n" +
+                    "           <input type=\"hidden\" name=\"action\" value=\"add_to_plan\">\n" +
+                    "           <input type=\"hidden\" name=\"recipe_id\" value=\""+r.getId()+"\">\n" +
+                    "           <input type=\"hidden\" name=\"recipe_name\" value=\""+r.getName()+"\">\n" +
+                    "           <input type=\"hidden\" name=\"plan_date\" value=\""+plan_date+"\">\n" +
+                    "           <input type=\"hidden\" name=\"meal_type\" value=\""+meal_type+"\">\n" +
+                    "           <input type=\"submit\" name=\"add_meal\" value=\"Add to Plan\" class=\"load-more-btn\">\n" +
+                    "       </form></div>\n";
+
+
+            out += "    <div class=\"col-6\"><center><a href='/home?action=search_submit&&" + SearchCommons.printRecipeTags(r,plan_date,meal_type,keyword) +
+                    " &&submit_search=Search' class='button_add_meal' >Back</a></center></div>";
+
+        }else if(displayType.equals("profile")) {
+            out += "<div class=\"row\" style='margin-left: 115px;width: 800px'>\n" +
+                    "       <div class=\"col-6\"><center>            " +
+                    "       <button type=\"button\" class='button_add_meal' data-toggle=\"modal\" data-target='#addMeal'>\n" +
+                    "           Add to Plan\n" +
+                    "       </button></div>\n";
+            out += "    <div class=\"col-6\"><center><a href='/home?action=profile' class='button_add_meal' >Back</a></center></div>";
+        }
+
+        return out;
+    }
+%>
+<%
+    DatabaseOperation dbo = new DatabaseOperation();
+    String recipe_id = request.getParameter("recipe_id");
+    RecipeNew r = dbo.getRecipe(recipe_id);
+    User user = (User) request.getSession().getAttribute("currentUser");
+    String plan_date = request.getParameter("plan_date");
+    String meal_type = request.getParameter("meal_type");
+    String keyword = request.getParameter("search_keyword");
+    String display_type = request.getParameter("display_type");
+
+    out.println(displayRecipeDetails(r,user, display_type, meal_type,plan_date,keyword));
+
+%>
 
 <!-- Modal -->
 
@@ -233,8 +190,8 @@
                 </center></div>
                 <div class="modal-footer"><center>
                     <button type="button" class="load-more-btn" data-dismiss="modal">Close</button>
-                    <input type="hidden" name="recipe_id" value="<%=(String)request.getParameter("recipe_id")%>">
-                    <input type="hidden" name="recipe_name" value="<%=(String)request.getParameter("recipe_name")%>">
+                    <input type="hidden" name="recipe_id" value="<%=r.getId()%>">
+                    <input type="hidden" name="recipe_name" value="<%=r.getName()%>">
                     <input type="hidden" name="action" value="add_to_plan_without_plan_date">
                     <input type="hidden" name="parent_page" value="selected_recipe">
                     <input type="submit" class="load-more-btn" value="Add">

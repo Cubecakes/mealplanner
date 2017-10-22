@@ -48,6 +48,7 @@ create table Food (
 create table Recipes (
 	id			MediumString not null,
 	name 		LongString not null,
+	description VeryLongString,
 	ingredients VeryLongString,
 	url			VeryLongString,
 	image_url	VeryLongString,

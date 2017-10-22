@@ -67,7 +67,7 @@
         if (r.getDescription() == null || r.getDescription().equals("null")) {
             out += "<p>No description</p>\n";
         } else {
-            out += "<p>" + r.getDescription().substring(0, 100) + "...</p>\n";
+            out += "<p>" + r.getDescription().substring(0, Math.min(r.getDescription().length(),100)) + "...</p>\n";
         }
         out += "    </div>\n" +
                 "               <div class=\"product-info smart-form\">\n" +
@@ -101,12 +101,12 @@
 
 <%
     DatabaseOperation dbo = new DatabaseOperation();
-    List<RecipeNew> recipes = null; //dbo.getMatchingRecipies(keyword);
+    List<RecipeNew> recipes = dbo.getMatchingRecipes(keyword);
     for (RecipeNew r : recipes){
-        System.out.println("printRecipe(r,plan_date,meal_type,keyword)");
+        out.println(printRecipe(r,plan_date,meal_type,keyword));
     }
     if (recipes.size() == 0){
-        System.out.println("<h1>Oops, no result...</h1>");
+        out.println("<h1>Oops, no result...</h1>");
     }
 
 %>

@@ -17,6 +17,11 @@ import java.util.Map;
 
 public class ParseJson {
 
+    private static String getString(JsonObject o, String s){
+
+        String ret = (o.get(s) == null || o.get(s).toString().equals("null")) ? null : o.get(s).getAsString();
+        return ret;
+    }
 
     public static void main(String [ ] args) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader("recipe_test.json"));
@@ -27,21 +32,24 @@ public class ParseJson {
             JsonElement root = new JsonParser().parse(line);
             DatabaseOperation dbo = new DatabaseOperation();
             for (JsonElement e : root.getAsJsonArray()){
-                System.out.println(e);
+                System.out.println("\n\n****************");
                 JsonObject o = e.getAsJsonObject();
-                System.out.println(e.getAsJsonObject().get("_id").getAsJsonObject().get("$oid"));
-                System.out.println(e.getAsJsonObject().get("ts"));
+                System.out.println(e.getAsJsonObject());
                 System.out.println(e.getAsJsonObject().keySet());
+                System.out.println(e.getAsJsonObject().get("description"));
+                System.out.println(e.getAsJsonObject().get("description"));
 
-                String id          = o.get("_id").getAsJsonObject().get("$oid").toString();
-                String name        = o.get("name").toString();
-                String description = o.get("description") == null ? null : o.get("description").toString();
-                String ingredients = o.get("ingredients") == null ? null : o.get("ingredients").toString();
-                String url         = o.get("url") == null ? null : o.get("url").toString();
-                String imageUrl    = o.get("image") == null ? null : o.get("image").toString();
+
+
+                String id          = o.get("_id").getAsJsonObject().get("$oid").getAsString();
+                String name        = o.get("name").getAsString();
+                String description = getString(o, "description");
+                String ingredients = getString(o, "ingredients");
+                String url         = getString(o, "url");
+                String imageUrl    = getString(o, "image");
                 Long unixTime      = o.get("ts").getAsJsonObject().get("$date").getAsLong();
-                String cookTime    = o.get("cookTime") == null ? null : o.get("cookTime").toString();
-                String prepTime    = o.get("prepTime") == null ? null : o.get("prepTime").toString();
+                String cookTime    = getString(o, "cookTime");
+                String prepTime    = getString(o, "prepTime");
 
                 RecipeNew recipe = new RecipeNew(id,name,description,ingredients,url,imageUrl,unixTime,cookTime,prepTime);
                 dbo.addRecipe(recipe);
