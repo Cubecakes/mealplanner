@@ -135,9 +135,9 @@
     }
 %>
 <%
-    DatabaseOperation dbo = new DatabaseOperation();
+
     String recipe_id = request.getParameter("recipe_id");
-    RecipeNew r = dbo.getRecipe(recipe_id);
+    RecipeNew r = DatabaseOperation.getRecipe(recipe_id);
     User user = (User) request.getSession().getAttribute("currentUser");
     String plan_date = request.getParameter("plan_date");
     String meal_type = request.getParameter("meal_type");

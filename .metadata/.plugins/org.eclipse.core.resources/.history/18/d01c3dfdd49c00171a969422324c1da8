@@ -30,7 +30,7 @@ public class DatabaseOperation {
 	 * @method insert a new user into table "users", used for user regestration
 	 */
 	public void insertUser(User user) {
-		Connection conn = getConnection();
+		Connection connection = getConnection();
 		int i = 0;
 		String sql = "INSERT INTO USERS (username,password,email) VALUES(?,?,?)";
 		PreparedStatement pstmt;

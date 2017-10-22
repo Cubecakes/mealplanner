@@ -30,7 +30,7 @@ public class ParseJson {
             //Map<String,Object> flattened = JsonFlattener.flattenAsMap(line);
             //System.out.println(flattened);
             JsonElement root = new JsonParser().parse(line);
-            DatabaseOperation dbo = new DatabaseOperation();
+
             for (JsonElement e : root.getAsJsonArray()){
                 System.out.println("\n\n****************");
                 JsonObject o = e.getAsJsonObject();
@@ -52,7 +52,7 @@ public class ParseJson {
                 String prepTime    = getString(o, "prepTime");
 
                 RecipeNew recipe = new RecipeNew(id,name,description,ingredients,url,imageUrl,unixTime,cookTime,prepTime);
-                dbo.addRecipe(recipe);
+                DatabaseOperation.addRecipe(recipe);
                 if(recipe.getUnixTime() !=null){
                     SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy 'at' h:mm a");
                     String date = sdf.format(recipe.getUnixTime());

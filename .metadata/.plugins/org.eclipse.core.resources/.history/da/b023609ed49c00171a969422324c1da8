@@ -28,7 +28,7 @@ public class DatabaseOperation {
 	}
 	
 	public int insertUser(User user) {
-		Connection conn = getConn();
+		Connection connection = getConn();
 		int i = 0;
 	}
 }

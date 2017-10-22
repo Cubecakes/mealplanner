@@ -47,7 +47,8 @@ public class HomeServlet extends HttpServlet {
             }else if(action.equals("add_to_plan")){
                 String recipe_id = request.getParameter("recipe_id");
                 String name = request.getParameter("recipe_name");
-                Recipe recipe = new Recipe(name,recipe_id);
+                System.out.println(recipe_id);
+                RecipeNew recipe = DatabaseOperation.getRecipe(recipe_id);
 
                 System.out.println(request.getParameter("meal_type"));
                 System.out.println(MealTypes.Breakfast.toString().compareTo(request.getParameter("meal_type")));
@@ -69,8 +70,8 @@ public class HomeServlet extends HttpServlet {
                 plan.setRecipe(recipe);
 
                 //write to database
-                DatabaseOperation dbo = new DatabaseOperation();
-                dbo.insertPlan(plan);
+
+                DatabaseOperation.insertPlan(plan);
                 //request.setAttribute("recipe_id",recipe);
 
                 nextPage = "myhome.jsp";
@@ -81,7 +82,7 @@ public class HomeServlet extends HttpServlet {
 
                 String recipe_id = request.getParameter("recipe_id");
                 String name = request.getParameter("recipe_name");
-                Recipe recipe = new Recipe(name,recipe_id);
+                RecipeNew recipe = DatabaseOperation.getRecipe(recipe_id);
 
                 System.out.println(request.getParameter("meal_type"));
                 System.out.println(MealTypes.Breakfast.toString().compareTo(request.getParameter("meal_type")));
@@ -102,7 +103,7 @@ public class HomeServlet extends HttpServlet {
                 }
                 System.out.println("Date======"+date);
                 System.out.println("Type======"+type);
-                System.out.println("Recipe_name======"+name);
+                System.out.println("RecipeNew_name======"+name);
 
                 Plan plan = new Plan();
                 plan.setUser(currentUser);
@@ -111,8 +112,8 @@ public class HomeServlet extends HttpServlet {
                 plan.setRecipe(recipe);
 
                 //write to database
-                DatabaseOperation dbo = new DatabaseOperation();
-                dbo.insertPlan(plan);
+
+                DatabaseOperation.insertPlan(plan);
 
                 if (request.getParameter("parent_page").equals("profile")) {
                     request.setAttribute("username",currentUser.getUsername());
@@ -134,13 +135,13 @@ public class HomeServlet extends HttpServlet {
                 String recipe_id = request.getParameter("recipe_id");
                 String recipe_name = request.getParameter("recipe_name");
 
-                Recipe recipe = new Recipe(recipe_name,recipe_id);
+                RecipeNew recipe = DatabaseOperation.getRecipe(recipe_id);
                 currentUser.addToFavouriteList(recipe);
 
                 //write to database
-                DatabaseOperation dbo = new DatabaseOperation();
+
                 try {
-                    dbo.addFavourite(currentUser.getUsername(),recipe);
+                    DatabaseOperation.addFavourite(currentUser.getUsername(),recipe);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -173,9 +174,9 @@ public class HomeServlet extends HttpServlet {
                 request.getSession().setAttribute("currentUser",currentUser);
             }else if(action.equals("profile")){
 
-                DatabaseOperation dbo = new DatabaseOperation();
+
                 try {
-                    currentUser = dbo.getUserProfile(currentUser.getUsername());
+                    currentUser = DatabaseOperation.getUserProfile(currentUser.getUsername());
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -196,9 +197,9 @@ public class HomeServlet extends HttpServlet {
                 //write into database
                 SearchDatabase sd = new SearchDatabase();
                 if(email!=null && !"".equals(email)) {
-                    DatabaseOperation dbo = new DatabaseOperation();
+
                     try {
-                        int i = dbo.updateUserInfo(username,"email",email);
+                        int i = DatabaseOperation.updateUserInfo(username,"email",email);
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -209,9 +210,9 @@ public class HomeServlet extends HttpServlet {
                 }
 
                 if(password!=null&&!"".equals(password)){
-                    DatabaseOperation dbo = new DatabaseOperation();
+
                     try {
-                        dbo.updateUserInfo(username,"password", password);
+                        DatabaseOperation.updateUserInfo(username,"password", password);
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -257,12 +258,12 @@ public class HomeServlet extends HttpServlet {
 
                 nextPage = "/control";
             }else if (action.equals("remove_plan")){
-                DatabaseOperation dbo = new DatabaseOperation();
+
                 String username = currentUser.getUsername();
                 String plan_date = (String) request.getParameter("plan_date");
                 String meal_type = (String) request.getParameter("meal_type");
                 String recipe_id = (String) request.getParameter("recipe_id");
-                dbo.removePlan(username,plan_date,meal_type,recipe_id);
+                DatabaseOperation.removePlan(username,plan_date,meal_type,recipe_id);
                 nextPage = "/myhome.jsp";
             }
 

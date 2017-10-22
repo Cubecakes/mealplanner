@@ -9,9 +9,9 @@ public class Plan {
     Date date;
     MealTypes type; //breakfast/lunch/dinner
     //List<Food> foodList;
-    Recipe recipe;
+    RecipeNew recipe;
 
-    public Plan(User user, Date date, MealTypes type, Recipe recipe) {
+    public Plan(User user, Date date, MealTypes type, RecipeNew recipe) {
         this.user = user;
         this.date = date;
         this.type = type;
@@ -49,7 +49,7 @@ public class Plan {
         return type;
     }
 
-    public void setRecipe(Recipe recipe){//List<Food> foodList) {
+    public void setRecipe(RecipeNew recipe){//List<Food> foodList) {
 
         //this.foodList = foodList;
         this.recipe = recipe;
@@ -57,7 +57,7 @@ public class Plan {
 
 
 
-    public Recipe getRecipe(){
+    public RecipeNew getRecipe(){
         return recipe;
     }
 

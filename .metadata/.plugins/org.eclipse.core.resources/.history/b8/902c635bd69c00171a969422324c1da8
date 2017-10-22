@@ -44,7 +44,7 @@ public class DatabaseOperation {
 			statement.setString(3, user.getEmail());
 			i = statement.executeUpdate();
 			statement.close();
-			connection.close();
+
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}

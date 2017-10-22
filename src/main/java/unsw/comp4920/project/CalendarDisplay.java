@@ -63,7 +63,7 @@ public class CalendarDisplay {
     }
 
     private static String printRow(MealTypes mealType, Calendar startDate, User user){
-        DatabaseOperation dbo = new DatabaseOperation();
+
         Calendar c = (Calendar) startDate.clone();
         String heading = mealType.toString();
 
@@ -71,8 +71,8 @@ public class CalendarDisplay {
         ret += "<tr style=\"height: 33%\">\n";
         ret += "<td class=\"table-info\">" + heading + "</td>\n";
         for (int i = 0; i < 7; i++) {
-            //List<Food> foundFoods = dbo.getFoods(username,c.getTime(),heading);
-            List<Plan> foundPlans = dbo.getPlans(user,c.getTime(),heading);
+            //List<Food> foundFoods = DatabaseOperation.getFoods(username,c.getTime(),heading);
+            List<Plan> foundPlans = DatabaseOperation.getPlans(user,c.getTime(),heading);
             System.out.println("plan list length: "+foundPlans.size());
             if(foundPlans.size() > 0) {
                ret += "<td class=\"table-warning\">";

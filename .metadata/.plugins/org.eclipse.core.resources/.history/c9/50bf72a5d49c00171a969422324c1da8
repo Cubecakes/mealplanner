@@ -28,7 +28,7 @@ public class DatabaseOperation {
 	}
 	
 	public int insertUser(User user) {
-		Connection conn = getConnection("users");
+		Connection connection = getConnection("users");
 		int i = 0;
 		String sql = "INSERT INTO USERS (username,password,email) VALUES(?,?,?)";
 		PreparedStatement pstmt;

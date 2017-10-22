@@ -100,8 +100,8 @@
 %>
 
 <%
-    DatabaseOperation dbo = new DatabaseOperation();
-    List<RecipeNew> recipes = dbo.getMatchingRecipes(keyword);
+
+    List<RecipeNew> recipes = DatabaseOperation.getMatchingRecipes(keyword);
     for (RecipeNew r : recipes){
         out.println(printRecipe(r,plan_date,meal_type,keyword));
     }

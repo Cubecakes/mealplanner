@@ -14,16 +14,16 @@ public class User {
     private String photourl;
     private Boolean isActive;
     private String start;
-    private List<Recipe> favouriteList;
+    private List<RecipeNew> favouriteList;
 
     public User(){
-        favouriteList = new ArrayList<Recipe>();
+        favouriteList = new ArrayList<RecipeNew>();
     }
 
     public User(String username, String password){
         this.username = username;
         this.password = password;
-        favouriteList = new ArrayList<Recipe>();
+        favouriteList = new ArrayList<RecipeNew>();
     }
 
     public User(String username, String password, String email, String gender){
@@ -31,7 +31,7 @@ public class User {
         this.password = password;
         this.gender = gender;
         this.photourl = photourl;
-        favouriteList = new ArrayList<Recipe>();
+        favouriteList = new ArrayList<RecipeNew>();
     }
 
     public User(String username, String password, String email, String gender,String photourl){
@@ -39,7 +39,7 @@ public class User {
         this.password = password;
         this.gender = gender;
         this.photourl = photourl;
-        favouriteList = new ArrayList<Recipe>();
+        favouriteList = new ArrayList<RecipeNew>();
     }
 
     public void setUsername(String username) {
@@ -98,11 +98,11 @@ public class User {
         this.start = start;
     }
 
-    public List<Recipe> getFavouriteList() {
+    public List<RecipeNew> getFavouriteList() {
         return favouriteList;
     }
 
-    public void addToFavouriteList(Recipe recipe) {
+    public void addToFavouriteList(RecipeNew recipe) {
         favouriteList.add(recipe);
     }
 }

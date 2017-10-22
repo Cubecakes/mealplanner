@@ -41,13 +41,13 @@ public class Controller extends javax.servlet.http.HttpServlet {
                 /*
                   Search database for user
                 */
-        DatabaseOperation dbo = new DatabaseOperation();
-        if(dbo.userExists(username)){
-            try {
-                System.out.println(dbo.isActive(username));
-                System.out.println(dbo.checkPassword(username,password));
 
-                if(dbo.checkPassword(username,password) && dbo.isActive(username)){
+        if(DatabaseOperation.userExists(username)){
+            try {
+                System.out.println(DatabaseOperation.isActive(username));
+                System.out.println(DatabaseOperation.checkPassword(username,password));
+
+                if(DatabaseOperation.checkPassword(username,password) && DatabaseOperation.isActive(username)){
                     currentUser = new User(username,password);
                     Calendar cal = Calendar.getInstance();
                     cal.add( Calendar.DAY_OF_WEEK, -(cal.get(Calendar.DAY_OF_WEEK)-1));
@@ -56,12 +56,12 @@ public class Controller extends javax.servlet.http.HttpServlet {
                     System.out.println("Login successful");
                     return "home";
                 }else{
-                    if(dbo.checkPassword(username,password)==false) {
+                    if(DatabaseOperation.checkPassword(username,password)==false) {
                         System.out.println("Password incorrect ");
                         request.setAttribute("error_info", "Incorrect password");
                         return "login.jsp";
                     }
-                    if(dbo.isActive(username) == false) {
+                    if(DatabaseOperation.isActive(username) == false) {
                         System.out.println("Log in isn't active");
                         return handleSendReconfirmationEmail(request,response);
                     }
@@ -84,12 +84,12 @@ public class Controller extends javax.servlet.http.HttpServlet {
         String gender = request.getParameter("register_gender");
         String photourl = request.getParameter("register_photo");
 
-        DatabaseOperation dbo = new DatabaseOperation();
+
         if(username==null || password==null||email==null||gender==null){
             request.setAttribute("register_error_info","Please fill out all fields");
             return "register.jsp";
         }else {
-            if (dbo.userExists(username)) {
+            if (DatabaseOperation.userExists(username)) {
                 request.setAttribute("register_error_info", "username " + username + " exists, please choose another username");
                 return "register.jsp";
             } else if (!email.contains("@")) {
@@ -123,7 +123,7 @@ public class Controller extends javax.servlet.http.HttpServlet {
                 activate_code = code;
 
                 try {
-                    int i = dbo.addUser(username,password,email,gender,photourl,"false",start,activate_code);
+                    int i = DatabaseOperation.addUser(username,password,email,gender,photourl,"false",start,activate_code);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -144,15 +144,15 @@ public class Controller extends javax.servlet.http.HttpServlet {
         }
         String code = request.getParameter("code");
         String user = request.getParameter("user");
-        DatabaseOperation dbo = new DatabaseOperation();
 
 
-        String account_code = dbo.getActivationCode(request.getParameter("user"));
+
+        String account_code = DatabaseOperation.getActivationCode(request.getParameter("user"));
         System.out.println("Code: "+code);
         System.out.println("Activate_code: "+account_code);
         if(code.equals(account_code)){
             System.out.println();
-            dbo.activateUser(user);
+            DatabaseOperation.activateUser(user);
             request.setAttribute("error_info", "Account successfully activated");
             return "login.jsp";
         }else{
@@ -169,10 +169,10 @@ public class Controller extends javax.servlet.http.HttpServlet {
 
     String handleSendReconfirmationEmail(HttpServletRequest request, HttpServletResponse response) {
         String user = request.getParameter("username");
-        DatabaseOperation dbo = new DatabaseOperation();
+
         try {
-            SendEmail se = new SendEmail(dbo.getUserProfile(user).getEmail());
-            se.sendActivateEmail(dbo.getActivationCode(user), currentUser.getUsername());
+            SendEmail se = new SendEmail(DatabaseOperation.getUserProfile(user).getEmail());
+            se.sendActivateEmail(DatabaseOperation.getActivationCode(user), currentUser.getUsername());
         }catch (SQLException e){
             e.printStackTrace();
         }
