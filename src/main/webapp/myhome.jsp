@@ -15,6 +15,7 @@
 <head>
     <title>Home</title>
     <link type="text/css" rel="stylesheet" href="login_register.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <style>
         .main {
 
@@ -22,7 +23,20 @@
             max-width:1300px;
             margin:auto;
             padding:90px;
+            font-family: 'Montserrat', sans-serif;
         }
+        .myHeader{
+            text-align: center;
+            font-size: 48px;
+            letter-spacing: 2px;
+            width: 480px;
+            border-bottom: 2px solid #c3c3c3;
+            padding: 20px;
+            margin: 0 auto;
+            margin-bottom: 20px;
+            color: #2f383d;
+        }
+
     </style>
 </head>
 
@@ -37,7 +51,7 @@
         HttpSession s = request.getSession();
         Calendar cal = (Calendar) ((Calendar)s.getAttribute("currentDate")).clone();
         User user = (User)s.getAttribute("currentUser");
-        out.println("<h1> Hello "+user.getUsername()+"</h1>");
+        out.println("<h1 class = 'myHeader'> Hello "+user.getUsername()+"!</h1>");
     %>
 
     <ul class="nav justify-content-center">
@@ -57,17 +71,6 @@
     <%= CalendarDisplay.printCalendar(cal,user)%>
 
 
-<%--
 
-</div>
-<!--background animation-->
-<!--fork from http://vincentgarreau.com/particles.js/-->
-<!-- particles.js container -->
-<div id="particles-js" style="margin-top: -785px;">
-</div>
-<!-- scripts -->
-<script src="/js/particles.js"></script>
-<script src="/js/app.js"></script>
---%>
 </body>
 </html>
