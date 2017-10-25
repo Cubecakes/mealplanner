@@ -48,9 +48,9 @@ create table Plans (
   username 	LongName references Users(username),
   plan_date	Date not null,
   type 		MealType not null,
-  --foodID	    MediumString references Food(id),
+  foodID	    MediumString references Food(id),
   recipe_id 	MediumString not null,
-  --recipe_name LongString,
+  recipe_name LongString,
   primary key (username,plan_date,type,recipe_id)
 );
 
